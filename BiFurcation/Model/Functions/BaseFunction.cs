@@ -185,7 +185,8 @@ namespace BiFurcation {
     public decimal y0 = 0;
     public decimal deltaY;
     public decimal deltaX;
-s
+
+
     public BaseFunction() {
       MaxAxis = BSize / 2;
       deltaY = BSize / 4;
@@ -214,7 +215,7 @@ s
 
     protected void checkSet() {
       decimal last = furcationPoints[furcationPoints.Count - 1].X;
-      //int foundIndex = -1;
+      int foundIndex = -1;
       //CancellationTokenSource cts = new CancellationTokenSource();
 
       //// Use ParallelOptions instance to store the CancellationToken
@@ -250,7 +251,6 @@ s
       //  Parallel.ForEach(0, Xs.Length, index => { });
       //if (foundIndex != -1) {
       //}
-
 
       int i = Array.LastIndexOf(Xs, last);
       if (i > 0) {

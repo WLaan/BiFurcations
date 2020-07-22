@@ -185,7 +185,8 @@ namespace BiFurcation {
     public decimal y0 = 0;
     public decimal deltaY;
     public decimal deltaX;
-s
+
+
     public BaseFunction() {
       MaxAxis = BSize / 2;
       deltaY = BSize / 4;

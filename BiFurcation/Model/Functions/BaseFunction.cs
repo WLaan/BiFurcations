@@ -215,8 +215,42 @@ namespace BiFurcation {
 
     protected void checkSet() {
       decimal last = furcationPoints[furcationPoints.Count - 1].X;
-      int foundIndex = -1;
-     
+      //int foundIndex = -1;
+      //CancellationTokenSource cts = new CancellationTokenSource();
+
+      //// Use ParallelOptions instance to store the CancellationToken
+      //ParallelOptions po = new ParallelOptions();
+      //po.CancellationToken = cts.Token;
+      //po.MaxDegreeOfParallelism = 2;// System.Environment.ProcessorCount - 1;
+      //try {
+      //  Parallel.For(0, furcationPoints.Count - 1, index => {
+      //    if (Xs[index] == last) {
+      //      foundIndex = index;
+      //      po.CancellationToken.ThrowIfCancellationRequested();
+      //      cts.Cancel();
+      //    }
+      //  });
+
+      //}
+      //catch (OperationCanceledException e) {
+
+      //}
+      //finally {
+      //  cts.Dispose();
+      //}
+      //var calculatedPoints = Enumerable.Range(0, furcationPoints.Count).AsParallel().Select(index => {
+      //  if (Xs[index] == last)
+      //    return index;
+      //  else
+      //    return -1;
+      //});
+      //foreach (int ii in calculatedPoints)
+      //  if (ii > 0)
+      //    foundIndex = ii;
+
+      //  Parallel.ForEach(0, Xs.Length, index => { });
+      //if (foundIndex != -1) {
+      //}
 
       int i = Array.LastIndexOf(Xs, last);
       if (i > 0) {

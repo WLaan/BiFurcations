@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BifurcationCore": {
+      "commandName": "Project",
+      "workingDirectory": "D:\\TestSoftware\\Furcations"
+    }
+  }
+}

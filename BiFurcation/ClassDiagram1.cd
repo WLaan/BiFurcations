@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BiFurcation.Complex" Collapsed="true">
+    <Position X="17.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAQAAAAAgAE4AWAAgAAAgAAAoAAAAAAAAEAByA=</HashCode>
+      <FileName>_Helpers\Complex.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.Constants" Collapsed="true">
+    <Position X="19.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAACAAAAAQACQEhbAAAgwAQAAAFAJAABEAAIQASEQA=</HashCode>
+      <FileName>_Helpers\Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.XMLSettings" Collapsed="true">
+    <Position X="19.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAA4BQAAAID/AQGA7R8AhAPwAAAAwvEQAADAgXAbAAA=</HashCode>
+      <FileName>_Helpers\XMLSettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.Control2CommonFile" Collapsed="true">
+    <Position X="17.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAABAAAA=</HashCode>
+      <FileName>_Updater\Control2CommonFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.FileDownloader" Collapsed="true">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAACAAAAAYAASACAAAQAAAAAAAAAA=</HashCode>
+      <FileName>_Updater\FileDownloader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.DownloadType" Collapsed="true">
+    <Position X="21" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAFQAAAAgACAAAAAAA=</HashCode>
+      <FileName>_Updater\FileDownloader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.UpdateSetting" Collapsed="true">
+    <Position X="15.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAgAAAAAAAAAFAAAAAAAEAQAAAgEAAEAAABA=</HashCode>
+      <FileName>_Updater\UpdateSetting.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.Control4AllViews" Collapsed="true">
+    <Position X="11" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAIEAAAABAAAAAAAABAAAgAAAAAIAACcAAAAAAAAA=</HashCode>
+      <FileName>Control\Control4AllViews.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="control4FunctionsView" />
+      <Field Name="combinedControl" />
+      <Field Name="control4DiagramView" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BiFurcation.Control4NonLineairSystems" Collapsed="true">
+    <Position X="10.5" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AiAACDBACQgCAIARAySIEACMCSCCEBYAE4EQQBjAxAI=</HashCode>
+      <FileName>Control\Control4CombinedView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.Control4DiagramView" Collapsed="true">
+    <Position X="13.5" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QAAREqAASYACAAIAHgAACAwigSAIAACIAAAAAAIgCAI=</HashCode>
+      <FileName>Control\Control4DiagramView.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.Control4FunctionsView" Collapsed="true">
+    <Position X="8" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>cEASICUCSYBAQAAAHkAgCAwiiwAAQBSAyQCBoEuBoAI=</HashCode>
+      <FileName>Control\Control4FunctionsViews.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.GifCreater" Collapsed="true">
+    <Position X="15.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAEAAIAAAACABAAAAAAAA=</HashCode>
+      <FileName>Control\GifCreater.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.ImageControl" Collapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UoAQYKAUSRCwAwAACgABAAhwAU4IECAEAACQABAAECA=</HashCode>
+      <FileName>Control\ImageControl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.DiagramSet" Collapsed="true">
+    <Position X="17.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAAAAYAA=</HashCode>
+      <FileName>Model\DiagramHelpers\DiagramSet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.BaseFunctionDrawer" Collapsed="true">
+    <Position X="6.5" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EQoBAKCgQACAACACABAIAgogBEAIYKAAAAggAAABFCA=</HashCode>
+      <FileName>Model\FunctionDrawers\BaseFunctionDrawer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.DiagramDrawer" Collapsed="true">
+    <Position X="5.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIBAACAQAAAAAIAABACAAAgBAAAAAAAAAAAAAARAAA=</HashCode>
+      <FileName>Model\FunctionDrawers\DiagramDrawer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.FunctionDrawer" Collapsed="true">
+    <Position X="7.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAQABAAAAAgAAAAAAABAAAQIAAAQAAAAAQAAA=</HashCode>
+      <FileName>Model\FunctionDrawers\FunctionDrawer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.FunctionDrawerInset" Collapsed="true">
+    <Position X="7.5" Y="12.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAACAAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\FunctionDrawers\FunctionDrawerInset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.BaseFunction" Collapsed="true">
+    <Position X="1.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIgABGAoCQhKUAAIQmARCAEwARxwEgAEAISAUMCAAQA=</HashCode>
+      <FileName>Model\Functions\BaseFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.FixedPolynomialFunction" Collapsed="true">
+    <Position X="2.75" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgCAAIAAAAAAAAAAAAAAAAAAAAAAAAEIAAAAA=</HashCode>
+      <FileName>Model\Functions\FixedPolynomialFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.GeneralMappingFunction" Collapsed="true">
+    <Position X="0.5" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQACAgCAAIAAAAAAAAAAEAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Model\Functions\GeneralMappingFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.HenonFunction" Collapsed="true">
+    <Position X="2.75" Y="12.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAICAACCAIAAAAAgCAAAEAohKAQAIAEYAAEAAAAAA=</HashCode>
+      <FileName>Model\Functions\HenonFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.PolynomialFunction" Collapsed="true">
+    <Position X="0.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAgCAAIAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Model\Functions\PolyNomialFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.BaseFor2DimensionalPlot" Collapsed="true">
+    <Position X="2.75" Y="3.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>QgKAABQBQBBSAMSIQiCICACQIUQCFAJDCIAQAQSWhEA=</HashCode>
+      <FileName>Model\Plotters\BaseFor2DimensionalPlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.HenonPlot" Collapsed="true">
+    <Position X="0.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAAAABAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Model\Plotters\HenonPlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.JuliaPlot" Collapsed="true">
+    <Position X="5.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAgAEAIAACAAAAAAAAABBAAAAIAAAAAAAE=</HashCode>
+      <FileName>Model\Plotters\JuliaPlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.JuliaPlot3" Collapsed="true">
+    <Position X="4.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAgAAAAAAAABAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Model\Plotters\JuliaPlot3.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.JuliaRationalPlot" Collapsed="true">
+    <Position X="6.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAIAAAAAAAAAAAABAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Model\Plotters\JuliaRational.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.MandelbrotPlot" Collapsed="true">
+    <Position X="5.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAIAAAAAAAAAAAABAAgAAIAIAAEAEA=</HashCode>
+      <FileName>Model\Plotters\MandelbrotPlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.MandelbrotPlotInset" Collapsed="true">
+    <Position X="3" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Plotters\MandelbrotPlotInset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.UserdefinedPlot" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAIAAAAAAAAAAAABAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Model\Plotters\UserdefinedPlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.Program" Collapsed="true">
+    <Position X="19.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.DefineColorsForm" Collapsed="true">
+    <Position X="15.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>99ovKF4tIeB+L7/2n06PAsMfgARgAYCISACIqeX4rhM=</HashCode>
+      <FileName>View\DefineColorsForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.DiagramsForm" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="21" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MiAAICCRhCehiNVSCgbAAGMGjCFQAIBsfAACgQyAJTA=</HashCode>
+      <FileName>View\DiagramsForm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BiFurcation.FunctionsForm" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>/iMOCggTWCP1glBDKkSxKUvmiGACYKD1IgHqm0uMEyA=</HashCode>
+      <FileName>View\FunctionsForm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BiFurcation.NonLineairSystemsForm" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="19.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>/yQgIwCxBTFBgFzympeIAk9mqiBIASB4cKFEoQyAIKA=</HashCode>
+      <FileName>View\TwoDimensionalSystemForm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="BiFurcation.Properties.Resources" Collapsed="true">
+    <Position X="21" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>INCAEAAQAAAAAAAAAIQBEAAAAQAAAAAAAAAAAAAAAIQ=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.Properties.Settings" Collapsed="true">
+    <Position X="17.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BiFurcation.LambdaPlot" Collapsed="true">
+    <Position X="8" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAIAAAAAAAAAAAABAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Model\Plotters\LambdaPlot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="BiFurcation.Boarders" Collapsed="true">
+    <Position X="15.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAwAAAAAAACAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Control\ImageControl.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="BiFurcation.ICombined" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>View\Interfaces\ICombined.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BiFurcation.IDiagramView" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAACABAAAAAAAAQAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>View\Interfaces\IDiagramView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BiFurcation.IFunctionsView" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\Interfaces\IFunctionsView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BiFurcation.IView" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAABCAAAAAAIACAAAAAAAAAAAgAgAAAA=</HashCode>
+      <FileName>View\Interfaces\IView.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="BiFurcation.DownloadFileType" Collapsed="true">
+    <Position X="15.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAQAAAAAAAAAAAAAABAAAAAAAAEAACQ=</HashCode>
+      <FileName>_Updater\FileDownloader.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BiFurcation.SmoozeType" Collapsed="true">
+    <Position X="21" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAIAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Control\Control4CombinedView.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BiFurcation.FractalType" Collapsed="true">
+    <Position X="17.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAQAAAAAAAQAAACwAAAAAAAAAAEAAAAAEAAAA=</HashCode>
+      <FileName>Control\Control4CombinedView.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BiFurcation.FunctionType" Collapsed="true">
+    <Position X="19.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAwAAAAABAAAAAAAAAABAQAA=</HashCode>
+      <FileName>Control\Control4FunctionsViews.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="BiFurcation.DoWork" Collapsed="true">
+    <Position X="15.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Control\ImageControl.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Calibri" Size="10" />
+</ClassDiagram>

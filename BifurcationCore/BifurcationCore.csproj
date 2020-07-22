@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+	<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <AssemblyName>Bifurcation</AssemblyName>
+    <RootNamespace>Bifurcation</RootNamespace>
+    <StartupObject>BifurcationCore.Program</StartupObject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;Forms;</DefineConstants>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <OutputPath>D:\TestSoftware\Furcations\</OutputPath>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+    <ItemGroup>
+    <Compile Include="..\Bifurcation\**\*.cs" />
+    <EmbeddedResource Include="..\Bifurcation\**\*.resx" />
+  </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="..\Bifurcation\obj\Debug\**" />
+      <Compile Remove="obj\**" />
+      <EmbeddedResource Remove="obj\**" />
+      <None Remove="obj\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="..\Bifurcation\Model\Plotters\MultibrotPlot.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Update="..\Bifurcation\Properties\Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
+    </ItemGroup>
+
+</Project>

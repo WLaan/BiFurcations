@@ -215,44 +215,7 @@ namespace BiFurcation {
 
     protected void checkSet() {
       decimal last = furcationPoints[furcationPoints.Count - 1].X;
-      //int foundIndex = -1;
-      //CancellationTokenSource cts = new CancellationTokenSource();
-
-      //// Use ParallelOptions instance to store the CancellationToken
-      //ParallelOptions po = new ParallelOptions();
-      //po.CancellationToken = cts.Token;
-      //po.MaxDegreeOfParallelism = 2;// System.Environment.ProcessorCount - 1;
-      //try {
-      //  Parallel.For(0, furcationPoints.Count - 1, index => {
-      //    if (Xs[index] == last) {
-      //      foundIndex = index;
-      //      po.CancellationToken.ThrowIfCancellationRequested();
-      //      cts.Cancel();
-      //    }
-      //  });
-
-      //}
-      //catch (OperationCanceledException e) {
-
-      //}
-      //finally {
-      //  cts.Dispose();
-      //}
-      //var calculatedPoints = Enumerable.Range(0, furcationPoints.Count).AsParallel().Select(index => {
-      //  if (Xs[index] == last)
-      //    return index;
-      //  else
-      //    return -1;
-      //});
-      //foreach (int ii in calculatedPoints)
-      //  if (ii > 0)
-      //    foundIndex = ii;
-
-      //  Parallel.ForEach(0, Xs.Length, index => { });
-      //if (foundIndex != -1) {
-      //}
-
-      int i = Array.LastIndexOf(Xs, last);
+      int i = Array.IndexOf(Xs, last);
       if (i > 0) {
         setCount = (furcationPoints.Count - i - 1);
         PointD temp = furcationPoints[i].setPoints[0];
@@ -355,18 +318,33 @@ namespace BiFurcation {
     public virtual void setFurcationPoints() {
       furcationPoints.Clear();
       decimal fy = seed;
-      decimal x = seed;
       setCount = 0;
       Xs = new decimal[maxIterations];
-    //  Parallel.For(0,maxIterations)
 
+      //  var calculatedPoints = Enumerable.Range(0, w * h).AsParallel().Select(xy => {
+      //    double zx, zy, tmp;
+      //    int x, y;
+      //    int i = maxiter;
+      //    y = xy / w;
+      //    x = xy % w;
+      //    zx = 1.5 * (x - w / 2) / (0.5 * zoom * w) + moveX;
+      //    zy = 1.0 * (y - h / 2) / (0.5 * zoom * h) + moveY;
+      //    while (zx * zx + zy * zy < 4 && i > 1) {
+      //      tmp = zx * zx - zy * zy + cX;
+      //      zy = 2.0 * zx * zy + cY;
+      //      zx = tmp;
+      //      i -= 1;
+      //    }
+      //    return new CalculatedPoint { x = x, y = y, i = i };
+      //  });
       for (int it = 0; it < maxIterations; it++) {
-        x = fy;
+        decimal x = fy;
         fy = FValue(fy);
         if (Math.Abs(fy) <= 256) {
           decimal normY = (xMax - fy) / (xMax - XMin);
           furcationPoints.Add(new DiagramSet(x, normY));
-          checkSet();
+          if (Parameter >=3 && Parameter<=3.567m)
+            checkSet();
           Xs[it] = x;
           if (setCount > 0) {
             for (int s = 0; s < setCount; s++)

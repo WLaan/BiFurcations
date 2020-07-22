@@ -252,7 +252,6 @@ namespace BiFurcation {
       //if (foundIndex != -1) {
       //}
 
-
       int i = Array.LastIndexOf(Xs, last);
       if (i > 0) {
         setCount = (furcationPoints.Count - i - 1);

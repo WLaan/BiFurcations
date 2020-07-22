@@ -185,8 +185,7 @@ namespace BiFurcation {
     public decimal y0 = 0;
     public decimal deltaY;
     public decimal deltaX;
-
-
+s
     public BaseFunction() {
       MaxAxis = BSize / 2;
       deltaY = BSize / 4;
@@ -251,6 +250,7 @@ namespace BiFurcation {
       //  Parallel.ForEach(0, Xs.Length, index => { });
       //if (foundIndex != -1) {
       //}
+
 
       int i = Array.LastIndexOf(Xs, last);
       if (i > 0) {

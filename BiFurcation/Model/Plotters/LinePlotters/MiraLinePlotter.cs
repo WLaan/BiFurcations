@@ -5,6 +5,7 @@ namespace BiFurcation {
 
   public class MiraLinePlotter:LinePlot {
 
+    public int ExampleNumber = 0;
     public override string Title {
       get {
         return "Mira lineplot";

@@ -337,7 +337,7 @@ namespace BiFurcation {
       PlotForm.params2Form();
       createDiagram(false);
     }
-    public void setDiagram(IDiagramView diagram) {//, int parnum) {// bool Ap, bool Bp, bool Cp) {
+    public void setDiagram(IDiagramView diagram) {
       PlotForm = diagram;
       if (plotForm.FormImage != null)
         try {

@@ -454,7 +454,7 @@ namespace BiFurcation {
       PictureBox box = (PictureBox)sender;
       int tag = Int32.Parse(box.Tag.ToString());
       combinedControl.index2GeneralType(tag);
-
+      newType = FractalType.Mandelbrot;
       presetType();
       panelExamples.Visible = false;
     }
@@ -462,7 +462,7 @@ namespace BiFurcation {
       PictureBox box = (PictureBox)sender;
       int tag = Int32.Parse(box.Tag.ToString());
       combinedControl.index2JuliaType(tag);
-
+      newType = FractalType.Julia;
       presetType();
       panelExamples.Visible = false;
 
@@ -473,7 +473,7 @@ namespace BiFurcation {
       PictureBox box = (PictureBox)sender;
       int tag = Int32.Parse(box.Tag.ToString());
       combinedControl.index2LineType(tag);
-
+      newType = FractalType.LinePlot;
       presetType();
       panelExamples.Visible = false;
     }

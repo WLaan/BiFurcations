@@ -320,23 +320,6 @@ namespace BiFurcation {
       decimal fy = seed;
       setCount = 0;
       Xs = new decimal[maxIterations];
-
-      //  var calculatedPoints = Enumerable.Range(0, w * h).AsParallel().Select(xy => {
-      //    double zx, zy, tmp;
-      //    int x, y;
-      //    int i = maxiter;
-      //    y = xy / w;
-      //    x = xy % w;
-      //    zx = 1.5 * (x - w / 2) / (0.5 * zoom * w) + moveX;
-      //    zy = 1.0 * (y - h / 2) / (0.5 * zoom * h) + moveY;
-      //    while (zx * zx + zy * zy < 4 && i > 1) {
-      //      tmp = zx * zx - zy * zy + cX;
-      //      zy = 2.0 * zx * zy + cY;
-      //      zx = tmp;
-      //      i -= 1;
-      //    }
-      //    return new CalculatedPoint { x = x, y = y, i = i };
-      //  });
       for (int it = 0; it < maxIterations; it++) {
         decimal x = fy;
         fy = FValue(fy);

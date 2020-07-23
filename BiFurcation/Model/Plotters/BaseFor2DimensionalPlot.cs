@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Drawing;
 
 namespace BiFurcation {
@@ -243,6 +244,30 @@ namespace BiFurcation {
         return;
       }
       init();
+      //var calculatedPoints = Enumerable.Range(0, map.Width * map.Height).AsParallel().Select(xy => {
+      //  int X, Y;
+      //  Y = xy / map.Width;
+      //  X = xy % map.Width;
+      //  ReaC = XMin + X * dx;
+      //  ImaC = YMax - Y * dy;
+      //  Complex C = Initial_C;
+      //  Complex Z = Initial_Z;
+      //  int clr = 1;
+      //  while ((clr < maxIterations) && (Z.MagnitudeSquared < max_MAG_SQUARED)) {
+      //    // Calculate Z(clr).
+      //    Z = Zn(Z, C);
+      //    clr++;
+      //  }
+      //  try {
+      //    map.usedColorIndices[X, Y] = new ColorIndex(X, Y, clr, Z);
+      //    if (map.usedColorIndices[X, Y] == null) {
+      //      X = 0;//Start over again. did happen sometimes, not anymore (??)
+      //    }
+      //  }
+      //  catch {
+      //  }
+      //  return new CalculatedPoint { x = X, y = Y, i = 0 };
+      //});
       ReaC = XMin;
       try {
         for (int X = 0; X < map.Width && (worker == null || !worker.CancellationPending); X++) {
@@ -307,6 +332,7 @@ namespace BiFurcation {
     protected void colors2UsedColorIndices() {
       if (Map.CalculatedTypes.Contains(smoozeType))
         return;
+      DirectBitmap map = Map;
       for (int X = 0; X < Map.Width && (worker == null || !worker.CancellationPending); X++) {
         try {
           if (worker != null)
@@ -316,15 +342,15 @@ namespace BiFurcation {
         }
         for (int Y = 0; Y < Map.Height; Y++) {
           try {
-            if (Map.usedColorIndices[X, Y] != null) 
-              color2UsedColorIndices(Map.usedColorIndices[X, Y]);
+            if (map.usedColorIndices[X, Y] != null)
+              color2UsedColorIndices(map.usedColorIndices[X, Y]);
           }
           catch {
           }
         }
       }
-      if (!Map.CalculatedTypes.Contains(smoozeType))
-        Map.CalculatedTypes.Add(smoozeType);
+      if (!map.CalculatedTypes.Contains(smoozeType))
+        map.CalculatedTypes.Add(smoozeType);
     }
     #endregion
     static readonly object _object = new object();

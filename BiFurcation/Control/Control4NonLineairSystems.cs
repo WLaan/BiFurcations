@@ -440,7 +440,7 @@ namespace BiFurcation {
         if (fractalPlotter.ThisType == FractalType.LinePlot) {
           fractalPlotter.doCalculation();
           if (PlotForm != null)
-            PlotForm.FormImage = MainImage;
+            PlotForm.FormImage = PointsImage.Bitmap;
         }
         else
           simulate();
@@ -810,7 +810,7 @@ namespace BiFurcation {
         LinePlot plotter = (LinePlot)fractalPlotter;
         plotter.reset();
         if (PlotForm != null)
-          PlotForm.FormImage = MainImage;
+          PlotForm.FormImage = PointsImage.Bitmap;
       }
     }
     public void setMiratypePlot(string tag) {

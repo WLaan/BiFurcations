@@ -312,7 +312,7 @@ namespace BiFurcation {
         Constants.OneColor = colorDialog.Color;
         Constants.settings2XML();
         if (NonLineairSystemsForm.Instance.Visible) 
-          combinedControl.rescanExamples(false);
+          combinedControl.RescanExamples(false);
         Refresh();
       }
     }
@@ -320,14 +320,14 @@ namespace BiFurcation {
       Constants.Type3Color = (Type3Color)comboBoxColorType3.SelectedIndex;
       mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
       if (NonLineairSystemsForm.Instance.Visible)
-        combinedControl.rescanExamples(false);
+        combinedControl.RescanExamples(false);
       Refresh();
     }
     private void numericUpDownContrast_ValueChanged(Object sender, EventArgs e) {
       Constants.ContrastValue = (int)numericUpDownContrast.Value;
       mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
       if (NonLineairSystemsForm.Instance.Visible)
-        combinedControl.rescanExamples(false);
+        combinedControl.RescanExamples(false);
       Refresh();
     }
     private void numericUpDownFunctionLineWidth_ValueChanged(Object sender, EventArgs e) {
@@ -343,7 +343,7 @@ namespace BiFurcation {
       Constants.settings2XML();
     }
     private void buttonDone_Click(Object sender, EventArgs e) {
-      var t = new Thread(() => combinedControl.rescanExamples(true));
+      var t = new Thread(() => combinedControl.RescanExamples(true));
       t.Start();
    //   combinedControl.rescanExamples(false);
    //   combinedControl.rescanExamples(true);
@@ -352,18 +352,18 @@ namespace BiFurcation {
     }
     private void pictureBoxColors_MouseDown(Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Left)
-        combinedControl.mouseDownColorDef(e.X, e.Y, pictureBoxColors.Size);
+        combinedControl.MouseDownColorDef(e.X, e.Y, pictureBoxColors.Size);
     }
     private void pictureBoxColors_MouseMove(Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Left) {
-        combinedControl.mouseMoveColorDef(e.X, e.Y, pictureBoxColors.Size);
+        combinedControl.MouseMoveColorDef(e.X, e.Y, pictureBoxColors.Size);
         mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
         Refresh();
       }   
     }
     private void pictureBoxColors_MouseUp(Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Left) {
-        combinedControl.mouseUpColorDef(e.X, e.Y);
+        combinedControl.MouseUpColorDef(e.X, e.Y);
       }
     }
     #endregion

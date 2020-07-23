@@ -727,7 +727,7 @@ namespace BiFurcation {
           }
           break;
         case ExampleGroups.MiraLine:
-          if (num>=0 && num < lineTypeMiraPictureBoxes.Count) {
+          if (num >= 0 && num < lineTypeMiraPictureBoxes.Count) {
             lineTypeMiraPictureBoxes[num].Image = map;
             int newline = name.IndexOf(Environment.NewLine);
             if (newline > 0) {

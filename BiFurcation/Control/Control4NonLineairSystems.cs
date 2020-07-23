@@ -4,6 +4,7 @@ using System.Threading;
 using System.Drawing;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BiFurcation {
 
@@ -66,6 +67,7 @@ namespace BiFurcation {
     private JuliaPlot juliaPlotInset;
     private MandelbrotPlot mandelbrotPlotInset;
     private DirectBitmap mandelbrotInsetBitmap;
+    private List<MiraLinePlotter> miraLineplotExamples = new List<MiraLinePlotter>();
 
     private BackgroundWorker worker4GIF;
     private string gifFilename = "";
@@ -94,7 +96,7 @@ namespace BiFurcation {
       }
       set {
         plotForm = value;
-        var t = new Thread(() => rescanExamples(false));
+        var t = new Thread(() => RescanExamples(false));
         t.Start();
       }
     }
@@ -390,8 +392,8 @@ namespace BiFurcation {
         JuliaPlot jpp = new JuliaPlot(this, jp);
         JuliaPlotters.Add(jpp);
       }
-
-      linePlotters.Add(new MiraLinePlotter(this));
+      MiraLinePlotter miraLinePlotter = new MiraLinePlotter(this);
+      linePlotters.Add(miraLinePlotter);
       linePlotters.Add(new BolSpiralLinePlotter(this));
       linePlotters.Add(new HenonLinePlotter(this));
       linePlotters.Add(new DustLinePlotter(this));
@@ -402,6 +404,11 @@ namespace BiFurcation {
       linePlotters.Add(new StarLinePlotter(this));
       linePlotters.Add(new JuliaLinePlotter(this));
 
+      for (int i = 0; i < miraLinePlotter.Favorites.Length; i++) {
+        MiraLinePlotter miraExample = (MiraLinePlotter)miraLinePlotter.clone(new DirectBitmap(100, 100));
+        miraExample.ExampleNumber = i;
+        miraLineplotExamples.Add(miraExample);
+      }
       Xmin = (decimal)fractalPlotter.XMin;
       Xmax = (decimal)fractalPlotter.XMax;
       Ymin = (decimal)fractalPlotter.YMin;
@@ -697,7 +704,7 @@ namespace BiFurcation {
         if (map != null)
           Constants.setColorRange(map);
         if (rescanSamples)
-          rescanExamples(true);
+          RescanExamples(true);
       }
     }
     public void setStartPointLinePlot(string A, string B) {
@@ -713,13 +720,13 @@ namespace BiFurcation {
     #endregion
 
     #region ColorsForm
-    public void mouseDownColorDef(int x, int y, Size size) {
+    public void MouseDownColorDef(int x, int y, Size size) {
       colorMouseX1 = x;
       colorMouseY1 = y;
       colorMouseRange = size.Width;
       trackedSmoozedColor = Constants.tracker4Cursor(x, size);
     }
-    public void mouseMoveColorDef(int x, int y, Size size) {
+    public void MouseMoveColorDef(int x, int y, Size size) {
       colorMouseX2 = x;
       colorMouseY2 = y;
       if (colorMouseX2 < colorSpread.Height / 20)
@@ -731,7 +738,7 @@ namespace BiFurcation {
         colorForm.setSpreadImage(colorSpread);
       }
     }
-    public void mouseUpColorDef(int x, int y) {
+    public void MouseUpColorDef(int x, int y) {
       colorMouseX2 = x;
       colorMouseY2 = y;
       if (fractalPlotter != null && false) {
@@ -743,7 +750,7 @@ namespace BiFurcation {
         if (PlotForm != null) {
           PlotForm.FormImage = MainImage;
         }
-        rescanExamples(true);
+        RescanExamples(true);
         if (juliaPlotInset != null)
           juliaPlotInset.Map.CalculatedTypes.Clear();
       }
@@ -760,50 +767,97 @@ namespace BiFurcation {
     }
     #endregion
 
-    public void rescanExamples(bool colorChanged) {
+    private async void RescanExampleParallelAsync(bool colorChanged) {
+      List<Task> tasks = new List<Task>();
       foreach (BasePlotter p in examplePlottersGeneral) {
         p.SmoozeType = smoozeType;
         if (colorChanged)
           p.Map.CalculatedTypes.Clear();
-        p.doCalculation();
+        tasks.Add(Task.Run(() => p.doCalculation()));
       }
       foreach (BasePlotter p in examplePlottersJulia) {
         p.SmoozeType = smoozeType;
         if (colorChanged)
           p.Map.CalculatedTypes.Clear();
-        p.doCalculation();
+        tasks.Add(Task.Run(() => p.doCalculation()));
       }
       foreach (BasePlotter p in examplePlottersMira) {
         p.SmoozeType = smoozeType;
         if (colorChanged)
           p.Map.CalculatedTypes.Clear();
-        p.doCalculation();
+        tasks.Add(Task.Run(() => p.doCalculation()));
       }
+      if (!colorChanged)
+        foreach (MiraLinePlotter m in miraLineplotExamples) {
+          tasks.Add(Task.Run(() => m.setFavorite(m.ExampleNumber)));
+        }
+
+      await Task.WhenAll(tasks);
+      //reflectg results to the view
       for (int i = 0; i < examplePlottersGeneral.Count; i++)
-        ((ICombined)PlotForm).addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
+        PlotForm.addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
       for (int i = 0; i < examplePlottersJulia.Count; i++)
-        ((ICombined)PlotForm).addExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
+        PlotForm.addExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
       for (int i = 0; i < examplePlottersMira.Count; i++)
-        ((ICombined)PlotForm).addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
+        PlotForm.addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
+
       if (!colorChanged) {
-        MiraLinePlotter miraLineplot = null;
-        foreach (LinePlot p in linePlotters)
-          if (p.SpecificLineType == SpecificLineType.Mira) {
-            miraLineplot = (MiraLinePlotter)p.clone(new DirectBitmap(100, 100));
-            break;
-          }
-        if (miraLineplot != null) {
-          for (int i = 0; i < miraLineplot.Favorites.Length; i++) {
-            miraLineplot.map = new DirectBitmap(100, 100, true);
-            miraLineplot.setFavorite(i);
-            ((ICombined)PlotForm).addExampleImage(i, miraLineplot.map.Bitmap,
-              miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
-              miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
-          }
+        for (int i = 0; i < miraLineplotExamples.Count; i++) {
+          MiraLinePlotter miraLineplot = miraLineplotExamples[i];
+          PlotForm.addExampleImage(i, miraLineplot.map.Bitmap,
+            miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
+            miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
         }
       }
 
-      ((ICombined)PlotForm).rescanExamples();
+      PlotForm.rescanExamples();
+    }
+
+    public void RescanExamples(bool colorChanged) {
+      RescanExampleParallelAsync(colorChanged);
+
+      //foreach (BasePlotter p in examplePlottersGeneral) {
+      //  p.SmoozeType = smoozeType;
+      //  if (colorChanged)
+      //    p.Map.CalculatedTypes.Clear();
+      //  p.doCalculation();
+      //}
+      //foreach (BasePlotter p in examplePlottersJulia) {
+      //  p.SmoozeType = smoozeType;
+      //  if (colorChanged)
+      //    p.Map.CalculatedTypes.Clear();
+      //  p.doCalculation();
+      //}
+      //foreach (BasePlotter p in examplePlottersMira) {
+      //  p.SmoozeType = smoozeType;
+      //  if (colorChanged)
+      //    p.Map.CalculatedTypes.Clear();
+      //  p.doCalculation();
+      //}
+      //for (int i = 0; i < examplePlottersGeneral.Count; i++)
+      //  ((ICombined)PlotForm).addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
+      //for (int i = 0; i < examplePlottersJulia.Count; i++)
+      //  ((ICombined)PlotForm).addExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
+      //for (int i = 0; i < examplePlottersMira.Count; i++)
+      //  ((ICombined)PlotForm).addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
+      //if (!colorChanged) {
+      //  MiraLinePlotter miraLineplot = null;
+      //  foreach (LinePlot p in linePlotters)
+      //    if (p.SpecificLineType == SpecificLineType.Mira) {
+      //      miraLineplot = (MiraLinePlotter)p.clone(new DirectBitmap(100, 100));
+      //      break;
+      //    }
+      //  if (miraLineplot != null) {
+      //    for (int i = 0; i < miraLineplot.Favorites.Length; i++) {
+      //      miraLineplot.map = new DirectBitmap(100, 100, true);
+      //      miraLineplot.setFavorite(i);
+      //      ((ICombined)PlotForm).addExampleImage(i, miraLineplot.map.Bitmap,
+      //        miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
+      //        miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
+      //    }
+      //  }
+      //}
+      //((ICombined)PlotForm).rescanExamples();
     }
     public void resetLinePlot() {
       if (fractalPlotter is LinePlot) {
@@ -814,7 +868,6 @@ namespace BiFurcation {
       }
     }
     public void setMiratypePlot(string tag) {
-      string[] favorites = new string[0];
       foreach (LinePlot p in linePlotters)
         if (p.SpecificLineType == SpecificLineType.Mira) {
           fractalPlotter = p;
@@ -823,10 +876,9 @@ namespace BiFurcation {
       if (fractalPlotter is LinePlot) {
         fractalType = fractalPlotter.ThisType;
         MiraLinePlotter plotter = (MiraLinePlotter)fractalPlotter;
-        favorites = plotter.Favorites;
+        string[] favorites = plotter.Favorites;
         if (favorites.Length > 0) {
-          int miraType = -1;
-          Int32.TryParse(tag, out miraType);
+          Int32.TryParse(tag, out int miraType);
           if (miraType >= 0) {
             plotter.setFavorite(miraType);
             if (PlotForm != null)

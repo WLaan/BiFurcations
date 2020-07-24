@@ -703,7 +703,7 @@ namespace BiFurcation {
         if (map != null)
           Constants.setColorRange(map);
         if (rescanSamples)
-          RescanExampleParallelAsync(true);
+          rescanExamples(true);
       }
     }
     public void setStartPointLinePlot(string A, string B) {
@@ -749,7 +749,7 @@ namespace BiFurcation {
         if (PlotForm != null) {
           PlotForm.FormImage = MainImage;
         }
-        RescanExampleParallelAsync(true);
+        rescanExamples(true);
         if (juliaPlotInset != null)
           juliaPlotInset.Map.CalculatedTypes.Clear();
       }
@@ -766,8 +766,7 @@ namespace BiFurcation {
     }
     #endregion
 
-    public async void RescanExampleParallelAsync(bool colorChanged) {
-      List<Task> tasks = new List<Task>();
+    public void rescanExamples(bool colorChanged) {
       foreach (BasePlotter p in examplePlottersGeneral) {
         p.SmoozeType = smoozeType;
         if (colorChanged)
@@ -784,15 +783,8 @@ namespace BiFurcation {
         p.SmoozeType = smoozeType;
         if (colorChanged)
           p.Map.CalculatedTypes.Clear();
-        tasks.Add(Task.Run(() => p.doCalculation()));
+        p.doCalculation();
       }
-      if (!colorChanged)
-        foreach (MiraLinePlotter m in miraLineplotExamples) {
-          tasks.Add(Task.Run(() => m.setFavorite(m.ExampleNumber)));
-        }
-
-      await Task.WhenAll(tasks);
-      //reflectg results to the view
       for (int i = 0; i < examplePlottersGeneral.Count; i++)
         PlotForm.addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
       for (int i = 0; i < examplePlottersJulia.Count; i++)
@@ -801,15 +793,24 @@ namespace BiFurcation {
         PlotForm.addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
 
       if (!colorChanged) {
-        for (int i = 0; i < miraLineplotExamples.Count; i++) {
-          MiraLinePlotter miraLineplot = miraLineplotExamples[i];
-          PlotForm.addExampleImage(i, miraLineplot.map.Bitmap,
-            miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
-            miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
+        MiraLinePlotter miraLineplot = null;
+        foreach (LinePlot p in linePlotters)
+          if (p.SpecificLineType == SpecificLineType.Mira) {
+            miraLineplot = (MiraLinePlotter)p.clone(new DirectBitmap(100, 100));
+            break;
+          }
+        if (miraLineplot != null) {
+          for (int i = 0; i < miraLineplot.Favorites.Length; i++) {
+            miraLineplot.map = new DirectBitmap(100, 100, true);
+            miraLineplot.setFavorite(i);
+            ((ICombined)PlotForm).addExampleImage(i, miraLineplot.map.Bitmap,
+              miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
+              miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
+          }
         }
       }
 
-      PlotForm.rescanExamples();
+      ((ICombined)PlotForm).rescanExamples();
     }
     public void resetLinePlot() {
       if (fractalPlotter is LinePlot) {

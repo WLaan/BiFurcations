@@ -312,7 +312,7 @@ namespace BiFurcation {
         Constants.OneColor = colorDialog.Color;
         Constants.settings2XML();
         if (NonLineairSystemsForm.Instance.Visible) 
-          combinedControl.RescanExampleParallelAsync(false);
+          combinedControl.RescanExamples(false);
         Refresh();
       }
     }

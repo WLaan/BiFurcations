@@ -312,7 +312,8 @@ namespace BiFurcation {
         Constants.OneColor = colorDialog.Color;
         Constants.settings2XML();
         if (NonLineairSystemsForm.Instance.Visible) 
-          combinedControl.RescanExamples(false);
+          combinedControl.RescanExampleParallelAsync(false);
+       //   combinedControl.RescanExamples(false);
         Refresh();
       }
     }
@@ -321,13 +322,17 @@ namespace BiFurcation {
       mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
       if (NonLineairSystemsForm.Instance.Visible)
         combinedControl.RescanExampleParallelAsync(false);
+     //   combinedControl.RescanExamples(false);
       Refresh();
     }
     private void numericUpDownContrast_ValueChanged(Object sender, EventArgs e) {
       Constants.ContrastValue = (int)numericUpDownContrast.Value;
       mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
       if (NonLineairSystemsForm.Instance.Visible)
+
         combinedControl.RescanExampleParallelAsync(false);
+
+     //   combinedControl.RescanExamples(false);
       Refresh();
     }
     private void numericUpDownFunctionLineWidth_ValueChanged(Object sender, EventArgs e) {
@@ -346,8 +351,6 @@ namespace BiFurcation {
       combinedControl.RescanExampleParallelAsync(true);
   //    var t = new Thread(() => combinedControl.RescanExamples(true));
   //    t.Start();
-   //   combinedControl.rescanExamples(false);
-   //   combinedControl.rescanExamples(true);
       Constants.settings2XML();
       Hide();
     }

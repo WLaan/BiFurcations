@@ -47,6 +47,7 @@ namespace BiFurcation {
   public class Control4NonLineairSystems : ImageControl{
 
     #region private fields
+    private List<Task> tasks = new List<Task>();
     protected const decimal MIN_X = -2;
     protected const decimal MAX_X = 2;
     protected const decimal MIN_Y = -2;
@@ -703,7 +704,7 @@ namespace BiFurcation {
         if (map != null)
           Constants.setColorRange(map);
         if (rescanSamples)
-          rescanExamples(true);
+          RescanExampleParallelAsync(true);
       }
     }
     public void setStartPointLinePlot(string A, string B) {
@@ -749,7 +750,7 @@ namespace BiFurcation {
         if (PlotForm != null) {
           PlotForm.FormImage = MainImage;
         }
-        rescanExamples(true);
+        RescanExampleParallelAsync(true);
         if (juliaPlotInset != null)
           juliaPlotInset.Map.CalculatedTypes.Clear();
       }
@@ -766,7 +767,8 @@ namespace BiFurcation {
     }
     #endregion
 
-    public void rescanExamples(bool colorChanged) {
+    public void RescanExampleParallelAsync(bool colorChanged) {
+      tasks.Clear();
       foreach (BasePlotter p in examplePlottersGeneral) {
         p.SmoozeType = smoozeType;
         if (colorChanged)
@@ -778,6 +780,34 @@ namespace BiFurcation {
         if (colorChanged)
           p.Map.CalculatedTypes.Clear();
         tasks.Add(Task.Run(() => p.doCalculation()));
+      }
+      foreach (BasePlotter p in examplePlottersMira) {
+        p.SmoozeType = smoozeType;
+        if (colorChanged)
+          p.Map.CalculatedTypes.Clear();
+        tasks.Add(Task.Run(() => p.doCalculation()));
+      }
+      var results = Task.WhenAll(tasks);
+      for (int i = 0; i < examplePlottersGeneral.Count; i++)
+        PlotForm.addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
+      for (int i = 0; i < examplePlottersJulia.Count; i++)
+        PlotForm.addExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
+      for (int i = 0; i < examplePlottersMira.Count; i++)
+        PlotForm.addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
+
+    }
+    public void rescanExamples(bool colorChanged) {
+      foreach (BasePlotter p in examplePlottersGeneral) {
+        p.SmoozeType = smoozeType;
+        if (colorChanged)
+          p.Map.CalculatedTypes.Clear();
+        p.doCalculation();
+      }
+      foreach (BasePlotter p in examplePlottersJulia) {
+        p.SmoozeType = smoozeType;
+        if (colorChanged)
+          p.Map.CalculatedTypes.Clear();
+        p.doCalculation();
       }
       foreach (BasePlotter p in examplePlottersMira) {
         p.SmoozeType = smoozeType;

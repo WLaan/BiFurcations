@@ -470,16 +470,14 @@ namespace BiFurcation {
           if (bm != null) {
             Rectangle destRect = DestRect;
             plotFunction();
-            using (Graphics gr = Graphics.FromImage(bm)) {
-              gr.DrawImage(functionDrawer.PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
-              //     PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-              using (Pen p = new Pen(Color.Red, 1)) {
-                Rectangle rect = new Rectangle((int)(Math.Min(screenX, x)), (int)(Math.Min(screenY, y)),
-                                               (int)(Math.Abs(screenX - x)), (int)(Math.Abs(screenY - y)));
-                gr.DrawRectangle(p, rect);
-                PlotForm.FormImage = bm;
-              }
-            }
+            using Graphics gr = Graphics.FromImage(bm);
+            gr.DrawImage(functionDrawer.PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
+            //     PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            using Pen p = new Pen(Color.Red, 1);
+            Rectangle rect = new Rectangle((int)(Math.Min(screenX, x)), (int)(Math.Min(screenY, y)),
+                                           (int)(Math.Abs(screenX - x)), (int)(Math.Abs(screenY - y)));
+            gr.DrawRectangle(p, rect);
+            PlotForm.FormImage = bm;
           }
         }
         catch { }

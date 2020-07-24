@@ -8,7 +8,6 @@ namespace BiFurcation {
 
     private readonly string _url;
     private readonly string _fullPathWhereToSave;
- //   private ICommonFileForm form = null;
     private DownloadType dType = null;
 
     public FileDownloader(DownloadType dl) {
@@ -34,20 +33,18 @@ namespace BiFurcation {
       try {
         if (File.Exists(_fullPathWhereToSave))
           File.Delete(_fullPathWhereToSave);
-        using (WebClient client = new WebClient()) {
-          var ur = new Uri(_url);
-          client.Headers["Authorization"] = UpdateSetting.AuthInfo;
-          client.Credentials = UpdateSetting.Credentials;
-          client.DownloadProgressChanged += WebClientDownloadProgressChanged;
-          client.DownloadFileCompleted += WebClientDownloadCompletedAsync;
+        using WebClient client = new WebClient();
+        var ur = new Uri(_url);
+        client.Headers["Authorization"] = UpdateSetting.AuthInfo;
+        client.Credentials = UpdateSetting.Credentials;
+        client.DownloadProgressChanged += WebClientDownloadProgressChanged;
+        client.DownloadFileCompleted += WebClientDownloadCompletedAsync;
 
-          client.DownloadFileAsync(ur, _fullPathWhereToSave);
-        }
+        client.DownloadFileAsync(ur, _fullPathWhereToSave);
       }
       catch {
         dType.succes = false;
         dType.reportSucces = true;
-   //     form.endImport(dType);
         return false;
       }
       finally {

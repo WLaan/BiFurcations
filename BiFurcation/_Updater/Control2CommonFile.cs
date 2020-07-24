@@ -26,8 +26,8 @@ namespace BiFurcation {
         Request.UseBinary = false;
         Request.Timeout = 20000;
         try {
-          using (FtpWebResponse Response = (FtpWebResponse)Request.GetResponse())
-            stamp = Response.LastModified;
+          using FtpWebResponse Response = (FtpWebResponse)Request.GetResponse();
+          stamp = Response.LastModified;
         }
         catch (Exception e) {
           if (e.Message.Contains("Remote name could not be resolved"))

@@ -461,42 +461,39 @@ namespace BiFurcation {
       fractalPlotter.doCalculation();
 
       if (fractalType == FractalType.Julia && mandelbrotInsetBitmap != null && smoozeType == SmoozeType.Single) {
-        using (Graphics g = Graphics.FromImage(PointsImage.Bitmap)) {
-          //  AdjustAspect();
-          mandelbrotPlotInset.SmoozeType = SmoozeType.Single;
-          mandelbrotPlotInset.XMini = -2;
-          mandelbrotPlotInset.XMaxi = 0.7;
-          mandelbrotPlotInset.YMini = -1.5;
-          mandelbrotPlotInset.YMaxi = 1.5;
-          mandelbrotPlotInset.doCalculation();
-          JuliaPlot p = (JuliaPlot)fractalPlotter;
-          mandelbrotPlotInset.addRedDot(p.Initial_C);
-          Rectangle source = new Rectangle(0,0,
-                                           mandelbrotInsetBitmap.Width, mandelbrotInsetBitmap.Height);
-          Rectangle dest = new Rectangle(0, PointsImage.Height- mandelbrotPlotInset.Map.Height, mandelbrotPlotInset.Map.Width, mandelbrotPlotInset.Map.Height);
-          g.DrawImage(mandelbrotInsetBitmap.Bitmap, dest, source, GraphicsUnit.Pixel);
-        }
+        using Graphics g = Graphics.FromImage(PointsImage.Bitmap);
+        //  AdjustAspect();
+        mandelbrotPlotInset.SmoozeType = SmoozeType.Single;
+        mandelbrotPlotInset.XMini = -2;
+        mandelbrotPlotInset.XMaxi = 0.7;
+        mandelbrotPlotInset.YMini = -1.5;
+        mandelbrotPlotInset.YMaxi = 1.5;
+        mandelbrotPlotInset.doCalculation();
+        JuliaPlot p = (JuliaPlot)fractalPlotter;
+        mandelbrotPlotInset.addRedDot(p.Initial_C);
+        Rectangle source = new Rectangle(0, 0,
+                                         mandelbrotInsetBitmap.Width, mandelbrotInsetBitmap.Height);
+        Rectangle dest = new Rectangle(0, PointsImage.Height - mandelbrotPlotInset.Map.Height, mandelbrotPlotInset.Map.Width, mandelbrotPlotInset.Map.Height);
+        g.DrawImage(mandelbrotInsetBitmap.Bitmap, dest, source, GraphicsUnit.Pixel);
       }
       int cSize = BSize / 50;
       Rectangle destRect = DestRect;
       try {
-        using (Graphics g = Graphics.FromImage(MainImage)) {
-          string text = fractalPlotter.Title + ", Escape radius:" + max_MAG_SQUARED + ", Iterations:" + maxIterations;
-          g.Clear(Color.LightGray);
-          using (Pen pen = new Pen(Color.Black, 4))
-            g.DrawRectangle(pen, new Rectangle(destRect.X - 1, destRect.Y - 1, destRect.Width + 2, destRect.Height + 2));
-          using (Pen pen = new Pen(Color.White, 4)) {
-            g.DrawLine(pen, destRect.X - 4, destRect.Y - 1, destRect.Width + destRect.X, destRect.Y - 1);
-            g.DrawLine(pen, destRect.X - 1, destRect.Y - 1, destRect.X - 1, destRect.Height + destRect.Y);
-          }
-          g.DrawString(text, new Font("Calibri", cSize), Brushes.Blue, pictBoxSize.Height / 20, BSize / 70);
-          g.DrawString(yMax.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, 5, destRect.Y);
-          g.DrawString(yMin.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, 5, destRect.Y + destRect.Height - cSize);
-          g.DrawString(xMin.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, destRect.X - cSize, destRect.Y + destRect.Height + cSize/4);
-          g.DrawString(xMax.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, destRect.X + destRect.Width - cSize, destRect.Y + destRect.Height + cSize/4);
+        using Graphics g = Graphics.FromImage(MainImage);
+        string text = fractalPlotter.Title + ", Escape radius:" + max_MAG_SQUARED + ", Iterations:" + maxIterations;
+        g.Clear(Color.LightGray);
+        using Pen pen0 = new Pen(Color.Black, 4);
+        g.DrawRectangle(pen0, new Rectangle(destRect.X - 1, destRect.Y - 1, destRect.Width + 2, destRect.Height + 2));
+        using Pen pen = new Pen(Color.White, 4);
+        g.DrawLine(pen, destRect.X - 4, destRect.Y - 1, destRect.Width + destRect.X, destRect.Y - 1);
+        g.DrawLine(pen, destRect.X - 1, destRect.Y - 1, destRect.X - 1, destRect.Height + destRect.Y);
+        g.DrawString(text, new Font("Calibri", cSize), Brushes.Blue, pictBoxSize.Height / 20, BSize / 70);
+        g.DrawString(yMax.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, 5, destRect.Y);
+        g.DrawString(yMin.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, 5, destRect.Y + destRect.Height - cSize);
+        g.DrawString(xMin.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, destRect.X - cSize, destRect.Y + destRect.Height + cSize / 4);
+        g.DrawString(xMax.ToString("0.00"), new Font("Calibri", 2 * cSize / 3), Brushes.Blue, destRect.X + destRect.Width - cSize, destRect.Y + destRect.Height + cSize / 4);
 
-          g.DrawImage(PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
-        }
+        g.DrawImage(PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
       }
       catch { }
 
@@ -504,7 +501,7 @@ namespace BiFurcation {
 
       if (PlotForm != null)
         PlotForm.FormImage = MainImage;
-      PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+      //PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
     }
     protected void fractalProgressGIF(object sender, ProgressChangedEventArgs e) {
       PlotForm.GIFProgress = e.ProgressPercentage;
@@ -743,8 +740,8 @@ namespace BiFurcation {
       colorMouseY2 = y;
       if (fractalPlotter != null && false) {
         fractalPlotter.setColorsFromNewSmoozedColors(smoozeType);
+        Rectangle destRect = DestRect;
         using (Graphics g = Graphics.FromImage(MainImage)) {
-          Rectangle destRect = DestRect;
           g.DrawImage(PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
         }
         if (PlotForm != null) {
@@ -787,6 +784,9 @@ namespace BiFurcation {
           p.Map.CalculatedTypes.Clear();
         tasks.Add(Task.Run(() => p.doCalculation()));
       }
+      foreach (MiraLinePlotter m in miraLineplotExamples) {
+        tasks.Add(Task.Run(() => m.setFavorite(m.ExampleNumber)));
+      }
       var results = Task.WhenAll(tasks);
       for (int i = 0; i < examplePlottersGeneral.Count; i++)
         PlotForm.addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
@@ -794,7 +794,11 @@ namespace BiFurcation {
         PlotForm.addExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
       for (int i = 0; i < examplePlottersMira.Count; i++)
         PlotForm.addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
-
+      foreach (MiraLinePlotter miraLineplot in  miraLineplotExamples) {
+        ((ICombined)PlotForm).addExampleImage(miraLineplot.ExampleNumber, miraLineplot.map.Bitmap,
+          miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
+          miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
+      }
     }
     public void rescanExamples(bool colorChanged) {
       foreach (BasePlotter p in examplePlottersGeneral) {

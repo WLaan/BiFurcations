@@ -341,14 +341,14 @@ namespace BiFurcation {
       PlotForm = diagram;
       if (plotForm.FormImage != null)
         try {
-          using (Graphics g = Graphics.FromImage(plotForm.FormImage))
-            g.Clear(Color.White);
+          using Graphics g = Graphics.FromImage(plotForm.FormImage);
+          g.Clear(Color.White);
         }
         catch { }
       if (PlotForm.setFunctionImage != null)
         try {
-          using (Graphics g = Graphics.FromImage(PlotForm.setFunctionImage))
-            g.Clear(Color.White);
+          using Graphics g = Graphics.FromImage(PlotForm.setFunctionImage);
+          g.Clear(Color.White);
         }
         catch { }
       GC.Collect();

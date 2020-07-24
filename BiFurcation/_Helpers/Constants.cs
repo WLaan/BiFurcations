@@ -194,26 +194,25 @@ namespace BiFurcation {
       float delta = (float)(1.0f * width / colorsUsed);
       if (delta == 0) delta = 1;
       float x = 0;
-      using (Graphics g = Graphics.FromImage(im)) {
-        for (int i = 0; i < colorsUsed; i++) {
-          g.FillRectangle(new SolidBrush(Constants.smoozedColors1024[i]), new RectangleF(x, 0, delta, im.Height));
-          x += delta;
-        }
-        float currentX = 0;
-        for (int i = 0; i < smoozedColors.Count; i++) {
-          SmoozedColor c = smoozedColors[i];
-          int x1 = c.linePosInImage(im.Size);
+      using Graphics g = Graphics.FromImage(im);
+      for (int i = 0; i < colorsUsed; i++) {
+        g.FillRectangle(new SolidBrush(Constants.smoozedColors1024[i]), new RectangleF(x, 0, delta, im.Height));
+        x += delta;
+      }
+      float currentX = 0;
+      for (int i = 0; i < smoozedColors.Count; i++) {
+        SmoozedColor c = smoozedColors[i];
+        int x1 = c.linePosInImage(im.Size);
 
-          if (smoozedColors[i].Tag != 40) {// smoozedColors[i].color != Color.Black) {
-            g.DrawLine(Pens.Black, x1, 0, x1, im.Height);
-            g.DrawRectangle(Pens.Black, c.trackerRectangle(im.Size));
-          }
-          else {
-            g.DrawLine(Pens.White, x1, 0, x1, im.Height);
-            g.DrawRectangle(Pens.White, c.trackerRectangle(im.Size));
-          }
-          currentX += c.WidthPercentageLeft + c.WidthPercentageRight;
+        if (smoozedColors[i].Tag != 40) {// smoozedColors[i].color != Color.Black) {
+          g.DrawLine(Pens.Black, x1, 0, x1, im.Height);
+          g.DrawRectangle(Pens.Black, c.trackerRectangle(im.Size));
         }
+        else {
+          g.DrawLine(Pens.White, x1, 0, x1, im.Height);
+          g.DrawRectangle(Pens.White, c.trackerRectangle(im.Size));
+        }
+        currentX += c.WidthPercentageLeft + c.WidthPercentageRight;
       }
     }
 

@@ -69,8 +69,8 @@ namespace BiFurcation {
     public void addRedDot(Complex dot) {
       int x = (int)(1.0 * Map.Width * ((dot.Re - XMin) / (XMax - XMin)));
       int y = (int)(1.0 * Map.Height * (1-(dot.Im - YMin) / (YMax - YMin)));
-      using (Graphics g = Graphics.FromImage(Map.Bitmap))
-        g.FillEllipse(Brushes.Red, x, y, 8, 8);
+      using Graphics g = Graphics.FromImage(Map.Bitmap);
+      g.FillEllipse(Brushes.Red, x, y, 8, 8);
     }
     public override BasePlotter clone(DirectBitmap m) {
       return new MandelbrotPlot(combinedControl, m);

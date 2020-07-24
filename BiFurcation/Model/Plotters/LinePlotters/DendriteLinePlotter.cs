@@ -31,14 +31,14 @@ namespace BiFurcation {
       minMouseIterations = 1000;
       maxIterations = 10000;
       specificLineType = SpecificLineType.Dendrite;
-      saveValues();
+      SaveValues();
     }
     public DendriteLinePlotter(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
     }
 
-    protected void calcExtremas() {
+    protected void CalcExtremas() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       extremas = new Extremas();
@@ -55,24 +55,24 @@ namespace BiFurcation {
           double Z = X;
           X = A * X - B * Y;
           Y = B * Z + A * Y;
-          setExtrema(X, Y);
+          SetExtrema(X, Y);
           calcedPoints.Add(new PointF((float)X, (float)Y));
         }
         else {
           double Z = X;
           X = C * X - D * Y + 1 - C;
           Y = D * Z + A * Y - D;
-          setExtrema(X, Y);
+          SetExtrema(X, Y);
           calcedPoints.Add(new PointF((float)X, (float)Y));
         }
       }
     }
-    protected override void calcTypePoints() {
-      calcExtremas();
-      calcLinePoints();
+    protected override void CalcTypePoints() {
+      CalcExtremas();
+      CalcLinePoints();
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new DendriteLinePlotter(combinedControl, m);
     }
 

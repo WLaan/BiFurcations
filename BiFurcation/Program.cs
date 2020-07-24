@@ -80,12 +80,12 @@ namespace BiFurcation {
           DownloadType dlt = new DownloadType(DownloadFileType.APP_DLL,
                                               UpdateSetting.AppIPAddress + UpdateSetting.AppRemoteFolder + "/BiFurcation.exe",
                                               StaticFormsCalls.StartupPath + Path.DirectorySeparatorChar + "BiFurcation.exe");
-          wait4Update = Control2CommonFile.checkAndDownloadApp(dlt);
+          wait4Update = Control2CommonFile.CheckAndDownloadApp(dlt);
         }
       }
       if (!wait4Update) {
         Constants.Initialize();
-        Constants.settingsFromXML();
+        Constants.SettingsFromXML();
         MainForm = new FunctionsForm();
         try {
           Application.Run(MainForm);

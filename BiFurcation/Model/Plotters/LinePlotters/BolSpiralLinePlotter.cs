@@ -28,14 +28,14 @@ namespace BiFurcation {
       minMouseIterations = 1000;
       maxIterations = 10000;
       specificLineType = SpecificLineType.Bolspiral;
-      saveValues();
+      SaveValues();
     }
     public BolSpiralLinePlotter(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
     }
 
-    protected void calcExtremas() {
+    protected void CalcExtremas() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       double P = 1 / Math.Sqrt(2);
@@ -51,12 +51,12 @@ namespace BiFurcation {
         double Z = Math.Sin(T);
         double U = P * (Y - X);
         double V = B * Z - Q * (X + Y);
-        setExtrema(U, V);
+        SetExtrema(U, V);
       }
       deltaX = (1.0 * extremas.xmax - extremas.xmin);
       deltaY = (1.0 * extremas.ymax - extremas.ymin);
     }
-    protected void calcPoints(Color c) {
+    protected void CalcPoints(Color c) {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       DirectBitmap map = Map;
@@ -95,12 +95,12 @@ namespace BiFurcation {
         yr0 = Yr;
       }
     }
-    protected override void calcTypePoints() {
-      calcExtremas();
-      calcPoints(Color.Black);
+    protected override void CalcTypePoints() {
+      CalcExtremas();
+      CalcPoints(Color.Black);
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new BolSpiralLinePlotter(combinedControl, m);
     }
 

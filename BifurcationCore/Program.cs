@@ -48,12 +48,12 @@ namespace BifurcationCore {
           BiFurcation.DownloadType dlt = new BiFurcation.DownloadType(BiFurcation.DownloadFileType.APP_DLL,
                                               BiFurcation.UpdateSetting.AppIPAddress + BiFurcation.UpdateSetting.AppRemoteFolder + "/BiFurcation.exe",
                                               BiFurcation.StaticFormsCalls.StartupPath + Path.DirectorySeparatorChar + "BiFurcation.exe");
-          wait4Update = BiFurcation.Control2CommonFile.checkAndDownloadApp(dlt);
+          wait4Update = BiFurcation.Control2CommonFile.CheckAndDownloadApp(dlt);
         }
       }
       if (!wait4Update) {
         BiFurcation.Constants.Initialize();
-        BiFurcation.Constants.settingsFromXML();
+        BiFurcation.Constants.SettingsFromXML();
         MainForm = new BiFurcation.FunctionsForm();
         try {
           Application.Run(MainForm);

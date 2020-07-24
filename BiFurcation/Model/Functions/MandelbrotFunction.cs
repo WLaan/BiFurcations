@@ -25,7 +25,7 @@ namespace BiFurcation {
     public MandelbrotFunction(IFunctionsView f):base(f) {
     }
 
-    public override List<PointD> trajectory(PointD p) {
+    public override List<PointD> Trajectory(PointD p) {
       Traject.Clear();
       decimal startX = p.X;
       decimal startY = p.Y;
@@ -37,7 +37,7 @@ namespace BiFurcation {
       }
       return Traject;
     }
-    public override void calcFunctionPoints() {
+    public override void CalcFunctionPoints() {
       allPoints[0].Clear();
       parNum = 2;
       //  SkipIterations = 0;

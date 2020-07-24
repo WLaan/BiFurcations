@@ -324,20 +324,20 @@ namespace BiFurcation {
       defColorForm.BringToFront();
     }
     private void buttonGenerate_Click(Object sender, EventArgs e) {
-      combinedControl.simulate(true);
+      combinedControl.Simulate(true);
     }
     private void pictureBox_MouseDown(Object sender, MouseEventArgs e) {
       mouseX = e.X;
       mouseY = e.Y;
-      if (e.Button == MouseButtons.Left && combinedControl.mouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height)) 
+      if (e.Button == MouseButtons.Left && combinedControl.MouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height)) 
         m_DrawingBox = true;
     }
     private void pictureBox_MouseMove(Object sender, MouseEventArgs e) {
-      movingPosition = combinedControl.showMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+      movingPosition = combinedControl.ShowMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
       if (m_DrawingBox)
-        combinedControl.mouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        combinedControl.MouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
       else {
-        combinedControl.juliaMouseMove((double)movingPosition.X, (double)movingPosition.Y, juliaMap);
+        combinedControl.JuliaMouseMove((double)movingPosition.X, (double)movingPosition.Y, juliaMap);
         pictureBoxJuliaTypes.Refresh();
       }   
       labelCurrX.Text = movingPosition.X.ToString("0.00");
@@ -346,7 +346,7 @@ namespace BiFurcation {
     private void pictureBox_MouseUp(Object sender, MouseEventArgs e) {
       if (!m_DrawingBox) return;
       m_DrawingBox = false;
-      combinedControl.mouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+      combinedControl.MouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
       params2Form();
       this.Cursor = Cursors.WaitCursor;
       Application.DoEvents();
@@ -354,7 +354,7 @@ namespace BiFurcation {
       pictureBox.Cursor = Cursors.Cross;
     }
     private void buttonReset_Click(Object sender, EventArgs e) {
-      combinedControl.reset();
+      combinedControl.Reset();
       params2Form();
     }
     private void textBoxXmin_TextChanged(Object sender, EventArgs e) {
@@ -379,14 +379,14 @@ namespace BiFurcation {
       TextBox box = (TextBox)sender;
       int num = 0;
       Int32.TryParse(box.Tag.ToString(), out num);
-      combinedControl.presetParameter(num, box.Text);
+      combinedControl.PresetParameter(num, box.Text);
     }
     private void imageToEditorMenuItem_Click(Object sender, EventArgs e) {
       if (pictureBox.Image != null)
-        combinedControl.startImageEditor(pictureBox.Image);
+        combinedControl.StartImageEditor(pictureBox.Image);
     }
     private void createGIFMenuItem_Click(Object sender, EventArgs e) {
-      combinedControl.createGif(movingPosition, textBoxNumGifImages.Text, textBoxGIFFilename.Text);
+      combinedControl.CreateGif(movingPosition, textBoxNumGifImages.Text, textBoxGIFFilename.Text);
       setEnabled(false);
     }
     private void radioButtonCheckedChanged(Object sender, EventArgs e) {
@@ -414,20 +414,20 @@ namespace BiFurcation {
     }
     private void textBoxJuliaX_KeyDown(Object sender, KeyEventArgs e) {
       if (e.KeyCode== Keys.Enter)
-        combinedControl.setUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
+        combinedControl.SetUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
     }
     private void textBoxJuliaY_KeyDown(Object sender, KeyEventArgs e) {
       if (e.KeyCode == Keys.Enter)
-        combinedControl.setUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
+        combinedControl.SetUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
     }
     private void textBoxJuliaX_TextChanged(Object sender, EventArgs e) {
-      combinedControl.setUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
+      combinedControl.SetUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
     }
     private void textBoxJuliaY_TextChanged(Object sender, EventArgs e) {
-      combinedControl.setUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
+      combinedControl.SetUserdefined(textBoxJuliaX.Text, textBoxJuliaY.Text);
     }
     private void buttonCancelGif_Click(Object sender, EventArgs e) {
-      combinedControl.stopThread();
+      combinedControl.StopThread();
     }
     private void textBoxLambdaA_TextChanged(Object sender, EventArgs e) {
       combinedControl.LambdaOrMandelbrotA = textBoxjuliaMandelPowerA.Text;
@@ -453,7 +453,7 @@ namespace BiFurcation {
     private void selectCurrentType(Object sender, EventArgs e) {
       PictureBox box = (PictureBox)sender;
       int tag = Int32.Parse(box.Tag.ToString());
-      combinedControl.index2GeneralType(tag);
+      combinedControl.Index2GeneralType(tag);
       newType = FractalType.Mandelbrot;
       presetType();
       panelExamples.Visible = false;
@@ -461,7 +461,7 @@ namespace BiFurcation {
     private void selectCurrentJuliaType(Object sender, EventArgs e) {
       PictureBox box = (PictureBox)sender;
       int tag = Int32.Parse(box.Tag.ToString());
-      combinedControl.index2JuliaType(tag);
+      combinedControl.Index2JuliaType(tag);
       newType = FractalType.Julia;
       presetType();
       panelExamples.Visible = false;
@@ -472,7 +472,7 @@ namespace BiFurcation {
     private void selectCurrentLineType(Object sender, EventArgs e) {
       PictureBox box = (PictureBox)sender;
       int tag = Int32.Parse(box.Tag.ToString());
-      combinedControl.index2LineType(tag);
+      combinedControl.Index2LineType(tag);
       newType = FractalType.LinePlot;
       presetType();
       panelExamples.Visible = false;
@@ -485,20 +485,20 @@ namespace BiFurcation {
       combinedControl.SpreadMiraA = checkBoxSpreadA.Checked;
     }
     private void hScrollBarMiraA_Scroll(Object sender, ScrollEventArgs e) {
-      combinedControl.setMiraAB(hScrollBarMiraA.Value, hScrollBarMiraB.Value);
+      combinedControl.SetMiraAB(hScrollBarMiraA.Value, hScrollBarMiraB.Value);
       textBoxAVal.Text = (hScrollBarMiraA.Value / 1000f).ToString("0.000");
       textBoxBVal.Text = (hScrollBarMiraB.Value / 1000f).ToString("0.000");
     }
     private void hScrollBarIterations_ValueChanged(Object sender, EventArgs e) {
-      combinedControl.setIterationsLinPlot = hScrollBarIterations.Value;
+      combinedControl.SetIterationsLinPlot = hScrollBarIterations.Value;
       labelIterations.Text = hScrollBarIterations.Value.ToString();
     }
     private void LineplotStartPoint(Object sender, KeyEventArgs e) {
-      combinedControl.setStartPointLinePlot(textBoxStartXLineplot.Text, textBoxStartYLineplot.Text);
+      combinedControl.SetStartPointLinePlot(textBoxStartXLineplot.Text, textBoxStartYLineplot.Text);
     }
     private void textBoxABVal_KeyDown(Object sender, KeyEventArgs e) {
       if (e.KeyCode == Keys.Enter) {
-        combinedControl.setMiraAB(textBoxAVal.Text, textBoxBVal.Text);
+        combinedControl.SetMiraAB(textBoxAVal.Text, textBoxBVal.Text);
         if (combinedControl.LineplotAValue < hScrollBarMiraA.Maximum && combinedControl.LineplotAValue > hScrollBarMiraA.Minimum)
           hScrollBarMiraA.Value= combinedControl.LineplotAValue;
         if (combinedControl.LineplotBValue < hScrollBarMiraB.Maximum && combinedControl.LineplotBValue > hScrollBarMiraB.Minimum)
@@ -506,13 +506,13 @@ namespace BiFurcation {
       }
     }
     private void buttonResetLineplot_Click(Object sender, EventArgs e) {
-      combinedControl.resetLinePlot();
+      combinedControl.ResetLinePlot();
       params2Form();
     }
     private void pictureBoxMiraType(Object sender, EventArgs e) {
       PictureBox box = (PictureBox)sender;
       string tag = box.Tag.ToString();
-      combinedControl.setMiratypePlot(tag);//setFavoriteLinePlot
+      combinedControl.SetMiratypePlot(tag);//setFavoriteLinePlot
       newType = FractalType.LinePlot;
       presetType();
       panelExamples.Visible = false;
@@ -528,10 +528,10 @@ namespace BiFurcation {
       }
       else {
         if (combinedControl != null) {
-          combinedControl.getImage(singleColor, SmoozeType.Single);
-          combinedControl.getImage(type1, SmoozeType.Type1);
-          combinedControl.getImage(type2, SmoozeType.Type2);
-          combinedControl.getImage(type3, SmoozeType.Type3);
+          combinedControl.GetImage(singleColor, SmoozeType.Single);
+          combinedControl.GetImage(type1, SmoozeType.Type1);
+          combinedControl.GetImage(type2, SmoozeType.Type2);
+          combinedControl.GetImage(type3, SmoozeType.Type3);
           panelExamples.Refresh();
           Refresh();
         }
@@ -648,7 +648,7 @@ namespace BiFurcation {
         hScrollBarIterations.Maximum = combinedControl.MaxMouseIterationVal;
         hScrollBarIterations.SmallChange = hScrollBarIterations.Maximum / 100;
         hScrollBarIterations.LargeChange = hScrollBarIterations.Maximum / 10;
-        hScrollBarIterations.Value = combinedControl.setIterationsLinPlot;
+        hScrollBarIterations.Value = combinedControl.SetIterationsLinPlot;
         try {
           hScrollBarMiraA.Maximum = combinedControl.MaxAval;
           hScrollBarMiraA.Minimum = combinedControl.MinAval;

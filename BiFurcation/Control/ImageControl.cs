@@ -116,7 +116,7 @@ namespace BiFurcation {
       set {
         decimal temp = 0;
         decimal.TryParse(value, out temp);
-        fractalPlotter.reset();
+        fractalPlotter.Reset();
         xMin = temp;
       }
     }
@@ -133,7 +133,7 @@ namespace BiFurcation {
     public string XmaxStr {
       set {
         decimal temp = 0;
-        decimal.TryParse(value, out temp); fractalPlotter.reset(); 
+        decimal.TryParse(value, out temp); fractalPlotter.Reset(); 
         fractalPlotter.UsedColorIndices = new ColorIndex[BSize, BSize];
         Xmax = temp;
       }
@@ -153,7 +153,7 @@ namespace BiFurcation {
         decimal temp = 0;
         decimal.TryParse(value, out temp);
         Ymin = temp;
-        fractalPlotter.reset();
+        fractalPlotter.Reset();
       }
     }
 
@@ -170,7 +170,7 @@ namespace BiFurcation {
       set {
         decimal temp = 0;
         decimal.TryParse(value, out temp);
-        fractalPlotter.reset();
+        fractalPlotter.Reset();
         Ymax = temp;
       }
     }
@@ -179,7 +179,12 @@ namespace BiFurcation {
     #region public
     public Control4AllViews control4AllViews;
     public Size ImageSize;
-    public DoWork doFractalWork;
+    private DoWork doFractalWork;
+    public DoWork DoFractalWork {
+      set {
+        doFractalWork = value;
+      }
+    }
     #endregion
 
     public ImageControl(IView f) {
@@ -191,10 +196,10 @@ namespace BiFurcation {
       BSize = Constants.UsedBSize;
     }
 
-    protected void fractalProgress(object sender, ProgressChangedEventArgs e) {
+    protected void FractalProgress(object sender, ProgressChangedEventArgs e) {
       PlotForm.worker_ProgressChanged(e.ProgressPercentage);
     }
-    protected void fractalCompleted(object sender, RunWorkerCompletedEventArgs e) {
+    protected void FractalCompleted(object sender, RunWorkerCompletedEventArgs e) {
       PlotForm.setEnabled(true);
       PlotForm.endGenerate();
       worker = null;
@@ -202,7 +207,7 @@ namespace BiFurcation {
     public BaseFor2DimensionalPlot fractalPlotter;
 
     #region virtual
-    public virtual void simulate() {
+    public virtual void Simulate() {
       PlotForm.setEnabled(false);
       if (worker == null) {
         PlotForm.setProgressBar(pictBoxSize.Width);
@@ -211,20 +216,20 @@ namespace BiFurcation {
         worker.WorkerSupportsCancellation = true;
         worker.WorkerReportsProgress = true;
         worker.DoWork += new DoWorkEventHandler(doFractalWork);// CalcCombinedFractal);
-        worker.ProgressChanged += new ProgressChangedEventHandler(fractalProgress);
-        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(fractalCompleted);
+        worker.ProgressChanged += new ProgressChangedEventHandler(FractalProgress);
+        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FractalCompleted);
         worker.RunWorkerAsync();
       }
       else
         PlotForm.setEnabled(true);
     }
-    public virtual void stopThread() {
+    public virtual void StopThread() {
       if (worker != null) {
         worker.CancelAsync();
         worker = null;
       }
     }
-    public virtual void mouseMove(int x, int y, int w, int h) {
+    public virtual void MouseMove(int x, int y, int w, int h) {
       if (fractalPlotter != null && fractalPlotter.ThisType == FractalType.LinePlot) return;
 
       Bitmap map = MainImage;
@@ -255,11 +260,11 @@ namespace BiFurcation {
         catch { }
       }
     }
-    public virtual void mouseUp(int x, int y, int w, int h) {
+    public virtual void MouseUp(int x, int y, int w, int h) {
       if (fractalPlotter == null || fractalPlotter.ThisType != FractalType.LinePlot) {
         GC.Collect();
         PlotForm.FormImage = MainImage;
-        PointD pXY = showMouseCoords(x, y, w, h);
+        PointD pXY = ShowMouseCoords(x, y, w, h);
         if (Math.Abs(m_CurX - (float)pXY.X) < 0.01 && Math.Abs(m_CurY - (float)pXY.Y) < 0.01)
           return;
         boarderStack.Add(new Boarders(Xmin, Xmax, Ymin, Ymax, MaxIterations));
@@ -283,11 +288,11 @@ namespace BiFurcation {
         Ymax = (decimal)y2;
         Ymin = (decimal)y1;
         if (fractalPlotter != null)
-          fractalPlotter.reset();
-        simulate();
+          fractalPlotter.Reset();
+        Simulate();
       }
     }
-    public virtual void reset() {
+    public virtual void Reset() {
       if (boarderStack.Count > 0) {
         Boarders b = boarderStack[boarderStack.Count - 1];
         Xmin = b.MIN_X;
@@ -298,12 +303,12 @@ namespace BiFurcation {
         boarderStack.RemoveAt(boarderStack.Count - 1);
       }
       if (fractalPlotter != null)
-        fractalPlotter.reset();
-      simulate();
+        fractalPlotter.Reset();
+      Simulate();
     }
     #endregion
 
-    public PointD showMouseCoords(int x, int y, int w, int h) {
+    public PointD ShowMouseCoords(int x, int y, int w, int h) {
       //bitmap is square but picturebox is not
       //The image is supposed to be STRETCHED about the picturebox
       //first copy values, so old values can be used again
@@ -341,11 +346,11 @@ namespace BiFurcation {
       decimal mY = (decimal)(Ymax - (1.0m * realY / realH) * (Ymax - Ymin));
       return new PointD(mX, mY);
     }
-    public bool mouseDown(int x, int y, int w, int h) {
+    public bool MouseDown(int x, int y, int w, int h) {
       if (fractalPlotter == null || fractalPlotter.ThisType != FractalType.LinePlot) {
         screenX = (int)(x * pictBoxSize.Width / w);
         screenY = (int)(y * pictBoxSize.Height / h);
-        PointD pXY = showMouseCoords(x, y, w, h);
+        PointD pXY = ShowMouseCoords(x, y, w, h);
 
         m_StartX = (float)pXY.X;
         m_StartY = (float)pXY.Y;

@@ -4,7 +4,7 @@ namespace BiFurcation {
 
   public class FunctionDrawerInset: FunctionDrawer {
 
-    private DirectBitmap pointsImage;
+    private readonly DirectBitmap pointsImage;
     public override DirectBitmap PointsImage {
       get {
         if (pointsImage != null)
@@ -14,7 +14,7 @@ namespace BiFurcation {
       }
     }
 
-    private Bitmap mainImage;
+    private readonly Bitmap mainImage;
     public override Bitmap MainImage {
       get {
         if (mainImage != null)

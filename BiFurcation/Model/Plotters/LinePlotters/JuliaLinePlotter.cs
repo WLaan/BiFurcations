@@ -23,14 +23,14 @@ namespace BiFurcation {
       minMouseIterations = 100;
       maxIterations = 300;
       specificLineType = SpecificLineType.Julia;
-      saveValues();
+      SaveValues();
     }
     public JuliaLinePlotter(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
     }
 
-    protected void calcExtremas() {
+    protected void CalcExtremas() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       extremas = new Extremas();
@@ -61,11 +61,11 @@ namespace BiFurcation {
             if (S > 1000)
               break;//break k-loop
             if (S1 < 0.001) {
-              setExtrema(i1, j1);
-              setExtrema(i2, j2);
+              SetExtrema(i1, j1);
+              SetExtrema(i2, j2);
               if (B == 0) {
-                setExtrema(i1, j2);
-                setExtrema(i2, j1);
+                SetExtrema(i1, j2);
+                SetExtrema(i2, j1);
               }
               break;//break k-loop
             }
@@ -76,7 +76,7 @@ namespace BiFurcation {
           }
         }
     }
-    protected void calcPoints(Color c) {
+    protected void CalcPoints(Color c) {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       deltaX = (1.0 * extremas.xmax - extremas.xmin);
@@ -130,12 +130,12 @@ namespace BiFurcation {
           }
         }
     }
-    protected override void calcTypePoints() {
-      calcExtremas();
-      calcPoints(Color.Black);
+    protected override void CalcTypePoints() {
+      CalcExtremas();
+      CalcPoints(Color.Black);
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new JuliaLinePlotter(combinedControl, m);
     }
 

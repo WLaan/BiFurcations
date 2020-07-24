@@ -37,13 +37,13 @@ namespace BiFurcation {
     public JuliaPlot3(Control4NonLineairSystems c, int dt, DirectBitmap m) : this(c, dt) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();
+      ResetMaxSquared();
     }
 
     protected override Complex Zn(Complex Z, Complex C) {
       return min1 - Z + Z * Z * Z + C;
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new JuliaPlot3(combinedControl, definedTYype, m);
     }
   }

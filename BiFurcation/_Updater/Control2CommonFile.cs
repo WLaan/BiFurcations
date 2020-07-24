@@ -16,7 +16,7 @@ namespace BiFurcation {
       string result = path.Substring(dot + 1);
       return result;
     }
-    public static DateTime fileTimeStamp(string uri) {
+    public static DateTime FileTimeStamp(string uri) {
       Uri serverUri = new Uri(uri);
       DateTime stamp = new DateTime();
       try {
@@ -39,11 +39,11 @@ namespace BiFurcation {
       catch { }
       return stamp;
     }
-    public static bool checkAndDownloadApp(DownloadType dlt) {
+    public static bool CheckAndDownloadApp(DownloadType dlt) {
       if (UpdateSetting.ServerDown)
         return false;
       try {
-        DateTime lastUpdateDate = fileTimeStamp(dlt.file2Download);// response1.LastModified;
+        DateTime lastUpdateDate = FileTimeStamp(dlt.file2Download);// response1.LastModified;
         DateTime currentVersionDate = System.IO.File.GetLastWriteTime(dlt.PC_Destination);
         TimeSpan span = lastUpdateDate.Subtract(currentVersionDate);
 

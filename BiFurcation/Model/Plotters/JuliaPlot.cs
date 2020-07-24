@@ -66,16 +66,16 @@ namespace BiFurcation {
     public JuliaPlot(Control4NonLineairSystems c, int dt, DirectBitmap m) : this(c, dt) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();
+      ResetMaxSquared();
     }
 
-    public void setUserDefined(float valx, float valy) {
+    public void SetUserDefined(float valx, float valy) {
       if (definedTYype == initialXs.Length - 1) {
         initialXs[initialXs.Length - 1] = valx;
         initialYs[initialYs.Length - 1] = valy;
       }
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new JuliaPlot(combinedControl, definedTYype, m);
     }
 

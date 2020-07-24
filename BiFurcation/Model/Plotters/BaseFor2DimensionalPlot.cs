@@ -21,7 +21,7 @@ namespace BiFurcation {
     #region properties
 
     protected double[] parameters = new double[12];
-    private string[] parXY = new string[] { "", "x", "x^2", "xy", "y", "y^2" };
+    private readonly string[] parXY = new string[] { "", "x", "x^2", "xy", "y", "y^2" };
     public double[] Parameters {
       get {
         return parameters;
@@ -54,12 +54,12 @@ namespace BiFurcation {
       combinedControl = c;
       MaxIterations = combinedControl.MaxIterations;
       MAX_MAG_SQUARED = combinedControl.MAX_MAG_SQUARED;
-      init();
+      Init();
     }
     public BaseFor2DimensionalPlot(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();
+      ResetMaxSquared();
     }
 
     private void scanSubExstremes() {
@@ -82,7 +82,7 @@ namespace BiFurcation {
     }
 
     #region protected
-    protected string userFunctionXStr() {
+    protected string UserFunctionXStr() {
       string X = "";
       for (int i = 0; i < 6; i++)
         if (parameters[i] != 0) {
@@ -98,7 +98,7 @@ namespace BiFurcation {
         X = X.Substring(1);
       return X;
     }
-    protected string userFunctionYStr() {
+    protected string UserFunctionYStr() {
       string Y = "";
       for (int i = 0; i < 6; i++)
         if (parameters[6 + i] != 0) {
@@ -115,7 +115,7 @@ namespace BiFurcation {
       return Y;
     }
 
-    protected int type1(int clr, Complex Z) {
+    protected int Type1(int clr, Complex Z) {
       if (Z.Magnitude == 0)
         return 0;
       else {
@@ -130,7 +130,7 @@ namespace BiFurcation {
       }
     }
     private readonly object type2Lock = new object();
-    protected int type2(int clr, Complex Z) {
+    protected int Type2(int clr, Complex Z) {
       if (Z.Magnitude == 0 || clr > maxIterations)
         return 0;
       else {
@@ -153,7 +153,7 @@ namespace BiFurcation {
         return index;
       }
     }
-    protected Color type3(double value) {
+    protected Color Type3(double value) {
       const double MaxColor = 255;
       int val = (int)(MaxColor * Math.Pow(value, Constants.ContrastValue / 100.0));
       switch (Constants.Type3Color) {
@@ -178,7 +178,7 @@ namespace BiFurcation {
 
     }
 
-    protected void init() {
+    protected void Init() {
       if (Map != null) {
         if (Map.Width > 1)
           dx = 1.0 * (XMax - XMin) / (Map.Width - 1);
@@ -231,7 +231,7 @@ namespace BiFurcation {
       Constants.MaxMagnitude = maxMagnitudeZ;
       Constants.MinMagnitude = minMagnitude;
     }
-    protected void calc_Clr_Z() {
+    protected void Calc_Clr_Z() {
       DirectBitmap map = Map;
       if (map.Calced_CLR_Z)
         return;
@@ -243,7 +243,7 @@ namespace BiFurcation {
         map.Calced_CLR_Z = true;
         return;
       }
-      init();
+      Init();
       //var calculatedPoints = Enumerable.Range(0, map.Width * map.Height).AsParallel().Select(xy => {
       //  int X, Y;
       //  Y = xy / map.Width;
@@ -310,18 +310,18 @@ namespace BiFurcation {
           usedColorIndices[X, Y] = map.usedColorIndices[X, Y];
       usedColorIndicesCalced = true;
     }
-    protected void color2UsedColorIndices(ColorIndex ci) {
+    protected void Color2UsedColorIndices(ColorIndex ci) {
       if (ci == null) return;
       if (ci.Clr < maxIterations) {
         switch (smoozeType) {
           case SmoozeType.Type1:
-            ci.index[(int)SmoozeType.Type1] = type1(ci.Clr, ci.Z);
+            ci.index[(int)SmoozeType.Type1] = Type1(ci.Clr, ci.Z);
             break;
           case SmoozeType.Type2:
-            ci.index[(int)SmoozeType.Type2] = type2(ci.Clr, ci.Z);
+            ci.index[(int)SmoozeType.Type2] = Type2(ci.Clr, ci.Z);
             break;
           default:
-            ci.color[(int)SmoozeType.Type3] = type3(1.0 * ci.Clr / maxIterations);
+            ci.color[(int)SmoozeType.Type3] = Type3(1.0 * ci.Clr / maxIterations);
             break;
         }
         ci.color[(int)SmoozeType.Single] = Color.White;
@@ -329,7 +329,7 @@ namespace BiFurcation {
       else
         ci.color[(int)SmoozeType.Single] = Constants.OneColor;
     }
-    protected void colors2UsedColorIndices() {
+    protected void Colors2UsedColorIndices() {
       if (Map.CalculatedTypes.Contains(smoozeType))
         return;
       DirectBitmap map = Map;
@@ -343,7 +343,7 @@ namespace BiFurcation {
         for (int Y = 0; Y < Map.Height; Y++) {
           try {
             if (map.usedColorIndices[X, Y] != null)
-              color2UsedColorIndices(map.usedColorIndices[X, Y]);
+              Color2UsedColorIndices(map.usedColorIndices[X, Y]);
           }
           catch {
           }
@@ -353,35 +353,32 @@ namespace BiFurcation {
         map.CalculatedTypes.Add(smoozeType);
     }
     #endregion
-    static readonly object _object = new object();
-    public void setColorsFromNewSmoozedColors(SmoozeType type) {
+    public void SetColorsFromNewSmoozedColors(SmoozeType type) {
       DirectBitmap map = Map;
-      lock (_object) {
-        if (map.CalculatedTypes.Contains(type)) {
-          for (int x = 0; x < map.Width; x++) {
-            for (int y = 0; y < map.Height; y++) {
-              try {
-                if (map.usedColorIndices[x, y] != null) {
-                  if (type == SmoozeType.Single || type == SmoozeType.Type3)
-                    map.SetPixel(x, y, Map.usedColorIndices[x, y].color[(int)type]);
-                  else
-                   if (map.usedColorIndices[x, y] != null) {
-                    map.SetPixel(x, y, Constants.smoozedColors1024[Map.usedColorIndices[x, y].index[(int)type] % Constants.smoozedColors1024.Count]);
-                    if (map.usedColorIndices[x, y] == null || map.usedColorIndices[x, y].index[(int)type] > Constants.smoozedColors1024.Count) {
-                    }
+      if (map.CalculatedTypes.Contains(type)) {
+        for (int x = 0; x < map.Width; x++) {
+          for (int y = 0; y < map.Height; y++) {
+            try {
+              if (map.usedColorIndices[x, y] != null) {
+                if (type == SmoozeType.Single || type == SmoozeType.Type3)
+                  map.SetPixel(x, y, Map.usedColorIndices[x, y].color[(int)type]);
+                else
+                 if (map.usedColorIndices[x, y] != null) {
+                  map.SetPixel(x, y, Constants.smoozedColors1024[Map.usedColorIndices[x, y].index[(int)type] % Constants.smoozedColors1024.Count]);
+                  if (map.usedColorIndices[x, y] == null || map.usedColorIndices[x, y].index[(int)type] > Constants.smoozedColors1024.Count) {
                   }
                 }
               }
-              catch {
-              }
+            }
+            catch {
             }
           }
         }
       }
     }
-    public override void drawAxes(Graphics g) {
+    public override void DrawAxes(Graphics g) {
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new BaseFor2DimensionalPlot(combinedControl, m);
     }
 

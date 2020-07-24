@@ -8,7 +8,7 @@ namespace BiFurcation {
     private Color attractorLineColor = Color.Blue;
 
     #region properties
-    public override string title {
+    public override string Title {
       get {
         if (Function is HenonFunction)
           return Function.FunctionStrWithPar;
@@ -20,7 +20,7 @@ namespace BiFurcation {
     public bool DrawFurcations {
       set {
         Function.DrawFurcations =  value;
-        drawPicture();
+        DrawPicture();
       }
       get {
         return Function.DrawFurcations;
@@ -37,16 +37,16 @@ namespace BiFurcation {
       center= new PointF(BSize / 2, BSize / 2);
     }
 
-    protected override void plotPoints() {
+    protected override void PlotPoints() {
       using (Graphics g = Graphics.FromImage(PointsImage.Bitmap)) {
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         for (int f = 0; f < Constants.MaxF; f++)
           if (Function.FunctionGenerations[f])
             using (Pen cPen = new Pen(Constants.pens[f], lineWidth/2f))
-              Function.drawFunctionLines(g, f, cPen);
+              Function.DrawFunctionLines(g, f, cPen);
       }
     }
-    protected override void drawLines() {
+    protected override void DrawLines() {
       dy = (Function.YMax - Function.YMin) / 10;
       dx = (Function.XMax - Function.XMin) / 10;
       using (Graphics g = Graphics.FromImage(PointsImage.Bitmap)) {
@@ -68,14 +68,14 @@ namespace BiFurcation {
             g.DrawLine(dashed_pen, xy * BSize / 10, 0, xy * BSize / 10, BSize);
           }
           if (DrawFurcations) {
-            Function.setFurcationPoints();
-            Function.drawFurcationLines(g);
+            Function.SetFurcationPoints();
+            Function.DrawFurcationLines(g);
           }
         }
         catch { }
       }
     }
-    public override void drawAxes(Graphics g) {
+    public override void DrawAxes(Graphics g) {
       dy = (Function.YMax - Function.YMin) / 10;
       dx = (Function.XMax - Function.XMin) / 10;
       for (int xy = 0; xy <= 10; xy++) {
@@ -85,7 +85,7 @@ namespace BiFurcation {
         g.DrawString(xVal.ToString("0.00"), new Font("Calibri", 2 * fontSize / 3), Brushes.Blue, BSize / 20 - BSize / 100 + xy * (9*BSize/10) / 10, BSize - BSize / 20+FontSize);
       }
 
-      g.DrawString(title, new Font("Calibri", fontSize), Brushes.Blue, BSize/20, FontSize/2);
+      g.DrawString(Title, new Font("Calibri", fontSize), Brushes.Blue, BSize/20, FontSize/2);
 
       g.DrawString("f(x)", new Font("Calibri", fontSize), Brushes.Red, 0, BSize / 10 - 3 * BSize / 60 + 20);
       g.DrawString("^", new Font("Calibri", fontSize), Brushes.Red, 15, BSize / 10 - 2 * BSize / 60 + 25);
@@ -95,33 +95,33 @@ namespace BiFurcation {
       g.DrawString("-", new Font("Calibri", fontSize), Brushes.Red, BSize - BSize / 10-10, BSize - BSize / 30);
       g.DrawString("> x", new Font("Calibri", fontSize), Brushes.Red, BSize - BSize / 10 , BSize - BSize / 30);
     }
-    public void initTrajectory(PointD trajectStart) {
+    public void InitTrajectory(PointD trajectStart) {
       if (Function is HenonFunction) {
         HenonFunction f = (HenonFunction)Function;
-        f.initTrajectory(trajectStart);
-        drawPicture();
+        f.InitTrajectory(trajectStart);
+        DrawPicture();
         using (Graphics g = Graphics.FromImage(PointsImage.Bitmap))
-          f.drawTrajectoryLines(g);
+          f.DrawTrajectoryLines(g);
 
         Rectangle destRect = DestRect;
         using (Graphics g = Graphics.FromImage(MainImage))
-          g.DrawImage(PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
+          g.DrawImage(PointsImage.Bitmap, destRect, SourceRect, GraphicsUnit.Pixel);
         if (form != null)
           form.FormImage = MainImage;
       }
     }
-    public void drawNextTrajectory() {
+    public void DrawNextTrajectory() {
       if (Function is HenonFunction) {
-        drawPicture();
+        DrawPicture();
         HenonFunction f = (HenonFunction)Function;
-        f.calcNextTrajectory();
-        drawPicture();
+        f.CalcNextTrajectory();
+        DrawPicture();
         using (Graphics g = Graphics.FromImage(PointsImage.Bitmap))
-          f.drawTrajectoryLines(g);
+          f.DrawTrajectoryLines(g);
 
         Rectangle destRect = DestRect;
         using (Graphics g = Graphics.FromImage(MainImage))
-          g.DrawImage(PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
+          g.DrawImage(PointsImage.Bitmap, destRect, SourceRect, GraphicsUnit.Pixel);
         if (form != null)
           form.FormImage = MainImage;
       }

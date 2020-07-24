@@ -22,7 +22,7 @@ namespace BiFurcation {
       float.TryParse(B, out b);
       parameters[0] = a;
       parameters[6] = Math.Sqrt(1 - parameters[0] * parameters[0]);
-      doCalculation();
+      DoCalculation();
     }
     public override bool UseBVal {
       get {
@@ -37,14 +37,14 @@ namespace BiFurcation {
       minMouseIterations = 500;
       maxIterations = 10000;
       specificLineType = SpecificLineType.Henon;
-      saveValues();
+      SaveValues();
     }
     public HenonLinePlotter(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
     }
 
-    protected void calcExtremas() {
+    protected void CalcExtremas() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       Random rnd = new Random(1);
@@ -55,7 +55,7 @@ namespace BiFurcation {
 
         for (int N = 1; N < maxIterations; N++) {
           calcedPoints.Add(new PointF((float)X1, (float)Y1));
-          setExtrema(X1, Y1);
+          SetExtrema(X1, Y1);
           double X2 = X1 * A - B * (Y1 - X1 * X1);
           double Y2 = X1 * B + A * (Y1 - X1 * X1);
           X1 = X2;
@@ -65,12 +65,12 @@ namespace BiFurcation {
         }
       }
     }
-    protected override void calcTypePoints() {
-      calcExtremas();
-      calcLinePoints();
+    protected override void CalcTypePoints() {
+      CalcExtremas();
+      CalcLinePoints();
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new HenonLinePlotter(combinedControl, m);
     }
 

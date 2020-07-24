@@ -8,7 +8,7 @@ namespace BiFurcation {
     private string[] parnames = new string[] {"C","B","A" };
     public override string FunctionStr {
       get {
-        string text = coefficent(2, true, "X^2") + coefficent(1, true, "X") + coefficent(0, true, "");// A + B + C;
+        string text = Coefficent(2, true, "X^2") + Coefficent(1, true, "X") + Coefficent(0, true, "");// A + B + C;
         text = text.Trim();
         if (text.Length > 0 && text[0] == '+')
           text = text.Substring(1);
@@ -17,7 +17,7 @@ namespace BiFurcation {
     }
     public override string FunctionStrWithPar {
       get {
-        string text = coefficent(2, false,"X") + coefficent(1, false, "X") + coefficent(0, false, "");// A + B + C;
+        string text = Coefficent(2, false,"X") + Coefficent(1, false, "X") + Coefficent(0, false, "");// A + B + C;
         text = text.Trim();
         if (text.Length > 0 && text[0] == '+')
           text = text.Substring(1);
@@ -38,7 +38,7 @@ namespace BiFurcation {
       YMax = 2;
     }
 
-    protected string coefficent(int p, bool withPar, string xy) {
+    protected string Coefficent(int p, bool withPar, string xy) {
       string sign = " + ";
       string power = xy;
       if (parameters[p] < 0)
@@ -64,9 +64,9 @@ namespace BiFurcation {
     protected override decimal FValue(decimal p0) {
       return parameters[2] * p0 * p0 + parameters[1] * p0 + parameters[0];
     }
-    public override BaseFunction clone() {
+    public override BaseFunction Clone() {
       PolynomialFunction p = new PolynomialFunction();
-      copyFields(p);
+      CopyFields(p);
       return p;
     }
 

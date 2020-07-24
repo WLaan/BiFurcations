@@ -76,7 +76,7 @@ namespace BiFurcation {
       maxABmouse = 1000;
       CloudType = t;
       specificLineType = SpecificLineType.Cloud;
-      saveValues();
+      SaveValues();
     }
     public CloudLinePlotter(Control4NonLineairSystems c, DirectBitmap m, CloudType t) : this(c, t) {
       UseOwnBitmap = true;
@@ -84,7 +84,7 @@ namespace BiFurcation {
     }
 
 
-    private double cloudFunc0(double x, double A, double B) {
+    private double CloudFunc0(double x, double A, double B) {
       if (x > 1)
         return A * x + B * (x - 1);
       else
@@ -93,16 +93,16 @@ namespace BiFurcation {
       else
         return A * x;
     }
-    private double cloudFunc1(double x, double A, double B) {
+    private double CloudFunc1(double x, double A, double B) {
       return x * (A + B) / (1 + Math.Abs(x));
     }
-    private double cloudFunc2(double x, double A, double B) {
+    private double CloudFunc2(double x, double A, double B) {
       if (x > 0)
         return A * x;
       else
         return B * x;
     }
-    protected void calcExtremas0() {
+    protected void CalcExtremas0() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       extremas = new Extremas();
@@ -112,14 +112,14 @@ namespace BiFurcation {
       for (int N = 0; N < maxIterations; N++) {
         if (Math.Abs(X) + Math.Abs(Y) > 200000)
           break;
-        setExtrema(X, Y);
+        SetExtrema(X, Y);
         calcedPoints.Add(new PointF((float)X, (float)Y));
         double Z = X;
-        X = Y + cloudFunc0(X, A, B);
-        Y = -Z + cloudFunc0(X, A, B);
+        X = Y + CloudFunc0(X, A, B);
+        Y = -Z + CloudFunc0(X, A, B);
       }
     }
-    protected void calcExtremas1() {
+    protected void CalcExtremas1() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       extremas = new Extremas();
@@ -129,15 +129,15 @@ namespace BiFurcation {
         double Y = Ys[k];
         double P = Ps[k];
         for (int n = 0; n < P; n++) {
-          setExtrema(X, Y);
+          SetExtrema(X, Y);
           calcedPoints.Add(new PointF((float)X, (float)Y));
           double Z = X;
-          X = Y + cloudFunc1(X, A, B);
-          Y = -Z + cloudFunc1(X, A, B);
+          X = Y + CloudFunc1(X, A, B);
+          Y = -Z + CloudFunc1(X, A, B);
         }
       }
     }
-    protected void calcExtremas2() {
+    protected void CalcExtremas2() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       extremas = new Extremas();
@@ -146,29 +146,29 @@ namespace BiFurcation {
       double X = StartPoint.X;
       double Y = StartPoint.Y;
       for (int n = 0; n < maxIterations; n++) {
-        setExtrema(X, Y);
+        SetExtrema(X, Y);
         calcedPoints.Add(new PointF((float)X, (float)Y));
         double Z = X;
-        X = C * Y + cloudFunc2(X, A, B);
-        Y = -Z + cloudFunc2(X, A, B);
+        X = C * Y + CloudFunc2(X, A, B);
+        Y = -Z + CloudFunc2(X, A, B);
       }
     }
-    protected override void calcTypePoints() {
+    protected override void CalcTypePoints() {
       switch (cloudType) {
         case CloudType.Type0:
-          calcExtremas0();
+          CalcExtremas0();
           break;
         case CloudType.Type1:
-          calcExtremas1();
+          CalcExtremas1();
           break;
         case CloudType.Type2:
-          calcExtremas2();
+          CalcExtremas2();
           break;
       }
-      calcLinePoints();
+      CalcLinePoints();
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new CloudLinePlotter(combinedControl, m, this.cloudType);
     }
 

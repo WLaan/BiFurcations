@@ -8,16 +8,8 @@ namespace BiFurcation {
 
     protected decimal max_MAG_SQUARED = 4;
     protected IFunctionsView mainForm;
-    private List<PointD> traject = new List<PointD>();
-    public List<PointD> Traject {
-      get {
-        return traject;
-      }
 
-      set {
-        traject = value;
-      }
-    }
+    public List<PointD> Traject { get; set; } = new List<PointD>();
 
     public override string FunctionStr {
       get {
@@ -68,7 +60,7 @@ namespace BiFurcation {
       XMax = 1.5M;
       YMin = -0.5M;
       YMax = 0.5M;
-      calcFunctionPoints();
+      CalcFunctionPoints();
       checkBoarders = false;
     }
     public HenonFunction(IFunctionsView f):this() {
@@ -77,7 +69,7 @@ namespace BiFurcation {
       maxIterations = 20000;
     }
 
-    public virtual List<PointD> trajectory(PointD p) {
+    public virtual List<PointD> Trajectory(PointD p) {
       Traject.Clear();
       decimal startX = p.X;
       decimal startY = p.Y;
@@ -90,20 +82,20 @@ namespace BiFurcation {
       return Traject;
     }
 
-    protected override PointD point2Window(decimal x, decimal y) {
+    protected override PointD Point2Window(decimal x, decimal y) {
       //multiply the point to a squared window x:0 - width /y:width - 0
       //x from 0 to 4000  == x from -2000 to 2000
-      return new PointD(xVal(x), yVal(y));
+      return new PointD(XVal(x), YVal(y));
     }
 
-    public override void setFurcationPoints() {
+    public override void SetFurcationPoints() {
       furcationPoints.Clear();
-      calcFunctionPoints();
+      CalcFunctionPoints();
       foreach (PointD p in allPoints[0]) {
         furcationPoints.Add(new DiagramSet(p.X, p.Y));
       }
     }
-    public override void calcFunctionPoints() {
+    public override void CalcFunctionPoints() {
       allPoints[0].Clear();
       parNum = 2;
 
@@ -135,7 +127,7 @@ namespace BiFurcation {
         }
       }
     }
-    public override void drawFunctionLines(Graphics gg, int pList, Pen pen) {
+    public override void DrawFunctionLines(Graphics gg, int pList, Pen pen) {
       if (allPoints[pList].Count > 0) {
         gg.Clear(Color.White);
         if (YMax - YMin == 0 || XMax - XMin == 0) return;
@@ -151,7 +143,7 @@ namespace BiFurcation {
         }
       }
     }
-    public void initTrajectory(PointD p) {
+    public void InitTrajectory(PointD p) {
       Traject.Clear();
       decimal radiusX = (xMax - XMin) / 200;
       decimal radiusY = (YMax - yMin) / 100;
@@ -167,17 +159,17 @@ namespace BiFurcation {
         alpha += 2 * Math.PI / totalPoints;
       }
     }
-    public void calcNextTrajectory() {
+    public void CalcNextTrajectory() {
       List<PointD> current = new List<PointD>(Traject);
       List<PointD> newList = new List<PointD>();
       Traject.Clear();
       foreach (PointD p in current) {
-        Traject = trajectory(p);
+        Traject = Trajectory(p);
         newList.AddRange(Traject);
       }
       Traject = newList;
     }
-    public void drawTrajectoryLines(Graphics gg) {
+    public void DrawTrajectoryLines(Graphics gg) {
       if (YMax - YMin == 0 || XMax - XMin == 0) return;
       float factorY = (float)(BSize / (YMax - YMin));
       float factorX = (float)(BSize / (XMax - XMin));
@@ -193,9 +185,9 @@ namespace BiFurcation {
         }
       }
     }
-    public override BaseFunction clone() {
+    public override BaseFunction Clone() {
       HenonFunction h = new HenonFunction();
-      copyFields(h);
+      CopyFields(h);
       h.mainForm = mainForm;
       h.checkBoarders = checkBoarders;
       h.MaxIterations = MaxIterations;

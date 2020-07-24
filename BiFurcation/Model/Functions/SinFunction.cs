@@ -35,9 +35,9 @@ namespace BiFurcation {
       return x;
     }
 
-    public override BaseFunction clone() {
+    public override BaseFunction Clone() {
       SinFunction f = new SinFunction();
-      copyFields(f);
+      CopyFields(f);
       return f;
     }
 

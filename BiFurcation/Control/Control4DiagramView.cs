@@ -173,22 +173,13 @@ namespace BiFurcation {
     public int DiagramLineWidth {
       set {
         diagramDrawer.LineWidth = value;
-        plotDiagram();
+        PlotDiagram();
         PlotForm.endGenerate();
         PlotForm.setEnabled(true);
       }
     }
 
-    private string diagramGifFileName = "Diagram.GIF";
-    public String DiagramGifFileName {
-      get {
-        return diagramGifFileName;
-      }
-
-      set {
-        diagramGifFileName = value;
-      }
-    }
+    public String DiagramGifFileName { get; set; } = "Diagram.GIF";
 
     public int MaxFunctionIterations {
       set {
@@ -230,18 +221,18 @@ namespace BiFurcation {
     }
 
     #region private helpers
-    private void paramChoice2Form(decimal Par) {
+    private void ParamChoice2Form(decimal Par) {
       decimal currentPar = CurrentFunction.Parameter;
       CurrentFunction.Parameter = Par;
-      CurrentFunction.calcFunctionPoints();
+      CurrentFunction.CalcFunctionPoints();
       diagramFunctionPlotter.Function = CurrentFunction;
 
       diagramFunctionPlotter.Form2Plot = null;//just to be sure
-      diagramFunctionPlotter.drawPicture();
+      diagramFunctionPlotter.DrawPicture();
       PlotForm.setFunctionImage = diagramFunctionPlotter.MainImage;
       CurrentFunction.Parameter = currentPar;
     }
-    private void calcDiagram(object sender, DoWorkEventArgs e) {
+    private void CalcDiagram(object sender, DoWorkEventArgs e) {
       Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-EN");
       gifCreater.images.Clear();
 
@@ -276,7 +267,7 @@ namespace BiFurcation {
             diagramFunction.MaxIterations = s;
           else
             diagramFunction.MaxIterations = MaxFunctionIterations;
-          diagramFunction.setFurcationPoints();
+          diagramFunction.SetFurcationPoints();
           if (diagramFunction.furcationPoints.Count > 0) {
             if (CurrentFunction is HenonFunction) {
               for (int dp = diagramFunction.furcationPoints.Count - 1; dp > diagramFunction.furcationPoints.Count - 250 && dp >= 0; dp--) {
@@ -295,7 +286,7 @@ namespace BiFurcation {
         }
         CurrentFunction.MaxIterations = tempMax;
         CurrentFunction.Parameter = tempP;
-        plotDiagram();
+        PlotDiagram();
         if (diagramDrawer.CreateGif) {
           gifCreater.images.Add(diagramDrawer.Copy4GIF);
          // diagramDrawer.Copy4GIF.Save("temp.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -313,13 +304,13 @@ namespace BiFurcation {
       int mSec = 20 / maxGIFIterations;
       if (mSec == 0) mSec = 1;
       if (diagramDrawer.CreateGif)
-        gifCreater.create(mSec, diagramGifFileName);
-      paramChoice2Form(DiagramStopParameter);
+        gifCreater.Create(mSec, DiagramGifFileName);
+      ParamChoice2Form(DiagramStopParameter);
     }
-    private void diagramProgress(object sender, ProgressChangedEventArgs e) {
+    private void DiagramProgress(object sender, ProgressChangedEventArgs e) {
       plotForm.worker_ProgressChanged(e.ProgressPercentage);
     }
-    private void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+    private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
       plotForm.endGenerate();
       plotForm.setEnabled(true);
       worker = null;
@@ -327,17 +318,17 @@ namespace BiFurcation {
     }
     #endregion
 
-    public void setHenonSkipIterations(string num) {
+    public void SetHenonSkipIterations(string num) {
       if (CurrentFunction is HenonFunction) {
         HenonFunction f = (HenonFunction)CurrentFunction;
         Int32.TryParse(num, out f.SkipIterations);
       }
     }
-    public override void simulate() {
+    public override void Simulate() {
       PlotForm.params2Form();
-      createDiagram(false);
+      CreateDiagram(false);
     }
-    public void setDiagram(IDiagramView diagram) {
+    public void SetDiagram(IDiagramView diagram) {
       PlotForm = diagram;
       if (plotForm.FormImage != null)
         try {
@@ -353,13 +344,13 @@ namespace BiFurcation {
         catch { }
       GC.Collect();
     }
-    public void plotDiagram() {
+    public void PlotDiagram() {
       if (diagramDrawer.Form2Plot == null)
         diagramDrawer.Form2Plot = plotForm;
       diagramDrawer.DiagramPoints = diagramPoints;
-      diagramDrawer.drawPicture();
+      diagramDrawer.DrawPicture();
     }
-    public void createDiagram(bool cGIF) {
+    public void CreateDiagram(bool cGIF) {
       plotForm.setEnabled(false);
       if (DiagramStartParameter != DiagramStopParameter && worker == null) {
         plotForm.setProgressBar(BSize);
@@ -367,15 +358,15 @@ namespace BiFurcation {
         worker = new BackgroundWorker();
         worker.WorkerSupportsCancellation = true;
         worker.WorkerReportsProgress = true;
-        worker.DoWork += new DoWorkEventHandler(calcDiagram);
-        worker.ProgressChanged += new ProgressChangedEventHandler(diagramProgress);
-        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+        worker.DoWork += new DoWorkEventHandler(CalcDiagram);
+        worker.ProgressChanged += new ProgressChangedEventHandler(DiagramProgress);
+        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_RunWorkerCompleted);
         worker.RunWorkerAsync();
       }
       else
         plotForm.setEnabled(true);
     }
-    public void diagramParamShoice(int x, Size size) {
+    public void DiagramParamShoice(int x, Size size) {
       if (diagramPoints.Count > 0) {
         decimal dx = 1.0M * x / size.Width;
         int index = (int)(dx * DestRect.Width);
@@ -388,14 +379,14 @@ namespace BiFurcation {
         decimal Par = start + (decimal)((stop - start) * dx) ;
         if (index >= 0 && index < BSize && index < diagramPoints.Count)
           PlotForm.showNumber(index, Par, diagramPoints);
-        paramChoice2Form(Par);
+        ParamChoice2Form(Par);
       }
     }
-    public void feigenbaumChoice(string val) {
+    public void FeigenbaumChoice(string val) {
       if (diagramPoints.Count > 0) {
         decimal Par = 0;
         decimal.TryParse(val, out Par);
-        paramChoice2Form(Par);
+        ParamChoice2Form(Par);
       }
     }
 

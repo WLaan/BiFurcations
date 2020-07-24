@@ -30,13 +30,13 @@
     public JuliaRationalPlot(Control4NonLineairSystems c, int dt, DirectBitmap m) : this(c, dt) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();
+      ResetMaxSquared();
     }
 
     protected override Complex Zn(Complex Z, Complex C) {
       return Z * Z * Z + one / (10*Z * Z);
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new JuliaRationalPlot(combinedControl, definedTYype, m);
     }
   }

@@ -34,14 +34,14 @@ namespace BiFurcation {
       maxIterations = 5;
       startPoint = new PointF(4f, 0.35f);
       specificLineType = SpecificLineType.Star;
-      saveValues();
+      SaveValues();
     }
     public StarLinePlotter(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
     }
 
-    protected void calcExtremas() {
+    protected void CalcExtremas() {
       float A0 = (float)parameters[0];
       float B0 = (float)parameters[6];
       extremas = new Extremas();
@@ -53,7 +53,7 @@ namespace BiFurcation {
       A = A * (float)Math.PI / 180f;
       double X = 0;
       double Y = 0;
-      setExtrema(X, X);
+      SetExtrema(X, X);
       calcedPoints.Add(new PointF((float)X, (float)X));
       double powMax = Math.Pow(V, P - 1);
       for (int N = 0; N < (V + 1) * powMax - 1; N++) {
@@ -70,11 +70,11 @@ namespace BiFurcation {
         double Y2 = Y + pow * Math.Sin(B);
         X = X2;
         Y = Y2;
-        setExtrema(X, Y);
+        SetExtrema(X, Y);
         calcedPoints.Add(new PointF((float)X, (float)Y));
       }
     }
-    protected void calcPoints(Color c) {
+    protected void CalcPoints(Color c) {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       DirectBitmap map = Map;
@@ -97,14 +97,14 @@ namespace BiFurcation {
         Yr0 = Yr;
       }
     }
-    protected override void calcTypePoints() {
+    protected override void CalcTypePoints() {
       if (Math.Abs(startPoint.X) > 10) return;
 
-      calcExtremas();
-      calcPoints(Color.Black);
+      CalcExtremas();
+      CalcPoints(Color.Black);
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new StarLinePlotter(combinedControl, m);
     }
 

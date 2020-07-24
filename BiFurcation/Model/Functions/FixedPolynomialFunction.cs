@@ -45,9 +45,9 @@ namespace BiFurcation {
       return x;
     }
 
-    public override BaseFunction clone() {
+    public override BaseFunction Clone() {
       FixedPolynomialFunction f = new FixedPolynomialFunction();
-      copyFields(f);
+      CopyFields(f);
       return f;
     }
 

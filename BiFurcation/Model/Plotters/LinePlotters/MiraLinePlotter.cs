@@ -41,7 +41,7 @@ namespace BiFurcation {
       startPoint = new PointF(4f, 0);
       specificLineType = SpecificLineType.Mira;
       disposedCount = 16;
-      saveValues();
+      SaveValues();
       #region favorites
       Favorites = new string[] {//"A    B      X0  Y0",
                                  "-0.4  1      4   0",
@@ -87,25 +87,25 @@ namespace BiFurcation {
       result = A * x + C * xx / (1 + xx);
       return result;
     }
-    protected void calcExtremas(float A, float B) {
+    protected void CalcExtremas(float A, float B) {
       double X = startPoint.X;
       double Y = startPoint.Y;
 
-      setExtrema(X, Y);
+      SetExtrema(X, Y);
       calcedPoints.Add(new PointF((float)X, (float)Y));
       for (int m = 0; m < maxIterations; m++) {
         double Z = X;
         X = B * Y + F(X, A);
         Y = -Z + F(X, A);
         if (m > disposedCount) {
-          setExtrema(X, Y);
+          SetExtrema(X, Y);
           calcedPoints.Add(new PointF((float)X, (float)Y));
         }
       }
       deltaX = (1.0 * extremas.xmax - extremas.xmin);
       deltaY = (1.0 * extremas.ymax - extremas.ymin);
     }
-    protected void calcPoints(float A, float B, Color c) {
+    protected void CalcPoints(float A, float B, Color c) {
       DirectBitmap map = Map;
       deltaX = (1.0 * extremas.xmax - extremas.xmin);
       deltaY = (1.0 * extremas.ymax - extremas.ymin);
@@ -122,36 +122,36 @@ namespace BiFurcation {
 
       }
     }
-    protected override void calcTypePoints() {
+    protected override void CalcTypePoints() {
       calcedPoints.Clear();
       extremas = new Extremas();
 
-      calcExtremas((float)parameters[0], (float)parameters[6]);
+      CalcExtremas((float)parameters[0], (float)parameters[6]);
       if (spreadA) {
         for (float i = 1; i < 5; i++) {
-          calcExtremas((float)parameters[0] - i * 0.001f, (float)parameters[6]);
-          calcExtremas((float)parameters[0] + i * 0.001f, (float)parameters[6]);
+          CalcExtremas((float)parameters[0] - i * 0.001f, (float)parameters[6]);
+          CalcExtremas((float)parameters[0] + i * 0.001f, (float)parameters[6]);
         }
       }
       if (spreadA) {
         for (float i = 1; i < 5; i++) {
           calcedPoints.Clear();
-          calcExtremas((float)parameters[0] - i * 0.01f, (float)parameters[6]);
-          calcPoints((float)parameters[0] - i * 0.001f, (float)parameters[6], Constants.smoozedColors[(int)i % Constants.smoozedColors.Count].color);
+          CalcExtremas((float)parameters[0] - i * 0.01f, (float)parameters[6]);
+          CalcPoints((float)parameters[0] - i * 0.001f, (float)parameters[6], Constants.smoozedColors[(int)i % Constants.smoozedColors.Count].color);
 
           calcedPoints.Clear();
-          calcExtremas((float)parameters[0] + i * 0.01f, (float)parameters[6]);
-          calcPoints((float)parameters[0] + i * 0.001f, (float)parameters[6], Constants.smoozedColors[((int)i + 5) % Constants.smoozedColors.Count].color);
+          CalcExtremas((float)parameters[0] + i * 0.01f, (float)parameters[6]);
+          CalcPoints((float)parameters[0] + i * 0.001f, (float)parameters[6], Constants.smoozedColors[((int)i + 5) % Constants.smoozedColors.Count].color);
         }
       }
       calcedPoints.Clear();
-      calcExtremas((float)parameters[0], (float)parameters[6]);
+      CalcExtremas((float)parameters[0], (float)parameters[6]);
       if (Constants.smoozedColors.Count > 0)
-        calcPoints((float)parameters[0], (float)parameters[6], Constants.smoozedColors[0].color);
+        CalcPoints((float)parameters[0], (float)parameters[6], Constants.smoozedColors[0].color);
       else
-        calcPoints((float)parameters[0], (float)parameters[6], Color.Black);
+        CalcPoints((float)parameters[0], (float)parameters[6], Color.Black);
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       MiraLinePlotter plotter = new MiraLinePlotter(combinedControl, m);
       plotter.Favorites = this.Favorites;
       return plotter;

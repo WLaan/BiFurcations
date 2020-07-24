@@ -12,45 +12,38 @@ namespace BiFurcation {
     public float WidthPercentageLeft {
       get {
         if (left != null)
-          return (trackerPositionPercentage - left.trackerPositionPercentage) / 2;
+          return (TrackerPositionPercentage - left.TrackerPositionPercentage) / 2;
         else
-          return trackerPositionPercentage;
+          return TrackerPositionPercentage;
       }
     }
     public float WidthPercentageRight {
       get {
         if (right != null)
-          return (right.trackerPositionPercentage - trackerPositionPercentage) / 2;
+          return (right.TrackerPositionPercentage - TrackerPositionPercentage) / 2;
         else
-          return 100 - trackerPositionPercentage;
+          return 100 - TrackerPositionPercentage;
       }
     }
-    private float trackerPositionPercentage = 0;
-    public float TrackerPositionPercentage {
-      get {
-        return trackerPositionPercentage;
-      }
-      set {
-        trackerPositionPercentage = value;
-      }
-    }
+
+    public float TrackerPositionPercentage { get; set; } = 0;
 
     public SmoozedColor(int t, int i, float f) {//
       Tag = t;
       index = i;
-      trackerPositionPercentage = f;
+      TrackerPositionPercentage = f;
     }
 
-    public bool cursorInTracker(int x, Size size) {
-      Rectangle rect = trackerRectangle(size);
+    public bool CursorInTracker(int x, Size size) {
+      Rectangle rect = TrackerRectangle(size);
       return rect.Contains(x, size.Height / 2);
     }
-    public int linePosInImage(Size size) {
-      return (int)(trackerPositionPercentage * size.Width / 100f);
+    public int LinePosInImage(Size size) {
+      return (int)(TrackerPositionPercentage * size.Width / 100f);
     }
-    public Rectangle trackerRectangle(Size size) {
+    public Rectangle TrackerRectangle(Size size) {
       int s = size.Height / 20;
-      return  new Rectangle(linePosInImage(size) - s, size.Height / 2 - s, 2 * s, 2 * s);
+      return  new Rectangle(LinePosInImage(size) - s, size.Height / 2 - s, 2 * s, 2 * s);
     }
 
   }

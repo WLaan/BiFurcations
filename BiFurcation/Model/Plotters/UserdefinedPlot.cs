@@ -19,7 +19,7 @@
     }
     public override string Formula {
       get{
-        return " With x' = " + userFunctionXStr() + " and y' = " + userFunctionYStr();
+        return " With x' = " + UserFunctionXStr() + " and y' = " + UserFunctionYStr();
       }
     }
 
@@ -47,10 +47,10 @@
     public UserdefinedPlot(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();
+      ResetMaxSquared();
     }
 
-    public override void doCalculation() {
+    public override void DoCalculation() {
       if (Map == null) return;
       if (Map.Calced_CLR_Z)
         return;
@@ -61,8 +61,8 @@
         Map.Calced_CLR_Z = true;
         return;
       }
-      init();
-      reset();
+      Init();
+      Reset();
       // Calculate the values.
       ReaC = XMin;
       for (int X = 0; X < Map.Width; X++) {//143
@@ -90,7 +90,7 @@
           // Set the pixel's value.
           Complex Z = new Complex(a, b);
           Map.usedColorIndices[X, Y] = new ColorIndex(X, Y, clr, Z);
-          color2UsedColorIndices(Map.usedColorIndices[X, Y]);
+          Color2UsedColorIndices(Map.usedColorIndices[X, Y]);
           ImaC += dy;
         }
         ReaC += dx;
@@ -101,11 +101,11 @@
       Map.Calced_CLR_Z = true;
       if (!Map.CalculatedTypes.Contains(smoozeType))
         Map.CalculatedTypes.Add(smoozeType);
-      setColorsFromNewSmoozedColors(smoozeType);
+      SetColorsFromNewSmoozedColors(smoozeType);
       usedColorIndicesCalced = true;
       //  map.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new UserdefinedPlot(combinedControl, m);
     }
 

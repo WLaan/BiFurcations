@@ -5,33 +5,19 @@ namespace BiFurcation {
   public class DiagramSet {
 
     public List<PointD> setPoints = new List<PointD>();
-    private decimal x;
-    public decimal X {
-      get {
-        return x;
-      }
-      set {
-        x = value;
-      }
-    }
-    private decimal y;
-    public decimal Y {
-      get {
-        return y;
-      }
-      set {
-        y = value;
-      }
-    }
+
+    public decimal X { get; set; }
+
+    public decimal Y { get; set; }
 
     public DiagramSet(decimal px, decimal py) {
-      x = px;
-      y = py;
-      setPoints.Add(new PointD(x, y));
+      X = px;
+      Y = py;
+      setPoints.Add(new PointD(X, Y));
     }
     public DiagramSet(decimal px, DiagramSet set) {
-      x = px;
-      y = set.setPoints[0].Y;
+      X = px;
+      Y = set.setPoints[0].Y;
       setPoints.AddRange(set.setPoints);
     }
 

@@ -22,13 +22,13 @@ namespace BiFurcation {
       minMouseIterations = 14;
       maxIterations = 17;
       specificLineType = SpecificLineType.Dust;
-      saveValues();
+      SaveValues();
     }
     public DustLinePlotter(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
     }
-    protected void calcExtremas() {
+    protected void CalcExtremas() {
       float A = (float)parameters[0];
       float B = (float)parameters[6];
       calcedPoints.Clear();
@@ -48,7 +48,7 @@ namespace BiFurcation {
       extremas.xmin = -1;
       extremas.xmax = 1;
       extremas.ymin = 0;
-      setExtrema(X, Y);
+      SetExtrema(X, Y);
       int M = 0;
       double G = 0;
       do {
@@ -61,8 +61,8 @@ namespace BiFurcation {
           double Y2 = D * X + C * Y - D;
           calcedPoints.Add(new PointF((float)Xl, (float)Yl));
           calcedPoints.Add(new PointF((float)X2, (float)Y2));
-          setExtrema(Xl, Yl);
-          setExtrema(X2, Y2);
+          SetExtrema(Xl, Yl);
+          SetExtrema(X2, Y2);
           X = Xl;
           Y = Yl;
           Xs[M] = X2;
@@ -77,12 +77,12 @@ namespace BiFurcation {
         }
       } while (M >= 0);
     }
-    protected override void calcTypePoints() {
-      calcExtremas();
-      calcLinePoints();
+    protected override void CalcTypePoints() {
+      CalcExtremas();
+      CalcLinePoints();
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new DustLinePlotter(combinedControl, m);
     }
 

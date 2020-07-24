@@ -20,7 +20,7 @@ namespace BiFurcation {
           control4NonLineairSystems = value;
         else {
           control4NonLineairSystems = value;
-          var t = new Thread(() => control4NonLineairSystems.presetPlotter(FractalType.Mandelbrot));
+          var t = new Thread(() => control4NonLineairSystems.PresetPlotter(FractalType.Mandelbrot));
           t.Start();
         }
       }
@@ -54,7 +54,7 @@ namespace BiFurcation {
       defColorForm.Control4FunctionsView = control4FunctionsView;
     }
 
-    public void startImageEditor(Image image) {
+    public void StartImageEditor(Image image) {
       if (image == null) return;
       try {
         //Create temporary file name
@@ -83,7 +83,7 @@ namespace BiFurcation {
       }
       catch { }
     }
-    public decimal text2Float(string text) {
+    public decimal Text2Float(string text) {
       if (String.IsNullOrEmpty(text.Trim()))
         return 0;
       int komma = text.IndexOf(",");
@@ -97,13 +97,13 @@ namespace BiFurcation {
       return d;
     }
 
-    public void openColorDefView() {
+    public void OpenColorDefView() {
       defColorForm.Control4FunctionsView = control4FunctionsView;
       defColorForm.BringToFront();
       defColorForm.Show();
       defColorForm.Refresh();
     }
-    public void openSystem2Form() {
+    public void OpenSystem2Form() {
       NonLineairSystemsForm m = NonLineairSystemsForm.Instance;
       m.Control4NonLineairSystems = Control4NonLineairSystems;
       ((ICombined)Control4NonLineairSystems.PlotForm).presetType();

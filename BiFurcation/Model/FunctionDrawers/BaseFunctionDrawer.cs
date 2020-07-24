@@ -54,7 +54,7 @@ namespace BiFurcation {
       }
     }
 
-    public Rectangle sourceRect {
+    public Rectangle SourceRect {
       get {
         return control4FunctionsView.sourceRect;
       }
@@ -94,37 +94,37 @@ namespace BiFurcation {
       }
     }
 
-    public virtual string title {
+    public virtual string Title {
       get {
         return "";
       }
     }
-    public virtual string xLow {
+    public virtual string XLow {
       get {
         return "";
       }
     }
-    public virtual string xHigh {
+    public virtual string XHigh {
       get {
         return "";
       }
     }
-    public virtual string xType {
+    public virtual string XType {
       get {
         return "";
       }
     }
-    public virtual string yLow {
+    public virtual string YLow {
       get {
         return "";
       }
     }
-    public virtual string yHigh {
+    public virtual string YHigh {
       get {
         return "";
       }
     }
-    public virtual string yType {
+    public virtual string YType {
       get {
         return "";
       }
@@ -151,11 +151,11 @@ namespace BiFurcation {
           g.Clear(Color.White);
     }
 
-    protected virtual void plotPoints() {
+    protected virtual void PlotPoints() {
     }
-    protected virtual void drawLines() {
+    protected virtual void DrawLines() {
     }
-    protected virtual void drawBoarders() {
+    protected virtual void DrawBoarders() {
       using (Graphics g = Graphics.FromImage(MainImage)) {
         //hor top
         g.DrawLine(Pens.Black, BSize / 20, BSize / 20, BSize - BSize / 20, BSize / 20);
@@ -166,19 +166,19 @@ namespace BiFurcation {
         //vert right
         g.DrawLine(Pens.Black, BSize - BSize / 20, BSize / 20, BSize - BSize / 20, BSize - BSize / 20);
 
-        drawAxes(g);
+        DrawAxes(g);
       }
     }
-    public void drawPicture() {
-      initImages(MainImage, PointsImage.Bitmap, BSize);
+    public void DrawPicture() {
+      InitImages(MainImage, PointsImage.Bitmap, BSize);
 
-      plotPoints();
-      drawLines();
-      drawBoarders();
+      PlotPoints();
+      DrawLines();
+      DrawBoarders();
       Rectangle destRect = DestRect;
 
       using (Graphics g = Graphics.FromImage(MainImage)) {
-        g.DrawImage(PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
+        g.DrawImage(PointsImage.Bitmap, destRect, SourceRect, GraphicsUnit.Pixel);
      //   PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         using (Pen pen = new Pen(Color.Black, 4))
           g.DrawRectangle(pen, new Rectangle(destRect.X - 1, destRect.Y - 1, destRect.Width + 2, destRect.Height + 2));
@@ -188,7 +188,7 @@ namespace BiFurcation {
         }
       }
 
-      copy2GIF(mainImage, BSize, sourceRect);
+      Copy2GIF(mainImage, BSize, SourceRect);
 
       if (form != null)
         form.FormImage = MainImage;

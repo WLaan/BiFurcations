@@ -44,7 +44,7 @@
       maxIterations = 32;
       max_MAG_SQUARED = 4;
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new JuliaPlotInset(combinedControl, x, y, m);
     }
 

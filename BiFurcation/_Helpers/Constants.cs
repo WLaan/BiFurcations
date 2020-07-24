@@ -43,7 +43,7 @@ namespace BiFurcation {
     public static List<Color> smoozedColors1024 = new List<Color>();
     public static int UsedFontSize = 15;
     public static int UsedBSize = 1000;
-    private static float p(int j) {
+    private static float P(int j) {
       if (LineairInterpolation) {
         return j;
       }
@@ -73,7 +73,7 @@ namespace BiFurcation {
       smoozedColors.Add(SmoozedColorTags[20]);//green
       smoozedColors.Add(SmoozedColorTags[22]);//blue
 
-      sortSmoozedColors();
+      SortSmoozedColors();
       Initialized = true;
     }
 
@@ -109,13 +109,13 @@ namespace BiFurcation {
         return count;
       }
     }
-    public static SmoozedColor tracker4Cursor(int x, Size size) {
+    public static SmoozedColor Tracker4Cursor(int x, Size size) {
       foreach (SmoozedColor s in smoozedColors)
-        if (s.cursorInTracker(x, size))
+        if (s.CursorInTracker(x, size))
           return s;
       return null;
     }
-    public static void sortSmoozedColors() {
+    public static void SortSmoozedColors() {
       bool switched = true;
       while (switched) {
         switched = false;
@@ -138,9 +138,9 @@ namespace BiFurcation {
         else
           Constants.smoozedColors[t].right = null;
       }
-      interpolate();
+      Interpolate();
     }
-    private static void doInterpolate(Color a, Color b, int start, int stop) {
+    private static void DoInterpolate(Color a, Color b, int start, int stop) {
       float steps = (float)stop;// InterpolationSteps;
       float stepA = (float)(((b.A - a.A) / (steps - 1)));
       float stepR = (float)(((b.R - a.R) / (steps - 1)));
@@ -148,7 +148,7 @@ namespace BiFurcation {
       float stepB = (float)(((b.B - a.B) / (steps - 1)));
 
       for (int j = start; j < stop; j++) {
-        float pj = p(j);
+        float pj = P(j);
         Color cc = Color.FromArgb((int)(a.A + (stepA * pj)),
                                   (int)(a.R + (stepR * pj)),
                                   (int)(a.G + (stepG * pj)),
@@ -156,7 +156,7 @@ namespace BiFurcation {
         smoozedColors1024.Add(cc);
       }
     }
-    public static void interpolate() {
+    public static void Interpolate() {
       smoozedColors1024.Clear();
       if (smoozedColors.Count <= 1) {
         if (smoozedColors.Count == 0)
@@ -175,13 +175,13 @@ namespace BiFurcation {
         smoozedColors1024.Add(smoozedColors[0].color);
       for (int i = 0; i < smoozedColors.Count - 1; i++) {
         int steps = numColors * (int)(smoozedColors[i + 1].TrackerPositionPercentage - smoozedColors[i].TrackerPositionPercentage) / 100;
-        doInterpolate(smoozedColors[i].color, smoozedColors[i + 1].color, 0, steps);// Color.FromArgb(Constants.DefinedColors[index1]), Color.FromArgb(Constants.DefinedColors[index2]), 0, steps);
+        DoInterpolate(smoozedColors[i].color, smoozedColors[i + 1].color, 0, steps);// Color.FromArgb(Constants.DefinedColors[index1]), Color.FromArgb(Constants.DefinedColors[index2]), 0, steps);
       }
       int steps1 = numColors * (int)(100 - smoozedColors[smoozedColors.Count - 1].TrackerPositionPercentage) / 100;
       for (int i = 0; i < steps1; i++)
         smoozedColors1024.Add(smoozedColors[smoozedColors.Count - 1].color);
     }
-    public static void setColorRange(Image im) {
+    public static void SetColorRange(Image im) {
       int width = im.Width;
       int selectedColors = SelectedBoxes;
       int colorsUsed = Constants.smoozedColors1024.Count;
@@ -202,29 +202,29 @@ namespace BiFurcation {
       float currentX = 0;
       for (int i = 0; i < smoozedColors.Count; i++) {
         SmoozedColor c = smoozedColors[i];
-        int x1 = c.linePosInImage(im.Size);
+        int x1 = c.LinePosInImage(im.Size);
 
         if (smoozedColors[i].Tag != 40) {// smoozedColors[i].color != Color.Black) {
           g.DrawLine(Pens.Black, x1, 0, x1, im.Height);
-          g.DrawRectangle(Pens.Black, c.trackerRectangle(im.Size));
+          g.DrawRectangle(Pens.Black, c.TrackerRectangle(im.Size));
         }
         else {
           g.DrawLine(Pens.White, x1, 0, x1, im.Height);
-          g.DrawRectangle(Pens.White, c.trackerRectangle(im.Size));
+          g.DrawRectangle(Pens.White, c.TrackerRectangle(im.Size));
         }
         currentX += c.WidthPercentageLeft + c.WidthPercentageRight;
       }
     }
 
     #region methods for settings
-    public static void settingsFromXML() {
+    public static void SettingsFromXML() {
 
       XmlSerializer xmlSettingsSerializer = new XmlSerializer(typeof(XMLSettings));
       FileStream ReadFileStream = null;
       try {
         string favName = StaticFormsCalls.StartupPath + Path.DirectorySeparatorChar + "Settings.xml";
         if (!File.Exists(favName))
-          settings2XML();
+          Settings2XML();
         ReadFileStream = new FileStream(favName, FileMode.Open, FileAccess.Read, FileShare.Read);
         XMLSettings xmlSettings = (XMLSettings)xmlSettingsSerializer.Deserialize(ReadFileStream);
         ReadFileStream.Close();
@@ -258,7 +258,7 @@ namespace BiFurcation {
             AddSmoozedColorList(false);
           }
 
-          Constants.sortSmoozedColors();
+          Constants.SortSmoozedColors();
           FurcationColor = Color.FromArgb(xmlSettings.FurcationColor);
           OneColor = Color.FromArgb(xmlSettings.OneColor);
           DiagramColor = Color.FromArgb(xmlSettings.DiagramColor);
@@ -282,7 +282,7 @@ namespace BiFurcation {
           catch { }
       }
     }
-    public static void settings2XML() {
+    public static void Settings2XML() {
       try {
         string favName = StaticFormsCalls.StartupPath + Path.DirectorySeparatorChar + "Settings.xml";
         XmlSerializer xmlSettingsSerializer = new XmlSerializer(typeof(XMLSettings));

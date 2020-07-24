@@ -10,8 +10,8 @@ namespace BiFurcation {
   public class GifCreater {
 
     #region gif-creation
-    private byte[] GifAnimation = { 33, 255, 11, 78, 69, 84, 83, 67, 65, 80, 69, 50, 46, 48, 3, 1, 0, 0, 0 };
-    private byte[] Delay = { 255, 0 };
+    private readonly byte[] GifAnimation = { 33, 255, 11, 78, 69, 84, 83, 67, 65, 80, 69, 50, 46, 48, 3, 1, 0, 0, 0 };
+    private readonly byte[] Delay = { 255, 0 };
     public List<Image> images = new List<Image>();
     public bool AddReverse = false;
     #endregion
@@ -28,7 +28,7 @@ namespace BiFurcation {
       BW.Write(B, 799, B.Length - 800);
     }
 
-    public void create(int delay, string fileName) {
+    public void Create(int delay, string fileName) {
       if (images.Count == 0 || images[0] == null) return;
       string path = StaticFormsCalls.StartupPath;
       Delay[0] = (byte)((delay * 5) % 256);

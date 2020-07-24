@@ -77,7 +77,7 @@ namespace BiFurcation {
 
       return result;
     }
-    public void reset() {
+    public void Reset() {
       if (usedColorIndices != null)
         usedColorIndices = new ColorIndex[Width, Height];
       CalculatedTypes.Clear();

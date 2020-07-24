@@ -63,7 +63,7 @@ namespace BiFurcation {
       }
       set {
         control4FunctionsView = value;
-        control4DiagramView.CurrentFunction = control4FunctionsView.CurrentFunction.clone();// control4FunctionsView.CurrentFunction;
+        control4DiagramView.CurrentFunction = control4FunctionsView.CurrentFunction.Clone();// control4FunctionsView.CurrentFunction;
         params2Form();
       }
     }
@@ -88,7 +88,7 @@ namespace BiFurcation {
 
     #region events
     private void buttonDefineColors_Click(System.Object sender, System.EventArgs e) {
-      control4AllViews.openColorDefView();
+      control4AllViews.OpenColorDefView();
     }
     private void BifurcationDiagram_Resize(System.Object sender, System.EventArgs e) {
       labelShoozClicker.Width = (int)(9.0f * pictureBox.Width / 10.0f);
@@ -101,7 +101,7 @@ namespace BiFurcation {
       mouseY = e.Y;
       if (e.Button == MouseButtons.Left) {
         m_DrawingBox = true;
-        control4DiagramView.mouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4DiagramView.MouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height);
         this.Cursor = Cursors.Default;
         pictureBox.Cursor = Cursors.Cross;
         labelShoozClicker.Cursor = Cursors.Cross;
@@ -109,15 +109,15 @@ namespace BiFurcation {
     }
     private void pictureBox_MouseMove(System.Object sender, MouseEventArgs e) {
       if (m_DrawingBox)
-        control4DiagramView.mouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
-      PointD p = control4DiagramView.showMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4DiagramView.MouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+      PointD p = control4DiagramView.ShowMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
       labelCurrX.Text = p.X.ToString("0.000");
       labelCurrY.Text = p.Y.ToString("0.000");
     }
     private void pictureBox_MouseUp(System.Object sender, MouseEventArgs e) {
       if (m_DrawingBox) {
         m_DrawingBox = false;
-        control4DiagramView.mouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4DiagramView.MouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
         this.Cursor = Cursors.WaitCursor;
         Application.DoEvents();
         this.Cursor = Cursors.Default;
@@ -125,59 +125,59 @@ namespace BiFurcation {
       }
     }
     private void buttonReset_Click(System.Object sender, System.EventArgs e) {
-      control4DiagramView.reset();
+      control4DiagramView.Reset();
     }
     private void choozClicker_MouseClick(System.Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Left)
-        control4DiagramView.diagramParamShoice(e.X, labelShoozClicker.Size);
+        control4DiagramView.DiagramParamShoice(e.X, labelShoozClicker.Size);
     }
     private void listBoxFeigenbaum_SelectedIndexChanged(System.Object sender, System.EventArgs e) {
-      control4DiagramView.feigenbaumChoice(listBoxFeigenbaum.SelectedItem.ToString());
+      control4DiagramView.FeigenbaumChoice(listBoxFeigenbaum.SelectedItem.ToString());
     }
     private void textBox_KeyDown(object sender, KeyEventArgs e){
       if (e.KeyCode == Keys.Enter) {
-        control4DiagramView.createDiagram(false);
+        control4DiagramView.CreateDiagram(false);
       }
     }
     private void textBoxStartParameter_TextChanged(System.Object sender, System.EventArgs e) {
-      control4DiagramView.DiagramStartParameter = control4AllViews.text2Float(textBoxStartParameter.Text);
+      control4DiagramView.DiagramStartParameter = control4AllViews.Text2Float(textBoxStartParameter.Text);
     }
     private void textBoxStopParamater_TextChanged(System.Object sender, System.EventArgs e) {
-      control4DiagramView.DiagramStopParameter = control4AllViews.text2Float(textBoxStopParamater.Text);
+      control4DiagramView.DiagramStopParameter = control4AllViews.Text2Float(textBoxStopParamater.Text);
     }
     private void textBoxMaxIterations_TextChanged(System.Object sender, System.EventArgs e) {
-      control4DiagramView.MaxFunctionIterations = (int)control4AllViews.text2Float(textBoxMaxIterations.Text);
+      control4DiagramView.MaxFunctionIterations = (int)control4AllViews.Text2Float(textBoxMaxIterations.Text);
     }
     private void buttonCreateDiagram_Click(System.Object sender, System.EventArgs e) {
-      control4DiagramView.createDiagram(false);
+      control4DiagramView.CreateDiagram(false);
     }
     private void textBoxMaxGifImages_TextChanged(System.Object sender, System.EventArgs e) {
-      control4DiagramView.MaxGIFIterations = (int)control4AllViews.text2Float(textBoxMaxGifImages.Text);
+      control4DiagramView.MaxGIFIterations = (int)control4AllViews.Text2Float(textBoxMaxGifImages.Text);
     }
     private void createGIFOverIterationsMenuItem_Click(System.Object sender, System.EventArgs e) {
-      control4DiagramView.createDiagram(true);
+      control4DiagramView.CreateDiagram(true);
     }
     private void textBoxDiagramGifName_TextChanged(System.Object sender, System.EventArgs e) {
       control4DiagramView.DiagramGifFileName = textBoxDiagramGifName.Text;
     }
     private void imageToEditorToolStripMenuItem_Click(System.Object sender, System.EventArgs e) {
       if (pictureBox.Image != null)
-        control4AllViews.startImageEditor(pictureBox.Image);
+        control4AllViews.StartImageEditor(pictureBox.Image);
     }
     private void pictureBoxFunction_DoubleClick(System.Object sender, System.EventArgs e) {
       if (pictureBoxFunction.Image != null)
-        control4AllViews.startImageEditor(pictureBoxFunction.Image);
+        control4AllViews.StartImageEditor(pictureBoxFunction.Image);
     }
     private void buttonStop_Click(System.Object sender, System.EventArgs e) {
-      control4DiagramView.stopThread();
+      control4DiagramView.StopThread();
       endGenerate();
     }
     private void textBoxSkipHenion150_TextChanged(System.Object sender, System.EventArgs e) {
-      control4DiagramView.setHenonSkipIterations(textBoxSkipHenion150.Text);
+      control4DiagramView.SetHenonSkipIterations(textBoxSkipHenion150.Text);
     }
     private void checkBoxPlotFeigenbaum_CheckedChanged(System.Object sender, System.EventArgs e) {
       control4DiagramView.PlotFeigenbaum = checkBoxPlotFeigenbaum.Checked;
-      control4DiagramView.plotDiagram();
+      control4DiagramView.PlotDiagram();
       endGenerate();
     }
     private void comboBoxChoozenFunction_SelectedIndexChanged(System.Object sender, System.EventArgs e) {

@@ -49,7 +49,7 @@ namespace BiFurcation {
     public SpecificLineType SpecificLineType {
       set {
         specificLineType = value;
-        doCalculation();
+        DoCalculation();
       }
       get{
         return specificLineType;
@@ -97,7 +97,7 @@ namespace BiFurcation {
         parameters[6] = B / 1000f;
       else
         parameters[6] = Math.Sqrt(1 - parameters[0] * parameters[0]);
-      doCalculation();
+      DoCalculation();
     }
     public virtual void setABval(string A, string B) {
       float a = 0;
@@ -106,7 +106,7 @@ namespace BiFurcation {
       float.TryParse(B, out b);
       parameters[0] = a;
       parameters[6] = b;
-      doCalculation();
+      DoCalculation();
     }
     protected float minAval = -1;
     public float MinAval {
@@ -125,7 +125,7 @@ namespace BiFurcation {
     public PointF StartPoint {
       set {
         startPoint = value;
-        doCalculation();
+        DoCalculation();
       }
       get {
         return startPoint;
@@ -136,7 +136,7 @@ namespace BiFurcation {
     public bool SpreadA {
       set {
         spreadA = value;
-        doCalculation();
+        DoCalculation();
       }
     }
 
@@ -151,7 +151,7 @@ namespace BiFurcation {
     public int Iterations {
       set {
         maxIterations = value;
-        doCalculation();
+        DoCalculation();
       }
       get {
         return maxIterations;
@@ -213,14 +213,14 @@ namespace BiFurcation {
       YMini = -3;
       YMaxi = 3;
       ThisType = FractalType.LinePlot;
-      saveValues();
+      SaveValues();
     }
     public LinePlot(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
     }
 
-    protected void saveValues() {
+    protected void SaveValues() {
       A = parameters[0];
       B = parameters[6];
       start = new PointF(startPoint.X, startPoint.Y);
@@ -228,7 +228,7 @@ namespace BiFurcation {
     }
 
     #region private function calculations
-    private void initMap(DirectBitmap map) {
+    private void InitMap(DirectBitmap map) {
       for (int x = 0; x < Map.Width; x++)
         for (int y = 0; y < Map.Height; y++) {
           try {
@@ -237,13 +237,13 @@ namespace BiFurcation {
           catch { }
         }
     }
-    protected void setExtrema(double X1, double Y1) {
+    protected void SetExtrema(double X1, double Y1) {
       if (extremas.xmin > X1) extremas.xmin = X1;
       if (extremas.xmax < X1) extremas.xmax = X1;
       if (extremas.ymin > Y1) extremas.ymin = Y1;
       if (extremas.ymax < Y1) extremas.ymax = Y1;
     }
-    protected void calcLinePoints() {
+    protected void CalcLinePoints() {
       DirectBitmap map = Map;
       deltaX = (1.0 * extremas.xmax - extremas.xmin);
       deltaY = (1.0 * extremas.ymax - extremas.ymin);
@@ -259,17 +259,17 @@ namespace BiFurcation {
         map.SetPixel((int)Xr, (int)Yr, Color.Black);
       }
     }
-    protected virtual void calcTypePoints() {
+    protected virtual void CalcTypePoints() {
     }
     #endregion
 
-    public override void doCalculation() {
+    public override void DoCalculation() {
       DirectBitmap map = Map;
       if (map == null) return;
 
       extremas = new Extremas();
-      initMap(map);
-      calcTypePoints();
+      InitMap(map);
+      CalcTypePoints();
   
       //  map.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
       if (!map.CalculatedTypes.Contains(smoozeType))
@@ -302,16 +302,16 @@ namespace BiFurcation {
       float y = 0;
       float.TryParse(Y, out y);
       StartPoint = new PointF(x, y);
-      doCalculation();
-      saveValues();
+      DoCalculation();
+      SaveValues();
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       LinePlot plotter = new LinePlot(combinedControl, m);
       plotter.Favorites = this.Favorites;
       return plotter;
     }
-    public override void reset() {
-      Map.reset();
+    public override void Reset() {
+      Map.Reset();
       usedColorIndices = new ColorIndex[Map.Width, Map.Height];
       usedColorIndicesCalced = false;
       parameters[0] = A;
@@ -319,7 +319,7 @@ namespace BiFurcation {
       startPoint.X = start.X;
       startPoint.Y = start.Y;
       maxIterations = MaxIter;
-      doCalculation();
+      DoCalculation();
     }
 
   }

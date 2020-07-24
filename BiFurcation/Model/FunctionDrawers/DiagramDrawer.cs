@@ -15,37 +15,37 @@ namespace BiFurcation {
       }
     }
 
-    public override string title {
+    public override string Title {
       get {
         return "Attractor diagram of " + control4FunctionsView.Control4DiagramView.CurrentFunction.FunctionStrWithPar;
       }
     }
-    public override string xLow {
+    public override string XLow {
       get {
         return Function.DiagramStart.ToString();
       }
     }
-    public override string xHigh {
+    public override string XHigh {
       get {
         return Function.DiagramStop.ToString();
       }
     }
-    public override string xType {
+    public override string XType {
       get {
         return control4FunctionsView.Control4DiagramView.DiagramLabelParameter;
       }
     }
-    public override string yLow {
+    public override string YLow {
       get {
         return Function.XMax.ToString("0.00");
       }
     }
-    public override string yHigh {
+    public override string YHigh {
       get {
         return Function.XMin.ToString("0.00");
       }
     }
-    public override string yType {
+    public override string YType {
       get {
         return "x" ;
       }
@@ -55,7 +55,7 @@ namespace BiFurcation {
     public DiagramDrawer(IView f, Control4FunctionsView c, bool cg) :base(f, c, cg) {
     }
 
-    protected override void plotPoints() {
+    protected override void PlotPoints() {
       int count1 = 0;
       using (Graphics g = Graphics.FromImage(PointsImage.Bitmap)) {
         g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -110,23 +110,23 @@ namespace BiFurcation {
         }
       }
     }
-    public override void drawAxes(Graphics g) {
-      string xl = xLow;
-      string xh = xHigh;
+    public override void DrawAxes(Graphics g) {
+      string xl = XLow;
+      string xh = XHigh;
       if (Function.DiagramStart > Function.DiagramStop) {
-        xl = xHigh;
-        xh = xLow;
+        xl = XHigh;
+        xh = XLow;
       }
       int cSize = fontSize;
-      g.DrawString(title, new Font("Calibri", cSize), Brushes.Blue, BSize / 20, 20);
+      g.DrawString(Title, new Font("Calibri", cSize), Brushes.Blue, BSize / 20, 20);
 
  //     g.DrawString(xl, new Font("Calibri", cSize), Brushes.Blue, BSize / 20, BSize - BSize / 30);
-      g.DrawString(xType, new Font("Calibri", cSize), Brushes.Blue, BSize / 2, BSize - BSize / 30);
+      g.DrawString(XType, new Font("Calibri", cSize), Brushes.Blue, BSize / 2, BSize - BSize / 30);
  //     g.DrawString(xh, new Font("Calibri", cSize), Brushes.Blue, BSize - BSize / 15, BSize - BSize / 30);//
 
-      g.DrawString(yLow, new Font("Calibri", cSize), Brushes.Blue, 5, BSize / 20);
-      g.DrawString(yType, new Font("Calibri", cSize), Brushes.Blue, 5, BSize / 2);
-      g.DrawString(yHigh, new Font("Calibri", cSize), Brushes.Blue, 5, BSize - BSize / 14);
+      g.DrawString(YLow, new Font("Calibri", cSize), Brushes.Blue, 5, BSize / 20);
+      g.DrawString(YType, new Font("Calibri", cSize), Brushes.Blue, 5, BSize / 2);
+      g.DrawString(YHigh, new Font("Calibri", cSize), Brushes.Blue, 5, BSize - BSize / 14);
 
       dx = (9 * BSize / 10) / (Function.DiagramStop - Function.DiagramStart);
       decimal firstValue = (decimal)Math.Round(Function.DiagramStart + (Function.DiagramStop- Function.DiagramStart)/4);

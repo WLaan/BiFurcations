@@ -45,13 +45,13 @@ namespace BiFurcation {
       decimal y = parameters[1] * p0.X + parameters[0] * (p0.Y - p0.X);// parameters[8] * p0.X * p0.X + parameters[9] * p0.X * p0.Y + parameters[10] * p0.Y + parameters[11] * p0.Y * p0.Y;
       return new PointD(x, y);
     }
-    protected override PointD point2Window(decimal x, decimal y) {//  List<PointF> points) {
+    protected override PointD Point2Window(decimal x, decimal y) {//  List<PointF> points) {
       //multiply the point to a squared window x:0 - width /y:width - 0
       //x from 0 to 4000  == x from -2000 to 2000
-      return new PointD(xVal(x), yVal(y));// yVal(points[x].Y));
+      return new PointD(XVal(x), YVal(y));// yVal(points[x].Y));
     }
 
-    public override void calcFunctionPoints() {
+    public override void CalcFunctionPoints() {
       allPoints[0].Clear();
       //mandelbrot parameters:
       //xn:
@@ -70,7 +70,7 @@ namespace BiFurcation {
       parameters[11] = 0M;  //b5*y*y                    
 
     }
-    public override void drawFunctionLines(Graphics gg, int pList, Pen pen) {
+    public override void DrawFunctionLines(Graphics gg, int pList, Pen pen) {
       if (allPoints[pList].Count > 0) {
         for (int i = 0; i < allPoints[pList].Count; i++) {
           try {
@@ -84,9 +84,9 @@ namespace BiFurcation {
         }
       }
     }
-    public override BaseFunction clone() {
+    public override BaseFunction Clone() {
       GeneralMappingFunction g = new GeneralMappingFunction();
-      copyFields(g);
+      CopyFields(g);
       return g;
     }
 

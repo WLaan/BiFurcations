@@ -37,7 +37,7 @@ namespace BiFurcation {
       }
       return Traject;
     }
-    public override void calcFunctionPoints() {
+    public override void CalcFunctionPoints() {
       allPoints[0].Clear();
       parNum = 2;
       //  SkipIterations = 0;

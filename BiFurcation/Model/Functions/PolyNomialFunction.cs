@@ -64,9 +64,9 @@ namespace BiFurcation {
     protected override decimal FValue(decimal p0) {
       return parameters[2] * p0 * p0 + parameters[1] * p0 + parameters[0];
     }
-    public override BaseFunction clone() {
+    public override BaseFunction Clone() {
       PolynomialFunction p = new PolynomialFunction();
-      copyFields(p);
+      CopyFields(p);
       return p;
     }
 

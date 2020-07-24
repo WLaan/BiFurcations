@@ -135,7 +135,7 @@ namespace BiFurcation {
       calcPoints(Color.Black);
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new JuliaLinePlotter(combinedControl, m);
     }
 

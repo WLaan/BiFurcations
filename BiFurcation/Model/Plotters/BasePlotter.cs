@@ -144,11 +144,11 @@ namespace BiFurcation {
     public BasePlotter(Control4NonLineairSystems c, DirectBitmap m):this(c) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();     
+      ResetMaxSquared();     
     }
 
-    public virtual void doCalculation() {}
-    public void initImages(Bitmap MainImage, Bitmap PointsImage, int BSize) {
+    public virtual void DoCalculation() {}
+    public void InitImages(Bitmap MainImage, Bitmap PointsImage, int BSize) {
       try {
         using (Graphics g = Graphics.FromImage(PointsImage))
           g.Clear(Color.White);
@@ -164,8 +164,8 @@ namespace BiFurcation {
       }
       catch { }
     }
-    public virtual void drawAxes(Graphics g) {}
-    public void copy2GIF(Bitmap MainImage, int BSize, Rectangle sourceRect) {
+    public virtual void DrawAxes(Graphics g) {}
+    public void Copy2GIF(Bitmap MainImage, int BSize, Rectangle sourceRect) {
       if (createGIF) {
         copy4GIF = new Bitmap(BSize / 2, BSize / 2);
         using (Graphics gh = Graphics.FromImage(copy4GIF)) {
@@ -173,14 +173,14 @@ namespace BiFurcation {
         }
       }
     }
-    protected void resetMaxSquared() {
+    protected void ResetMaxSquared() {
       max_MAG_SQUARED = max_MAG_SQUARED / 2;
       MaxIterations = 40;
     }
-    public virtual BasePlotter clone(DirectBitmap m) {
+    public virtual BasePlotter Clone(DirectBitmap m) {
       return new BasePlotter(combinedControl, m);
     }
-    public virtual void reset() {
+    public virtual void Reset() {
       Map.reset();
       if (Map.usedColorIndices != null)
         usedColorIndices = new ColorIndex[Map.Width, Map.Height];

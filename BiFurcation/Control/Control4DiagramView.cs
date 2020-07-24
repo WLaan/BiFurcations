@@ -233,7 +233,7 @@ namespace BiFurcation {
     private void paramChoice2Form(decimal Par) {
       decimal currentPar = CurrentFunction.Parameter;
       CurrentFunction.Parameter = Par;
-      CurrentFunction.calcFunctionPoints();
+      CurrentFunction.CalcFunctionPoints();
       diagramFunctionPlotter.Function = CurrentFunction;
 
       diagramFunctionPlotter.Form2Plot = null;//just to be sure
@@ -276,7 +276,7 @@ namespace BiFurcation {
             diagramFunction.MaxIterations = s;
           else
             diagramFunction.MaxIterations = MaxFunctionIterations;
-          diagramFunction.setFurcationPoints();
+          diagramFunction.SetFurcationPoints();
           if (diagramFunction.furcationPoints.Count > 0) {
             if (CurrentFunction is HenonFunction) {
               for (int dp = diagramFunction.furcationPoints.Count - 1; dp > diagramFunction.furcationPoints.Count - 250 && dp >= 0; dp--) {
@@ -333,7 +333,7 @@ namespace BiFurcation {
         Int32.TryParse(num, out f.SkipIterations);
       }
     }
-    public override void simulate() {
+    public override void Simulate() {
       PlotForm.params2Form();
       createDiagram(false);
     }

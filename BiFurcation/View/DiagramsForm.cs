@@ -63,7 +63,7 @@ namespace BiFurcation {
       }
       set {
         control4FunctionsView = value;
-        control4DiagramView.CurrentFunction = control4FunctionsView.CurrentFunction.clone();// control4FunctionsView.CurrentFunction;
+        control4DiagramView.CurrentFunction = control4FunctionsView.CurrentFunction.Clone();// control4FunctionsView.CurrentFunction;
         params2Form();
       }
     }
@@ -101,7 +101,7 @@ namespace BiFurcation {
       mouseY = e.Y;
       if (e.Button == MouseButtons.Left) {
         m_DrawingBox = true;
-        control4DiagramView.mouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4DiagramView.MouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height);
         this.Cursor = Cursors.Default;
         pictureBox.Cursor = Cursors.Cross;
         labelShoozClicker.Cursor = Cursors.Cross;
@@ -109,15 +109,15 @@ namespace BiFurcation {
     }
     private void pictureBox_MouseMove(System.Object sender, MouseEventArgs e) {
       if (m_DrawingBox)
-        control4DiagramView.mouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
-      PointD p = control4DiagramView.showMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4DiagramView.MouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+      PointD p = control4DiagramView.ShowMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
       labelCurrX.Text = p.X.ToString("0.000");
       labelCurrY.Text = p.Y.ToString("0.000");
     }
     private void pictureBox_MouseUp(System.Object sender, MouseEventArgs e) {
       if (m_DrawingBox) {
         m_DrawingBox = false;
-        control4DiagramView.mouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4DiagramView.MouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
         this.Cursor = Cursors.WaitCursor;
         Application.DoEvents();
         this.Cursor = Cursors.Default;
@@ -125,7 +125,7 @@ namespace BiFurcation {
       }
     }
     private void buttonReset_Click(System.Object sender, System.EventArgs e) {
-      control4DiagramView.reset();
+      control4DiagramView.Reset();
     }
     private void choozClicker_MouseClick(System.Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Left)
@@ -169,7 +169,7 @@ namespace BiFurcation {
         control4AllViews.startImageEditor(pictureBoxFunction.Image);
     }
     private void buttonStop_Click(System.Object sender, System.EventArgs e) {
-      control4DiagramView.stopThread();
+      control4DiagramView.StopThread();
       endGenerate();
     }
     private void textBoxSkipHenion150_TextChanged(System.Object sender, System.EventArgs e) {

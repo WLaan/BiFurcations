@@ -110,7 +110,7 @@ namespace BiFurcation {
         }
       }
     }
-    public override void drawAxes(Graphics g) {
+    public override void DrawAxes(Graphics g) {
       string xl = xLow;
       string xh = xHigh;
       if (Function.DiagramStart > Function.DiagramStop) {

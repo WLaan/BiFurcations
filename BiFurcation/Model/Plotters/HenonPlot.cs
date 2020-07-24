@@ -37,10 +37,10 @@
     public HenonPlot(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();
+      ResetMaxSquared();
     }
 
-    public override void doCalculation() {
+    public override void DoCalculation() {
       if (Map == null) return;
       if (Map.Calced_CLR_Z)
         return;
@@ -52,7 +52,7 @@
         return;
       }
       // Calculate the values.
-      init();
+      Init();
       ReaC = XMin;
       for (int X = 0; X < Map.Width; X++) {
         ImaC = YMin;
@@ -76,7 +76,7 @@
           }
           Complex Z = new Complex(a, b);
           Map.usedColorIndices[X, Y] = new ColorIndex(X, Y, clr, Z);
-          color2UsedColorIndices(Map.usedColorIndices[X, Y]);
+          Color2UsedColorIndices(Map.usedColorIndices[X, Y]);
           ImaC += dy;
         }
         ReaC += dx;
@@ -89,10 +89,10 @@
       if (!Map.CalculatedTypes.Contains(smoozeType))
         Map.CalculatedTypes.Add(smoozeType);
       usedColorIndicesCalced = true;
-      setColorsFromNewSmoozedColors(combinedControl.SmoozeType);
+      SetColorsFromNewSmoozedColors(combinedControl.SmoozeType);
       //   map.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new HenonPlot(combinedControl, m);
     }
 

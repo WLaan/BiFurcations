@@ -66,7 +66,7 @@ namespace BiFurcation {
       Refresh();
     }
     private void setXYStartStop() {
-      control4FunctionsView.setXYBoarders(textBoxStartX.Text, textBoxEndX.Text, textBoxStartY.Text, textBoxEndY.Text);
+      control4FunctionsView.SetXYBoarders(textBoxStartX.Text, textBoxEndX.Text, textBoxStartY.Text, textBoxEndY.Text);
     }
     private void setVisibility() {
       bool henonORmandelbrot = control4FunctionsView.CurrFunctionType == FunctionType.Henon;// ||
@@ -122,20 +122,20 @@ namespace BiFurcation {
       mouseY = e.Y;
       if (e.Button == MouseButtons.Left) {
         m_DrawingBox = true;
-        control4FunctionsView.mouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4FunctionsView.MouseDown(e.X, e.Y, pictureBox.Width, pictureBox.Height);
         this.Cursor = Cursors.Default;
         pictureBox.Cursor = Cursors.Cross;
       }
     }
     private void pictureBox_MouseMove(Object sender, MouseEventArgs e) {
-      PointD p = control4FunctionsView.showMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+      PointD p = control4FunctionsView.ShowMouseCoords(e.X, e.Y, pictureBox.Width, pictureBox.Height);
       if (m_DrawingBox)
-        control4FunctionsView.mouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4FunctionsView.MouseMove(e.X, e.Y, pictureBox.Width, pictureBox.Height);
       else
         if (control4FunctionsView.SeedWithMouse) {
         control4FunctionsView.Seed = p.X;
-        labelChoozenFunction.Text = control4FunctionsView.getNewFunctionString();
-        control4FunctionsView.plotFunction();
+        labelChoozenFunction.Text = control4FunctionsView.NewFunctionString;
+        control4FunctionsView.PlotFunction();
       }
      
       labelCurrX.Text = p.X.ToString("0.000");
@@ -144,7 +144,7 @@ namespace BiFurcation {
     private void pictureBox_MouseUp(Object sender, MouseEventArgs e) {
       if (m_DrawingBox) {
         m_DrawingBox = false;
-        control4FunctionsView.mouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
+        control4FunctionsView.MouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
 
         this.Cursor = Cursors.WaitCursor;
         Application.DoEvents();
@@ -153,7 +153,7 @@ namespace BiFurcation {
       }
     }
     private void buttonReset_Click(Object sender, EventArgs e) {
-      control4FunctionsView.reset();
+      control4FunctionsView.Reset();
     }
     private void imageToEditorMenuItem_Click(Object sender, EventArgs e) {
       if (pictureBox.Image != null)
@@ -165,7 +165,7 @@ namespace BiFurcation {
       params2Form();
     }
     private void buttonEmulate_Click(Object sender, EventArgs e) {
-      control4FunctionsView.setPoints();
+      control4FunctionsView.SetPoints();
     }
     private void textBoxStopParValue_TextChanged(Object sender, EventArgs e) {
       control4FunctionsView.DiagramStopParameter = control4AllViews.text2Float(textBoxStopParValue.Text);
@@ -177,7 +177,7 @@ namespace BiFurcation {
         s = 1 - 1 / s;
         textBoxSeed.Text = s.ToString();
       }
-      control4FunctionsView.setPoints();
+      control4FunctionsView.SetPoints();
     }
     private void textBoxA_TextChanged(Object sender, EventArgs e) {
       control4FunctionsView.A = control4AllViews.text2Float(textBoxA.Text);
@@ -202,7 +202,7 @@ namespace BiFurcation {
       control4FunctionsView.MaxFunctionIterations = m;
     }
     private void radioButtonParamater_CheckedChanged(Object sender, EventArgs e) {
-      control4FunctionsView.setDiagramParameters(radioButtonParamaterA.Checked, radioButtonParamaterB.Checked, radioButtonParamaterC.Checked);
+      control4FunctionsView.SetDiagramParameters(radioButtonParamaterA.Checked, radioButtonParamaterB.Checked, radioButtonParamaterC.Checked);
       if (radioButtonParamaterC.Checked)
         textBoxStopParValue.Top = radioButtonParamaterC.Top;
       else
@@ -211,19 +211,19 @@ namespace BiFurcation {
       else
         textBoxStopParValue.Top = radioButtonParamaterA.Top;
       textBoxStopParValue.Top -= (textBoxStopParValue.Height - radioButtonParamaterA.Height) / 2;
-      labelChoozenFunction.Text = control4FunctionsView.getNewFunctionString();
+      labelChoozenFunction.Text = control4FunctionsView.NewFunctionString;
     }
     private void textBox_KeyDown(Object sender, KeyEventArgs e) {
       if (e.KeyCode == Keys.Enter) {
-        labelChoozenFunction.Text = control4FunctionsView.getNewFunctionString();
-        control4FunctionsView.setPoints();
+        labelChoozenFunction.Text = control4FunctionsView.NewFunctionString;
+        control4FunctionsView.SetPoints();
       }
     }
     private void buttonSimulate_Click(Object sender, EventArgs e) {
-      control4FunctionsView.simulate(false);
+      control4FunctionsView.Simulate(false);
     }
     private void buttonSimulatePar_Click(Object sender, EventArgs e) {
-      control4FunctionsView.simulatePar(false);
+      control4FunctionsView.SimulatePar(false);
     }
     private void textBoxStartX_KeyDown(Object sender, KeyEventArgs e) {
       if (e.KeyCode == Keys.Enter)
@@ -248,33 +248,33 @@ namespace BiFurcation {
       control4FunctionsView.FunctionGifFileName = textBoxGIFFilename.Text;
     }
     private void createGIFOverIterationsMenuItem_Click(Object sender, EventArgs e) {
-      control4FunctionsView.simulate(true);
+      control4FunctionsView.Simulate(true);
     }
     private void createGIFOverParameterMenuItem_Click(Object sender, EventArgs e) {
-      control4FunctionsView.simulatePar(true);
+      control4FunctionsView.SimulatePar(true);
     }
     private void calcTrajectoryAtCursorMenuItem_Click(Object sender, EventArgs e) {
-      control4FunctionsView.initDrawTrajectory(mouseX, mouseY, pictureBox.Width, pictureBox.Height);
+      control4FunctionsView.InitDrawTrajectory(mouseX, mouseY, pictureBox.Width, pictureBox.Height);
       buttonNextTrajectory.Enabled = true;
       labelNoPoints.Text = control4FunctionsView.NoPoints.ToString();
     }
     private void buttonNextTrajectory_Click(Object sender, EventArgs e) {
       numericUpDownMultPointsPerStep.Enabled = false;
       buttonNextTrajectory.Enabled = false;
-      control4FunctionsView.nextTrajectory();
+      control4FunctionsView.NextTrajectory();
       numericUpDownMultPointsPerStep.Enabled = true;
       buttonNextTrajectory.Enabled = true;
       labelNoPoints.Text = control4FunctionsView.NoPoints.ToString();
     }
     private void buttonStopTrajectory_Click(Object sender, EventArgs e) {
-      control4FunctionsView.stopTrajectory();
+      control4FunctionsView.StopTrajectory();
       buttonNextTrajectory.Enabled = false;
     }
     private void numericUpDownDotSize_ValueChanged(Object sender, EventArgs e) {
-      control4FunctionsView.setHenonDotsize(numericUpDownDotSize.Value.ToString());
+      control4FunctionsView.SetHenonDotsize(numericUpDownDotSize.Value.ToString());
     }
     private void buttonCalcHenon_Click(Object sender, EventArgs e) {
-      control4FunctionsView.setPoints();
+      control4FunctionsView.SetPoints();
       setVisibility();
     }
     private void checkBoxOmitFirstIterations_CheckedChanged(Object sender, EventArgs e) {
@@ -285,14 +285,14 @@ namespace BiFurcation {
       diagram.Control4FunctionsView = control4FunctionsView;
       diagram.Show();
       diagram.BringToFront();
-      control4FunctionsView.setDiagram(diagram);//, radioButtonParamaterA.Checked, radioButtonParamaterB.Checked, radioButtonParamaterC.Checked);
+      control4FunctionsView.SetDiagram(diagram);//, radioButtonParamaterA.Checked, radioButtonParamaterB.Checked, radioButtonParamaterC.Checked);
       diagram.params2Form();
     }
     private void buttonCombinations_Click(Object sender, EventArgs e) {
       control4AllViews.openSystem2Form();
     }
     private void buttonCancelGif_Click(Object sender, EventArgs e) {
-      control4FunctionsView.stopThread();
+      control4FunctionsView.StopThread();
     }
     private void numericUpDownInitialPoints_ValueChanged(Object sender, EventArgs e) {
       control4FunctionsView.InitionalDots= (int)numericUpDownInitialPoints.Value;
@@ -304,7 +304,7 @@ namespace BiFurcation {
       control4FunctionsView.SeedWithMouse = checkBoxSeedWithMouseCursor.Checked;
       if (!control4FunctionsView.SeedWithMouse) {
         control4FunctionsView.Seed = (decimal)control4AllViews.text2Float(textBoxSeed.Text);
-        control4FunctionsView.plotFunction();
+        control4FunctionsView.PlotFunction();
       }
     }
     private void listBox_DrawItem(object sender, DrawItemEventArgs e) {
@@ -322,8 +322,8 @@ namespace BiFurcation {
     }
     private void checkBoxShowFn_CheckedChanged(Object sender, EventArgs e) {
       for (int n = 1; n < 10; n++)
-        control4FunctionsView.setFInclude(n, false);
-      control4FunctionsView.setFInclude(control4FunctionsView.CurrentFunction.setCount, checkBoxShowFn.Checked);
+        control4FunctionsView.SetFInclude(n, false);
+      control4FunctionsView.SetFInclude(control4FunctionsView.CurrentFunction.setCount, checkBoxShowFn.Checked);
     }
     #endregion
 
@@ -388,13 +388,13 @@ namespace BiFurcation {
           checkBoxOmitFirstIterations.Visible = control4FunctionsView.CurrentFunction.setCount > 0;
 
           checkBoxShowFn.Text = "Show F" + control4FunctionsView.CurrentFunction.setCount;
-          control4FunctionsView.setFInclude(0, true);
+          control4FunctionsView.SetFInclude(0, true);
           if (control4FunctionsView.CurrentFunction.setCount > 0 || !checkBoxShowFn.Checked)
             for (int n = 1; n < 10; n++)
-              control4FunctionsView.setFInclude(n, false);
+              control4FunctionsView.SetFInclude(n, false);
           if (checkBoxShowFn.Checked) {
             if (control4FunctionsView.CurrentFunction.setCount > 0)
-              control4FunctionsView.setFInclude(control4FunctionsView.CurrentFunction.setCount, true);
+              control4FunctionsView.SetFInclude(control4FunctionsView.CurrentFunction.setCount, true);
           }
         }
       }
@@ -433,7 +433,7 @@ namespace BiFurcation {
       textBoxB.Text = control4FunctionsView.B.ToString();
       textBoxC.Text = control4FunctionsView.C.ToString();
       textBoxSeed.Text = control4FunctionsView.Seed.ToString();
-      labelChoozenFunction.Text = control4FunctionsView.getNewFunctionString();
+      labelChoozenFunction.Text = control4FunctionsView.NewFunctionString;
       textBoxStopParValue.Text = control4FunctionsView.DiagramStopParameter.ToString("0.000");
 
       textBoxStartX.Text = control4FunctionsView.Xmin.ToString();
@@ -455,7 +455,7 @@ namespace BiFurcation {
           break;
       }
       setVisibility();
-      control4FunctionsView.setPoints();
+      control4FunctionsView.SetPoints();
     }
 
     #region IProgressbar

@@ -49,7 +49,7 @@ namespace BiFurcation {
     public SpecificLineType SpecificLineType {
       set {
         specificLineType = value;
-        doCalculation();
+        DoCalculation();
       }
       get{
         return specificLineType;
@@ -97,7 +97,7 @@ namespace BiFurcation {
         parameters[6] = B / 1000f;
       else
         parameters[6] = Math.Sqrt(1 - parameters[0] * parameters[0]);
-      doCalculation();
+      DoCalculation();
     }
     public virtual void setABval(string A, string B) {
       float a = 0;
@@ -106,7 +106,7 @@ namespace BiFurcation {
       float.TryParse(B, out b);
       parameters[0] = a;
       parameters[6] = b;
-      doCalculation();
+      DoCalculation();
     }
     protected float minAval = -1;
     public float MinAval {
@@ -125,7 +125,7 @@ namespace BiFurcation {
     public PointF StartPoint {
       set {
         startPoint = value;
-        doCalculation();
+        DoCalculation();
       }
       get {
         return startPoint;
@@ -136,7 +136,7 @@ namespace BiFurcation {
     public bool SpreadA {
       set {
         spreadA = value;
-        doCalculation();
+        DoCalculation();
       }
     }
 
@@ -151,7 +151,7 @@ namespace BiFurcation {
     public int Iterations {
       set {
         maxIterations = value;
-        doCalculation();
+        DoCalculation();
       }
       get {
         return maxIterations;
@@ -263,7 +263,7 @@ namespace BiFurcation {
     }
     #endregion
 
-    public override void doCalculation() {
+    public override void DoCalculation() {
       DirectBitmap map = Map;
       if (map == null) return;
 
@@ -302,15 +302,15 @@ namespace BiFurcation {
       float y = 0;
       float.TryParse(Y, out y);
       StartPoint = new PointF(x, y);
-      doCalculation();
+      DoCalculation();
       saveValues();
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       LinePlot plotter = new LinePlot(combinedControl, m);
       plotter.Favorites = this.Favorites;
       return plotter;
     }
-    public override void reset() {
+    public override void Reset() {
       Map.reset();
       usedColorIndices = new ColorIndex[Map.Width, Map.Height];
       usedColorIndicesCalced = false;
@@ -319,7 +319,7 @@ namespace BiFurcation {
       startPoint.X = start.X;
       startPoint.Y = start.Y;
       maxIterations = MaxIter;
-      doCalculation();
+      DoCalculation();
     }
 
   }

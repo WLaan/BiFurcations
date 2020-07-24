@@ -68,7 +68,7 @@ namespace BiFurcation {
       XMax = 1.5M;
       YMin = -0.5M;
       YMax = 0.5M;
-      calcFunctionPoints();
+      CalcFunctionPoints();
       checkBoarders = false;
     }
     public HenonFunction(IFunctionsView f):this() {
@@ -90,20 +90,20 @@ namespace BiFurcation {
       return Traject;
     }
 
-    protected override PointD point2Window(decimal x, decimal y) {
+    protected override PointD Point2Window(decimal x, decimal y) {
       //multiply the point to a squared window x:0 - width /y:width - 0
       //x from 0 to 4000  == x from -2000 to 2000
-      return new PointD(xVal(x), yVal(y));
+      return new PointD(XVal(x), YVal(y));
     }
 
-    public override void setFurcationPoints() {
+    public override void SetFurcationPoints() {
       furcationPoints.Clear();
-      calcFunctionPoints();
+      CalcFunctionPoints();
       foreach (PointD p in allPoints[0]) {
         furcationPoints.Add(new DiagramSet(p.X, p.Y));
       }
     }
-    public override void calcFunctionPoints() {
+    public override void CalcFunctionPoints() {
       allPoints[0].Clear();
       parNum = 2;
 
@@ -135,7 +135,7 @@ namespace BiFurcation {
         }
       }
     }
-    public override void drawFunctionLines(Graphics gg, int pList, Pen pen) {
+    public override void DrawFunctionLines(Graphics gg, int pList, Pen pen) {
       if (allPoints[pList].Count > 0) {
         gg.Clear(Color.White);
         if (YMax - YMin == 0 || XMax - XMin == 0) return;
@@ -193,9 +193,9 @@ namespace BiFurcation {
         }
       }
     }
-    public override BaseFunction clone() {
+    public override BaseFunction Clone() {
       HenonFunction h = new HenonFunction();
-      copyFields(h);
+      CopyFields(h);
       h.mainForm = mainForm;
       h.checkBoarders = checkBoarders;
       h.MaxIterations = MaxIterations;

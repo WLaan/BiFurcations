@@ -43,7 +43,7 @@ namespace BiFurcation {
         for (int f = 0; f < Constants.MaxF; f++)
           if (Function.FunctionGenerations[f])
             using (Pen cPen = new Pen(Constants.pens[f], lineWidth/2f))
-              Function.drawFunctionLines(g, f, cPen);
+              Function.DrawFunctionLines(g, f, cPen);
       }
     }
     protected override void drawLines() {
@@ -68,14 +68,14 @@ namespace BiFurcation {
             g.DrawLine(dashed_pen, xy * BSize / 10, 0, xy * BSize / 10, BSize);
           }
           if (DrawFurcations) {
-            Function.setFurcationPoints();
-            Function.drawFurcationLines(g);
+            Function.SetFurcationPoints();
+            Function.DrawFurcationLines(g);
           }
         }
         catch { }
       }
     }
-    public override void drawAxes(Graphics g) {
+    public override void DrawAxes(Graphics g) {
       dy = (Function.YMax - Function.YMin) / 10;
       dx = (Function.XMax - Function.XMin) / 10;
       for (int xy = 0; xy <= 10; xy++) {

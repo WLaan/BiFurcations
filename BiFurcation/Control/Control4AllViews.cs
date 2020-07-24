@@ -20,7 +20,7 @@ namespace BiFurcation {
           control4NonLineairSystems = value;
         else {
           control4NonLineairSystems = value;
-          var t = new Thread(() => control4NonLineairSystems.presetPlotter(FractalType.Mandelbrot));
+          var t = new Thread(() => control4NonLineairSystems.PresetPlotter(FractalType.Mandelbrot));
           t.Start();
         }
       }

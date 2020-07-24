@@ -213,7 +213,7 @@ namespace BiFurcation {
       seed = s;
     }
 
-    protected void checkSet() {
+    protected void CheckSet() {
       decimal last = furcationPoints[furcationPoints.Count - 1].X;
       int i = Array.IndexOf(Xs, last);
       if (i > 0) {
@@ -234,21 +234,21 @@ namespace BiFurcation {
       return new PointD(0M, 0M);
     }
 
-    protected decimal yVal(decimal y) {
+    protected decimal YVal(decimal y) {
       decimal deltaY = BSize / (YMax - yMin);
       return MaxAxis - deltaY * y - y0;
     }
-    protected decimal xVal(decimal x) {
+    protected decimal XVal(decimal x) {
       decimal deltaX = BSize / (XMax - xMin);
       return MaxAxis - deltaX * x - x0;
     }
-    protected virtual PointD point2Window(decimal x, decimal y) {//  List<PointF> points) {
+    protected virtual PointD Point2Window(decimal x, decimal y) {//  List<PointF> points) {
       //multiply the point to a squared window x:0 - width /y:width - 0
       //x from 0 to 4000  == x from -2000 to 2000
-      return new PointD(x, yVal(y));// yVal(points[x].Y));
+      return new PointD(x, YVal(y));// yVal(points[x].Y));
     }
 
-    public virtual void calcFunctionPoints() {
+    public virtual void CalcFunctionPoints() {
       for (int f = 0; f < Constants.MaxF; f++)
         allPoints[f].Clear();
       decimal deltaX = 1.0m * (xMax - XMin) / BSize;
@@ -258,17 +258,17 @@ namespace BiFurcation {
             decimal x = (XMin + ip * deltaX);
             decimal yn = FValue(x);
             allPoints[f].Add(new PointD(x, yn));
-            yn = FValue(yn);
+         //   yn = FValue(yn);
           }
       }
     }
-    public virtual void drawFunctionLines(Graphics gg, int pList, Pen pen) {
+    public virtual void DrawFunctionLines(Graphics gg, int pList, Pen pen) {
       if (allPoints[pList].Count > 0) {
         int start = 0;
-        PointD p1 = point2Window(start, (decimal)allPoints[pList][start].Y);
+        PointD p1 = Point2Window(start, (decimal)allPoints[pList][start].Y);
         for (decimal i = 1; i < allPoints[pList].Count && allPoints[pList][(int)i] != null; i++) {
           try {
-            PointD p2 = point2Window(i, (decimal)allPoints[pList][(int)i].Y);
+            PointD p2 = Point2Window(i, (decimal)allPoints[pList][(int)i].Y);
             if (Math.Abs(p1.Y) <= 1.1M * BSize && Math.Abs(p2.Y) <= 1.1M * BSize)
               gg.DrawLine(pen, (float)p1.X, (float)p1.Y, (float)p2.X, (float)p2.Y);
             p1 = p2;
@@ -277,10 +277,10 @@ namespace BiFurcation {
         }
       }
     }
-    public virtual BaseFunction clone() {
+    public virtual BaseFunction Clone() {
       return new BaseFunction(seed, parNum);
     }
-    public virtual void copyFields(BaseFunction h) {
+    public virtual void CopyFields(BaseFunction h) {
       h.ParNum = ParNum;
       h.Parameter = Parameter;
       h.parameters[1] = parameters[1];
@@ -315,7 +315,7 @@ namespace BiFurcation {
           return false;
       }
     }
-    public virtual void setFurcationPoints() {
+    public virtual void SetFurcationPoints() {
       furcationPoints.Clear();
       decimal fy = seed;
       setCount = 0;
@@ -327,7 +327,7 @@ namespace BiFurcation {
           decimal normY = (xMax - fy) / (xMax - XMin);
           furcationPoints.Add(new DiagramSet(x, normY));
           if (Parameter >=3 && Parameter<=3.567m)
-            checkSet();
+            CheckSet();
           Xs[it] = x;
           if (setCount > 0) {
             for (int s = 0; s < setCount; s++)
@@ -339,7 +339,7 @@ namespace BiFurcation {
           break;
       }
     }
-    public void drawFurcationLines(Graphics g) {
+    public void DrawFurcationLines(Graphics g) {
       if (furcationPoints.Count > 1) {
         decimal maxAxis = yMax * BSize / (yMax - yMin) ;
         float furY = (float)maxAxis;
@@ -364,7 +364,7 @@ namespace BiFurcation {
                 g.DrawLine(furcationsPen, p1, pxy);
                 //again vertical to function
                 decimal fy = FValue(1 - (decimal)p10.Y);
-                PointF p2 = new PointF(pxy.X, (float)(yVal(fy)));
+                PointF p2 = new PointF(pxy.X, (float)(YVal(fy)));
                 g.DrawLine(furcationsPen, p2, pxy);
               }
             }
@@ -374,7 +374,7 @@ namespace BiFurcation {
               for (int it = start; it < furcationPoints.Count; it++) {
                 //vertical lines
                 PointF p1 = new PointF((float)(furcationPoints[it - 1].X * deltaX + furX0), (float)furY);
-                PointF p2 = new PointF((float)(furcationPoints[it - 1].X * deltaX + furX0), (float)yVal(furcationPoints[it].X));
+                PointF p2 = new PointF((float)(furcationPoints[it - 1].X * deltaX + furX0), (float)YVal(furcationPoints[it].X));
                 if (it > start || !omitFirst)
                   g.DrawLine(furcationsPen, p1, p2);
 

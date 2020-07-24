@@ -22,7 +22,7 @@ namespace BiFurcation {
       float.TryParse(B, out b);
       parameters[0] = a;
       parameters[6] = Math.Sqrt(1 - parameters[0] * parameters[0]);
-      doCalculation();
+      DoCalculation();
     }
     public override bool UseBVal {
       get {
@@ -70,7 +70,7 @@ namespace BiFurcation {
       calcLinePoints();
     }
 
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new HenonLinePlotter(combinedControl, m);
     }
 

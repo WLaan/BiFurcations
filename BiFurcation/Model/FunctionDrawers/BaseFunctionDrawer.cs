@@ -166,11 +166,11 @@ namespace BiFurcation {
         //vert right
         g.DrawLine(Pens.Black, BSize - BSize / 20, BSize / 20, BSize - BSize / 20, BSize - BSize / 20);
 
-        drawAxes(g);
+        DrawAxes(g);
       }
     }
     public void drawPicture() {
-      initImages(MainImage, PointsImage.Bitmap, BSize);
+      InitImages(MainImage, PointsImage.Bitmap, BSize);
 
       plotPoints();
       drawLines();
@@ -188,7 +188,7 @@ namespace BiFurcation {
         }
       }
 
-      copy2GIF(mainImage, BSize, sourceRect);
+      Copy2GIF(mainImage, BSize, sourceRect);
 
       if (form != null)
         form.FormImage = MainImage;

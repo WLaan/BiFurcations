@@ -151,7 +151,7 @@ namespace BiFurcation {
       else
         calcPoints((float)parameters[0], (float)parameters[6], Color.Black);
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       MiraLinePlotter plotter = new MiraLinePlotter(combinedControl, m);
       plotter.Favorites = this.Favorites;
       return plotter;

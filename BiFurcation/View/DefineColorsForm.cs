@@ -76,7 +76,7 @@ namespace BiFurcation {
         if (Constants.smoozedColors.Count == 4 && Constants.smoozedColors[3].TrackerPositionPercentage < 10) 
           defaultColors(false);
         combinedControlSettings2MandelBrot();
-        var t = new Thread(() => mandelbrotPlotInset.doCalculation());
+        var t = new Thread(() => mandelbrotPlotInset.DoCalculation());
         t.Start();
       }
     }
@@ -94,7 +94,7 @@ namespace BiFurcation {
         boxes[b].BorderStyle = BorderStyle.Fixed3D;
       }
 
-      combinedControl.collectSmoozedColors(pictureBoxColors.Image, rescanSamples);
+      combinedControl.CollectSmoozedColors(pictureBoxColors.Image, rescanSamples);
 
     }
     private Control4FunctionsView control4FunctionsView;
@@ -179,7 +179,7 @@ namespace BiFurcation {
         tag.index = -1;
         pic.BorderStyle = BorderStyle.None;
       }
-      combinedControl.collectSmoozedColors(pictureBoxColors.Image, true);
+      combinedControl.CollectSmoozedColors(pictureBoxColors.Image, true);
       Refresh();
     }
     private void combinedControlSettings2MandelBrot() {
@@ -195,7 +195,7 @@ namespace BiFurcation {
         mandelbrotPlotInset.YMaxi = combinedControl.fractalPlotter.YMax;
         mandelbrotPlotInset.MaxIterations = combinedControl.fractalPlotter.MaxIterations;
         mandelbrotPlotInset.MAX_MAG_SQUARED = combinedControl.MAX_MAG_SQUARED;
-        mandelbrotPlotInset.reset();
+        mandelbrotPlotInset.Reset();
       }
     }
     #region events  
@@ -211,7 +211,7 @@ namespace BiFurcation {
       mandelbrotPlotInset.SmoozeType = smoozeType;
       combinedControlSettings2MandelBrot();
       
-      mandelbrotPlotInset.doCalculation();
+      mandelbrotPlotInset.DoCalculation();
       Refresh();
     }
     private void btnColumn_Click(Object sender, EventArgs e) {
@@ -221,7 +221,7 @@ namespace BiFurcation {
       int col = int.Parse(btn.Tag.ToString());
       for (int i = 0; i <= 5; i++) 
         setPictureSelected(boxes[i * 8 + col]);
-      combinedControl.collectSmoozedColors(pictureBoxColors.Image, true);
+      combinedControl.CollectSmoozedColors(pictureBoxColors.Image, true);
       Refresh();
     }
     private void btnRow_Click(Object sender, EventArgs e) {
@@ -233,7 +233,7 @@ namespace BiFurcation {
       int numSelected = Constants.SelectedBoxes;
       for (int i = 0; i <= 7; i++) 
         setPictureSelected(boxes[first_number + i]);
-      combinedControl.collectSmoozedColors(pictureBoxColors.Image, true);
+      combinedControl.CollectSmoozedColors(pictureBoxColors.Image, true);
       Refresh();
     }
     private void picColor_Click(Object sender, EventArgs e) {
@@ -258,7 +258,7 @@ namespace BiFurcation {
         tag.index = b;
         boxes[b].BorderStyle = BorderStyle.Fixed3D;
       }
-      combinedControl.collectSmoozedColors(pictureBoxColors.Image, true);
+      combinedControl.CollectSmoozedColors(pictureBoxColors.Image, true);
       Refresh();
     }
     private void btnNone_Click(Object sender, EventArgs e) {
@@ -269,12 +269,12 @@ namespace BiFurcation {
         tag.index = -1;
         boxes[b].BorderStyle = BorderStyle.None;
       }
-      combinedControl.collectSmoozedColors(pictureBoxColors.Image, true);
+      combinedControl.CollectSmoozedColors(pictureBoxColors.Image, true);
       Refresh();
     }
     private void checkBoxLineairInterpolation_CheckedChanged(Object sender, EventArgs e) {
       Constants.LineairInterpolation = checkBoxLineairInterpolation.Checked;
-      combinedControl.collectSmoozedColors(pictureBoxColors.Image, true);
+      combinedControl.CollectSmoozedColors(pictureBoxColors.Image, true);
       Refresh();
     }
     private void buttonFunctionColor_Click(Object sender, EventArgs e) {
@@ -289,7 +289,7 @@ namespace BiFurcation {
     private void checkBoxf_CheckedChanged(Object sender, EventArgs e) {
       CheckBox c = (CheckBox)sender;
       int n = Int32.Parse(c.Tag.ToString());
-      Control4FunctionsView.setFInclude(n, c.Checked);
+      Control4FunctionsView.SetFInclude(n, c.Checked);
     }
     private void buttonLinesColor_Click(Object sender, EventArgs e) {
       DialogResult r = colorDialog.ShowDialog();
@@ -319,7 +319,7 @@ namespace BiFurcation {
     }
     private void comboBoxColorType3_SelectedIndexChanged(Object sender, EventArgs e) {
       Constants.Type3Color = (Type3Color)comboBoxColorType3.SelectedIndex;
-      mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
+      mandelbrotPlotInset.SetColorsFromNewSmoozedColors(smoozeType);
       if (NonLineairSystemsForm.Instance.Visible)
         combinedControl.RescanExampleParallelAsync(false);
      //   combinedControl.RescanExamples(false);
@@ -327,7 +327,7 @@ namespace BiFurcation {
     }
     private void numericUpDownContrast_ValueChanged(Object sender, EventArgs e) {
       Constants.ContrastValue = (int)numericUpDownContrast.Value;
-      mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
+      mandelbrotPlotInset.SetColorsFromNewSmoozedColors(smoozeType);
       if (NonLineairSystemsForm.Instance.Visible)
 
         combinedControl.RescanExampleParallelAsync(false);
@@ -361,7 +361,7 @@ namespace BiFurcation {
     private void pictureBoxColors_MouseMove(Object sender, MouseEventArgs e) {
       if (e.Button == MouseButtons.Left) {
         combinedControl.MouseMoveColorDef(e.X, e.Y, pictureBoxColors.Size);
-        mandelbrotPlotInset.setColorsFromNewSmoozedColors(smoozeType);
+        mandelbrotPlotInset.SetColorsFromNewSmoozedColors(smoozeType);
         Refresh();
       }   
     }

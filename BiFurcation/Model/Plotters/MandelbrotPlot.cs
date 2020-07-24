@@ -16,7 +16,7 @@ namespace BiFurcation {
     }
     protected override Complex Initial_Z {
       get {
-        return new Complex(-0, 0);
+        return new Complex(0, 0);
       }
     }
     public override Complex Initial_C {
@@ -54,25 +54,25 @@ namespace BiFurcation {
     public MandelbrotPlot(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
       map = m;
-      resetMaxSquared();
+      ResetMaxSquared();
       maxIterations = 20;
     }
 
-    public override void doCalculation() {
+    public override void DoCalculation() {
       if (Map == null) return;
       
-      calc_Clr_Z();
-      colors2UsedColorIndices();
-      setColorsFromNewSmoozedColors(smoozeType);
+      Calc_Clr_Z();
+      Colors2UsedColorIndices();
+      SetColorsFromNewSmoozedColors(smoozeType);
     }
 
-    public void addRedDot(Complex dot) {
+    public void AddRedDot(Complex dot) {
       int x = (int)(1.0 * Map.Width * ((dot.Re - XMin) / (XMax - XMin)));
       int y = (int)(1.0 * Map.Height * (1-(dot.Im - YMin) / (YMax - YMin)));
       using Graphics g = Graphics.FromImage(Map.Bitmap);
       g.FillEllipse(Brushes.Red, x, y, 8, 8);
     }
-    public override BasePlotter clone(DirectBitmap m) {
+    public override BasePlotter Clone(DirectBitmap m) {
       return new MandelbrotPlot(combinedControl, m);
     }
 

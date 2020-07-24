@@ -7,11 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiFurcation", "BiFurcation\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{DD9F15AB-4DC9-4C50-B0E4-8D731BDDD939}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BifurcationCore", "BifurcationCore\BifurcationCore.csproj", "{4F168360-12EE-4EB6-AF47-448480233FB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BifurcationCore", "BifurcationCore\BifurcationCore.csproj", "{4F168360-12EE-4EB6-AF47-448480233FB9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DD9F15AB-4DC9-4C50-B0E4-8D731BDDD939} = {DD9F15AB-4DC9-4C50-B0E4-8D731BDDD939}
 		{55F1A5E1-57C0-4ECD-8732-FDAA255F8B7B} = {55F1A5E1-57C0-4ECD-8732-FDAA255F8B7B}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwaitParallelExample", "AwaitParallelExample\AwaitParallelExample.csproj", "{2B72CE7C-2946-4631-A0B0-ADACAE015A8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{4F168360-12EE-4EB6-AF47-448480233FB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F168360-12EE-4EB6-AF47-448480233FB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F168360-12EE-4EB6-AF47-448480233FB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B72CE7C-2946-4631-A0B0-ADACAE015A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B72CE7C-2946-4631-A0B0-ADACAE015A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B72CE7C-2946-4631-A0B0-ADACAE015A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B72CE7C-2946-4631-A0B0-ADACAE015A8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

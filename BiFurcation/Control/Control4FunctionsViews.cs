@@ -311,13 +311,15 @@ namespace BiFurcation {
       CurrentFunction.MaxIterations = 1;
       PlotFunction();
       gifCreater.images.Clear();
-      for (int i = 1; i < m && !CurrentFunction.ReachedConvergence; i++) {
+      int deltaI = m / 10;
+      if (m == 0) m = 1;
+      for (int i = 1; i < m && !CurrentFunction.ReachedConvergence; i+=deltaI) {//
         MaxFunctionIterations = i;
         CurrentFunction.MaxIterations = i;
         PlotFunction();
         if (CreateGIF)
           gifCreater.images.Add(functionDrawer.Copy4GIF);
-        Thread.Sleep(5);
+        Thread.Sleep(1);
       }
       gifCreater.Create(1, FunctionGifFileName);
       MaxFunctionIterations = m;

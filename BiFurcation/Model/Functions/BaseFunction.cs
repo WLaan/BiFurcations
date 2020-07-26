@@ -305,7 +305,7 @@ namespace BiFurcation {
     public bool ReachedConvergence {
       get {
         if (furcationPoints.Count > 0) {
-          bool convergent = furcationPoints[furcationPoints.Count - 1].setPoints.Count > 1;
+          bool convergent = furcationPoints[furcationPoints.Count - 1].setPoints.Count > 1 && setCount > 0;
           if (furcationPoints.Count == 1)
             return convergent;
           else

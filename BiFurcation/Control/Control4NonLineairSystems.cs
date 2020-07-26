@@ -752,10 +752,11 @@ namespace BiFurcation {
       for (int i = 0; i < examplePlottersMira.Count; i++)
         PlotForm.AddExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
       foreach (MiraLinePlotter miraLineplot in  miraLineplotExamples) {
-        ((ICombined)PlotForm).AddExampleImage(miraLineplot.ExampleNumber, miraLineplot.map.Bitmap,
+        PlotForm.AddExampleImage(miraLineplot.ExampleNumber, miraLineplot.map.Bitmap,
           miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
           miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
       }
+      PlotForm.RescanExamples();
     }
     public void ResetLinePlot() {
       if (fractalPlotter is LinePlot plotter) {

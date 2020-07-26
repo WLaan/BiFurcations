@@ -267,8 +267,6 @@ namespace BiFurcation {
             decimal p = start + i * delta;
             BaseFunction diagramFunction = CurrentFunction;
             diagramFunction.Parameter = p;
-            if (p == 3.01m) {
-            }
             if (diagramDrawer.CreateGif)
               diagramFunction.MaxIterations = s;
             else
@@ -308,7 +306,7 @@ namespace BiFurcation {
         }
         catch {}
       }
-      int mSec = 20 / maxGIFIterations;
+      int mSec = 40 / maxGIFIterations;
       if (mSec == 0) mSec = 1;
       if (diagramDrawer.CreateGif)
         gifCreater.Create(mSec, DiagramGifFileName);

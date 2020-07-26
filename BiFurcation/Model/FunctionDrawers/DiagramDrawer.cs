@@ -57,56 +57,55 @@ namespace BiFurcation {
 
     protected override void PlotPoints() {
       int count1 = 0;
-      using (Graphics g = Graphics.FromImage(PointsImage.Bitmap)) {
-        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-        if (diagramPoints.Count > 0) {
-          int max = -1;
-          decimal minDistance = 1000;
-          decimal maxDistance = 0;
-          for (int i = diagramPoints.Count - 1; i >= 0; i--) {
-            if (diagramPoints[i].setPoints[0].Y > maxDistance)
-              maxDistance = diagramPoints[i].setPoints[0].Y;
-            if (diagramPoints[i].setPoints[0].Y < minDistance)
-              minDistance = diagramPoints[i].setPoints[0].Y;
-            if (diagramPoints[i].setPoints.Count > max)
-              max = diagramPoints[i].setPoints.Count;
-          }
-          form.setProgressBar(diagramPoints.Count);
-          double factor = 1.0 * Constants.smoozedColors.Count / max;
-          using (Pen pen = new Pen(Constants.DiagramColor, Constants.DiagramLineWidth)) {        
-            for (int i = diagramPoints.Count - 1; i > 0; i--) {
-              if ((i + 1) % 100 == 0)
-                form.worker_ProgressChanged(diagramPoints.Count - i);
-              decimal currentX = diagramPoints[i].X;
-              int cIndex = (int)(10.0 * (1.0 * diagramPoints[i].setPoints.Count) / (1.0 * max));
+      using Graphics g = Graphics.FromImage(PointsImage.Bitmap);
+      g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+      if (diagramPoints.Count > 0) {
+        int max = -1;
+        decimal minDistance = 1000;
+        decimal maxDistance = 0;
+        for (int i = diagramPoints.Count - 1; i >= 0; i--) {
+          if (diagramPoints[i].setPoints[0].Y > maxDistance)
+            maxDistance = diagramPoints[i].setPoints[0].Y;
+          if (diagramPoints[i].setPoints[0].Y < minDistance)
+            minDistance = diagramPoints[i].setPoints[0].Y;
+          if (diagramPoints[i].setPoints.Count > max)
+            max = diagramPoints[i].setPoints.Count;
+        }
+        form.SetProgressBar(diagramPoints.Count);
+        double factor = 1.0 * Constants.smoozedColors.Count / max;
+        using (Pen pen = new Pen(Constants.DiagramColor, Constants.DiagramLineWidth)) {
+          for (int i = diagramPoints.Count - 1; i > 0; i--) {
+            //    if ((i + 1) % 100 == 0)
+            //     form.worker_ProgressChanged(diagramPoints.Count - i);
+            decimal currentX = diagramPoints[i].X;
+            int cIndex = (int)(10.0 * (1.0 * diagramPoints[i].setPoints.Count) / (1.0 * max));
 
-              if (diagramPoints[i].setPoints.Count == 1) {
-                float y = (float)(BSize * (1 - (diagramPoints[i].setPoints[0].X - Function.XMin) / (Function.XMax - Function.XMin)));
-                PointF p2 = new PointF((float)currentX, y);
-                pen.Color = Color.Black;
-                if (!Single.IsInfinity(p2.Y))
-                  g.DrawEllipse(pen, p2.X, p2.Y, 1, 1);
-                count1++;
-              }
-              else
-                for (int s = 0; s < diagramPoints[i].setPoints.Count; s++) {
-                  PointF p2 = new PointF((float)currentX, (float)(diagramPoints[i].setPoints[s].Y) * BSize);
-                  int xx = (int)(Math.Floor(factor * diagramPoints[i].setPoints.Count)) - 1;
-                  if (xx < 0) xx = 0;
-                  pen.Color = Color.DarkGray;
-                  g.DrawEllipse(pen, p2.X, p2.Y, 1, 1);
-                }
+            if (diagramPoints[i].setPoints.Count == 1) {
+              float y = (float)(BSize * (1 - (diagramPoints[i].setPoints[0].X - Function.XMin) / (Function.XMax - Function.XMin)));
+              PointF p2 = new PointF((float)currentX, y);
+              pen.Color = Color.Black;
+              if (!Single.IsInfinity(p2.Y))
+                g.DrawEllipse(pen, p2.X, p2.Y, 1, 1);
+              count1++;
             }
-          }
-          if (control4FunctionsView.Control4DiagramView.PlotFeigenbaum) {
-            dx = 1.0M * PointsImage.Bitmap.Width / (Function.DiagramStop - Function.DiagramStart);
-            for (int f = 0; f < feigenbaumPoints.Length; f++)
-              if (feigenbaumPoints[f] > Function.DiagramStart) {
-                float xValF1 = (float)((feigenbaumPoints[f] - Function.DiagramStart) * dx);
-                float deltaY = (float)diagramPoints[(int)xValF1].Y;
-                g.DrawLine(Pens.Red, xValF1, BSize, xValF1, BSize * (deltaY));// BSize / 10);
+            else
+              for (int s = 0; s < diagramPoints[i].setPoints.Count; s++) {
+                PointF p2 = new PointF((float)currentX, (float)(diagramPoints[i].setPoints[s].Y) * BSize);
+                int xx = (int)(Math.Floor(factor * diagramPoints[i].setPoints.Count)) - 1;
+                if (xx < 0) xx = 0;
+                pen.Color = Color.DarkGray;
+                g.DrawEllipse(pen, p2.X, p2.Y, 1, 1);
               }
           }
+        }
+        if (control4FunctionsView.Control4DiagramView.PlotFeigenbaum) {
+          dx = 1.0M * PointsImage.Bitmap.Width / (Function.DiagramStop - Function.DiagramStart);
+          for (int f = 0; f < feigenbaumPoints.Length; f++)
+            if (feigenbaumPoints[f] > Function.DiagramStart) {
+              float xValF1 = (float)((feigenbaumPoints[f] - Function.DiagramStart) * dx);
+              float deltaY = (float)diagramPoints[(int)xValF1].Y;
+              g.DrawLine(Pens.Red, xValF1, BSize, xValF1, BSize * (deltaY));// BSize / 10);
+            }
         }
       }
     }

@@ -88,7 +88,7 @@ namespace AwaitParallelExample {
       progress.ProgressChanged += form.ReportProgress;
       var watch = System.Diagnostics.Stopwatch.StartNew();
       var results = await RunDownloadParallelASyncV2(progress);
-      PrintResults(results);
+      //PrintResults(results);
       watch.Stop();
       var elapsedMs = watch.ElapsedMilliseconds;
       form.add2ListBox("Total execution time: " + elapsedMs);

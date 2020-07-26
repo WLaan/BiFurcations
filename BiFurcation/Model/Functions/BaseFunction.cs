@@ -326,7 +326,7 @@ namespace BiFurcation {
         if (Math.Abs(fy) <= 256) {
           decimal normY = (xMax - fy) / (xMax - XMin);
           furcationPoints.Add(new DiagramSet(x, normY));
-          if (Parameter >=3 && Parameter<=3.567m)
+          if (Parameter >= 3 && Parameter <= 3.567m)
             CheckSet();
           Xs[it] = x;
           if (setCount > 0) {
@@ -337,6 +337,15 @@ namespace BiFurcation {
         }
         else
           break;
+      }
+      if (setCount == 0) {
+        int mid = furcationPoints.Count / 2;
+        DiagramSet middle = furcationPoints[furcationPoints.Count / 2];
+        for (int s = furcationPoints.Count / 2 + 1; s < furcationPoints.Count; s++)
+          middle.setPoints.Add(furcationPoints[s].setPoints[0]);
+        while (furcationPoints.Count > mid + 1) {
+          furcationPoints.RemoveAt(furcationPoints.Count - 1);
+        }
       }
     }
     public void DrawFurcationLines(Graphics g) {

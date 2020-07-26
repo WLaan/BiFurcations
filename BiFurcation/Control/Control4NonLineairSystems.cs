@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
 using System.Drawing;
+using System.Threading;
 using System.ComponentModel;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace BiFurcation {
 
@@ -47,7 +47,7 @@ namespace BiFurcation {
   public class Control4NonLineairSystems : ImageControl{
 
     #region private fields
-    private List<Task> tasks = new List<Task>();
+    private readonly List<Task> tasks = new List<Task>();
     protected const decimal MIN_X = -2;
     protected const decimal MAX_X = 2;
     protected const decimal MIN_Y = -2;
@@ -70,7 +70,12 @@ namespace BiFurcation {
     private DirectBitmap mandelbrotInsetBitmap;
     private List<MiraLinePlotter> miraLineplotExamples = new List<MiraLinePlotter>();
 
-    private BackgroundWorker worker4GIF;
+    private Progress<ProgressReportModel> progressHandlerGif = null;
+    private IProgress<ProgressReportModel> progressGif;
+    private CancellationTokenSource ctsGif = new CancellationTokenSource();
+    private CancellationToken tokenGif;
+    private ProgressReportModel reportGif;
+
     private string gifFilename = "";
     private decimal currXmin;
     private decimal currXmax;
@@ -99,9 +104,9 @@ namespace BiFurcation {
     public IDefineColors ColorForm {
       set {
         colorForm = value;
-        colorSpread = new Bitmap(colorForm.getSpreadImageSize.Width, colorForm.getSpreadImageSize.Height);
+        colorSpread = new Bitmap(colorForm.GetSpreadImageSize.Width, colorForm.GetSpreadImageSize.Height);
         Constants.SetColorRange(colorSpread);
-        colorForm.setSpreadImage(colorSpread);
+        colorForm.SetSpreadImage(colorSpread);
       }
     }
     private int maxIterations = 32;
@@ -147,7 +152,7 @@ namespace BiFurcation {
           PlotForm.FormImage.Dispose();
           PlotForm.FormImage = null;
         }
-        Simulate();
+        SimulateTask();
       }
       get {
         return imageQuality;
@@ -180,8 +185,6 @@ namespace BiFurcation {
           fractalPlotter.SmoozeType = value;
           Simulate(false);
         }
-      //((ICombined)PlotForm).rescanExamples();
-      //  rescanExamples(false);
       }
       get {
         return smoozeType;
@@ -190,9 +193,8 @@ namespace BiFurcation {
 
     public PointF JuliaXoffset {
       get {
-        if (fractalPlotter is JuliaPlot) {
-          JuliaPlot jp = (JuliaPlot)fractalPlotter;
-          return jp.definedOffset;
+        if (fractalPlotter is JuliaPlot plot) {
+          return plot.definedOffset;
         }
         else
           return new PointF(0,0);
@@ -208,9 +210,8 @@ namespace BiFurcation {
     }
     public int LineplotAValue {
       get {
-        if (fractalPlotter is LinePlot) {
-          LinePlot lp = (LinePlot)fractalPlotter;
-          return (int)(1000 * lp.Parameters[0]);
+        if (fractalPlotter is LinePlot plot) {
+          return (int)(1000 * plot.Parameters[0]);
         }
         else
           return 100;
@@ -218,9 +219,8 @@ namespace BiFurcation {
     }
     public int LineplotBValue {
       get {
-        if (fractalPlotter is LinePlot) {
-          LinePlot lp = (LinePlot)fractalPlotter;
-          return (int)(1000 * lp.Parameters[6]);
+        if (fractalPlotter is LinePlot plot) {
+          return (int)(1000 * plot.Parameters[6]);
         }
         else
           return 100;
@@ -228,9 +228,8 @@ namespace BiFurcation {
     }
     public int MaxAval {
       get {
-        if (fractalPlotter is LinePlot) {
-          LinePlot lp = (LinePlot)fractalPlotter;
-          return (int)(1000 * lp.MaxAval);
+        if (fractalPlotter is LinePlot plot) {
+          return (int)(1000 * plot.MaxAval);
         }
         else
           return 1000;
@@ -238,9 +237,8 @@ namespace BiFurcation {
     }
     public int MinAval {
       get {
-        if (fractalPlotter is LinePlot) {
-          LinePlot lp = (LinePlot)fractalPlotter;
-          return (int)(1000 * lp.MinAval);
+        if (fractalPlotter is LinePlot plot) {
+          return (int)(1000 * plot.MinAval);
         }
         else
           return -1000;
@@ -251,8 +249,7 @@ namespace BiFurcation {
         if (fractalPlotter is LambdaPlot || fractalPlotter is MandelbrotPlot) {
           MandelbrotPlot p = (MandelbrotPlot)fractalPlotter;
           fractalPlotter.Reset();
-          float a;
-          float.TryParse(value, out a);
+          float.TryParse(value, out float a);
           p.A = a;
         }
       }
@@ -266,34 +263,34 @@ namespace BiFurcation {
     }
     public SpecificLineType SpecificLineType {
       set {
-        if (fractalPlotter is LinePlot) 
-          ((LinePlot)fractalPlotter).SpecificLineType = value;
+        if (fractalPlotter is LinePlot plot) 
+          plot.SpecificLineType = value;
         if (PlotForm != null)
           PlotForm.FormImage = MainImage;
       }
       get {
-        if (fractalPlotter is LinePlot)
-           return ((LinePlot)fractalPlotter).SpecificLineType;
+        if (fractalPlotter is LinePlot plot)
+           return plot.SpecificLineType;
         else
           return SpecificLineType.None;
       }
     }
     public void SetMiraAB(int A, int B) {
-      if (fractalPlotter is LinePlot)
-        ((LinePlot)fractalPlotter).setABval(A, B);
+      if (fractalPlotter is LinePlot plot)
+        plot.SetABval(A, B);
       if (PlotForm != null)
         PlotForm.FormImage = PointsImage.Bitmap; 
     }
     public void SetMiraAB(string A, string B) {
-      if (fractalPlotter is LinePlot)
-        ((LinePlot)fractalPlotter).setABval(A, B);
+      if (fractalPlotter is LinePlot plot)
+        plot.SetABval(A, B);
       if (PlotForm != null)
         PlotForm.FormImage = PointsImage.Bitmap; 
     }
     public bool SpreadMiraA {
       set {
-        if (fractalPlotter is LinePlot) {
-          ((LinePlot)fractalPlotter).SpreadA = value;
+        if (fractalPlotter is LinePlot plot) {
+          plot.SpreadA = value;
           if (PlotForm != null)
             PlotForm.FormImage = PointsImage.Bitmap;
         }
@@ -301,15 +298,15 @@ namespace BiFurcation {
     }
     public int SetIterationsLinPlot {
       set {
-        if (fractalPlotter is LinePlot) {
-          ((LinePlot)fractalPlotter).Iterations = value;
+        if (fractalPlotter is LinePlot plot) {
+          plot.Iterations = value;
           if (PlotForm != null)
             PlotForm.FormImage = PointsImage.Bitmap; 
         }
       }
       get {
-        if (fractalPlotter is LinePlot) {
-         return ((LinePlot)fractalPlotter).Iterations;
+        if (fractalPlotter is LinePlot plot) {
+         return plot.Iterations;
         }
         else
           return 0;
@@ -317,8 +314,8 @@ namespace BiFurcation {
     }
     public int MinMouseIterationVal {
       get {
-        if (fractalPlotter is LinePlot) {
-          return ((LinePlot)fractalPlotter).MinMouseIterations;
+        if (fractalPlotter is LinePlot plot) {
+          return plot.MinMouseIterations;
         }
         else
           return 0;
@@ -326,8 +323,8 @@ namespace BiFurcation {
     }
     public int MaxMouseIterationVal {
       get {
-        if (fractalPlotter is LinePlot) {
-          return ((LinePlot)fractalPlotter).MaxMouseIterations;
+        if (fractalPlotter is LinePlot plot) {
+          return plot.MaxMouseIterations;
         }
         else
           return 1000;
@@ -335,8 +332,8 @@ namespace BiFurcation {
     }
     public int MaxABMouse {
       get {
-        if (fractalPlotter is LinePlot) {
-          return ((LinePlot)fractalPlotter).MaxABMouse;
+        if (fractalPlotter is LinePlot plot) {
+          return plot.MaxABMouse;
         }
         else
           return 0;
@@ -344,9 +341,8 @@ namespace BiFurcation {
     }
     public double LinplotStartX {
       get {
-        if (fractalPlotter is LinePlot) {
-          LinePlot lp = (LinePlot)fractalPlotter;
-          return lp.StartPoint.X;
+        if (fractalPlotter is LinePlot plot) {
+          return plot.StartPoint.X;
         }
         else
           return 0;
@@ -354,9 +350,8 @@ namespace BiFurcation {
     }
     public double LinplotStartY {
       get {
-        if (fractalPlotter is LinePlot) {
-          LinePlot lp = (LinePlot)fractalPlotter;
-          return lp.StartPoint.Y;
+        if (fractalPlotter is LinePlot plot) {
+          return plot.StartPoint.Y;
         }
         else
           return 0;
@@ -367,6 +362,7 @@ namespace BiFurcation {
     public Control4NonLineairSystems(IFunctionsView f):base(f) {
     }
     public Control4NonLineairSystems(ICombined f, Control4AllViews bf):base(f,bf) {
+
       pictBoxSize = new Size(BSize, BSize);
 
       mandelbrotInsetBitmap = new DirectBitmap(pictBoxSize.Width / 5, pictBoxSize.Height / 5);
@@ -435,23 +431,20 @@ namespace BiFurcation {
         Ymax = (decimal)fractalPlotter.YMaxi;
 
         fractalPlotter.MAX_MAG_SQUARED = max_MAG_SQUARED.ToString();
-        fractalPlotter.Worker = worker;
         fractalPlotter.SmoozeType = SmoozeType;
-        fractalPlotter.Reset();//.Map.reset();
-        PlotForm.params2Form();
+        fractalPlotter.Reset();
+        PlotForm.Params2Form();
         if (fractalPlotter.ThisType == FractalType.LinePlot) {
           fractalPlotter.DoCalculation();
           if (PlotForm != null)
             PlotForm.FormImage = PointsImage.Bitmap;
         }
         else
-          Simulate();
-
+          SimulateTask();
       }  
     }
-    private void CalcCombinedFractal(object sender, DoWorkEventArgs e) {
+    private void CalcCombinedFractal() {
 
-      fractalPlotter.Worker = worker;
       fractalPlotter.InitImages(MainImage, PointsImage.Bitmap, BSize);
       fractalPlotter.DoCalculation();
 
@@ -496,54 +489,52 @@ namespace BiFurcation {
 
       if (PlotForm != null)
         PlotForm.FormImage = MainImage;
-      //PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
     }
-    protected void FractalProgressGIF(object sender, ProgressChangedEventArgs e) {
-      PlotForm.GIFProgress = e.ProgressPercentage;
+    private void InterpolateColorPalette() {
+      Constants.Interpolate();
+      if (fractalPlotter != null)
+        fractalPlotter.Map.CalculatedTypes.Clear();
     }
-    protected void FractalCompletedGIF(object sender, RunWorkerCompletedEventArgs e) {
+
+    private void InitTaskHandlesGif() {
+      progressHandlerGif = new Progress<ProgressReportModel>();
+      progressHandlerGif.ProgressChanged += ((ICombined)plotForm).ReportProgressGif;
+      reportGif = new ProgressReportModel();
+      ctsGif = new CancellationTokenSource();
+      tokenGif = ctsGif.Token;
+      progressGif = progressHandlerGif;
+    }
+    private void FractalCompletedGIF() {
       fractalPlotter.CreateGif = false;
       gifCreater.Create(1, gifFilename);
       xMin = currXmin;
       xMax = currXmax;
       yMin = currYmin;
       yMax = currYmax;
-      worker = null;
-      PlotForm.setEnabled(true);
-      PlotForm.endGenerate();
-      worker4GIF = null;
-      Reset();
-      Simulate(true);
+      PlotForm.SetEnabled(true);
+      PlotForm.EndGenerate();
+      Reset();//includes  SimulateTask();
     }
-    private void DoGif(object sender, DoWorkEventArgs e) {
-      worker = new BackgroundWorker();
-      worker.ProgressChanged += new ProgressChangedEventHandler(FractalProgress);
-      worker.WorkerReportsProgress = true;
-      worker.WorkerSupportsCancellation = true;
-      for (int i = 0; i < nGif && !worker4GIF.CancellationPending && Xmin < centerX && yMin < centerY ; i++) {
+    private void DoGif() {
+      for (int i = 0; i < nGif && Xmin < centerX && yMin < centerY ; i++) {
         //calc image
-        PlotForm.setProgressBar(pictBoxSize.Width);
         fractalPlotter.Reset();
-        CalcCombinedFractal(null, null);
+        InitTaskHandles();
+        CalcCombinedFractal();
         xMin -= dx;
-        decimal dd = centerX - Xmin;
-        Xmax += dx;// centerX + dd;
-        // xMax -= dx;
+        Xmax += dx;
         Ymin -= dy;
-        //  yMax -= dy;
-        yMax += dy;// centerY + centerY - Ymin;
-     //   dx = 2 * (xMax - xMin) / nGif;
-      //  dy = 2 * (yMax - yMin) / nGif;
+        yMax += dy;
         if (i > 0)
           gifCreater.images.Add(fractalPlotter.Copy4GIF);
-        worker4GIF.ReportProgress(i);
-        plotForm.params2Form();
+        // Let the user know we're not dead.
+        reportGif.PercentageComplete = i;
+        if (progressGif != null)
+          progressGif.Report(reportGif);
+        if (tokenGif.IsCancellationRequested) break;
+
+        plotForm.Params2Form();
       }
-    }
-    private void InterpolateColorPalette() {
-      Constants.Interpolate();
-      if (fractalPlotter != null)
-        fractalPlotter.Map.CalculatedTypes.Clear();
     }
     #endregion
 
@@ -551,30 +542,12 @@ namespace BiFurcation {
 
     #region virtual
     public override void StopThread() {
-      try {
-        if (fractalPlotter != null && fractalPlotter.Worker != null)
-          fractalPlotter.Worker.CancelAsync();
-      }
-      catch { }
-      try {
-        if (worker != null)
-          worker.CancelAsync();
-      }
-      catch { }
-      try {
-        if (worker4GIF != null)
-          worker4GIF.CancelAsync();
-      }
-      catch { }
+      base.StopThread();
+      ctsGif.Cancel();
     }
-    public override void Simulate() {
-      if (worker != null) {
-        worker.CancelAsync();
-        worker = null;
-      }
-      plotForm.setEnabled(false);
-      DoFractalWork = CalcCombinedFractal;
-      base.Simulate();
+    public override void SimulateTask() {
+      DoTaskWork = CalcCombinedFractal;
+      base.SimulateTask();
     }
     #endregion
 
@@ -583,26 +556,24 @@ namespace BiFurcation {
       if (reset) {
         fractalPlotter.Reset();
       }
-      Simulate();
+      SimulateTask();
     }
     public void PresetParameter(int index, string value) {
       double.TryParse(value, out fractalPlotter.Parameters[index]);
       fractalPlotter.Reset();
     }
     public void SetUserdefined(string x, string y) {
-      if (fractalPlotter is JuliaPlot) {
+      if (fractalPlotter is JuliaPlot plot) {
         fractalPlotter.Reset();
-        float xf;
-        float.TryParse(x, out xf);
-        float yf;
-        float.TryParse(y, out yf);
-        ((JuliaPlot)fractalPlotter).SetUserDefined(xf, yf);
+        float.TryParse(x, out float xf);
+        float.TryParse(y, out float yf);
+        plot.SetUserDefined(xf, yf);
       }
     }
     public void StartImageEditor(Image image) {
       control4AllViews.StartImageEditor(image);
     }
-    public void CreateGif(PointD current, string numGif, string fName) {
+    public async void CreateGif(PointD current, string numGif, string fName) {
       m_StartX = (float)current.X;
       m_StartY = (float)current.Y;
       gifFilename = fractalPlotter.Title + fName + numGif;
@@ -639,18 +610,14 @@ namespace BiFurcation {
       xMin += dx * (nGif - 1);
       yMax -= dy * (nGif - 1);
       yMin += dy * (nGif - 1);
-      fractalPlotter.Map.Reset();
-      fractalPlotter.Reset();
-      plotForm.params2Form();
 
-  //    CalcCombinedFractal(null, null);
-      worker4GIF = new BackgroundWorker();
-      worker4GIF.WorkerSupportsCancellation = true;
-      worker4GIF.WorkerReportsProgress = true;
-      worker4GIF.DoWork += new DoWorkEventHandler(DoGif);
-      worker4GIF.ProgressChanged += new ProgressChangedEventHandler(FractalProgressGIF);
-      worker4GIF.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FractalCompletedGIF);
-      worker4GIF.RunWorkerAsync();
+      plotForm.Params2Form();
+
+      PlotForm.SetProgressBar(pictBoxSize.Width);
+      PlotForm.SetEnabled(false);
+      InitTaskHandlesGif();
+      await Task.Run(() => { DoGif(); });
+      FractalCompletedGIF();
     }
     public void JuliaMouseMove(double x, double y, DirectBitmap map) {
       if (fractalType == FractalType.Mandelbrot) {
@@ -723,7 +690,7 @@ namespace BiFurcation {
         trackedSmoozedColor.TrackerPositionPercentage = 100f * colorMouseX2 / size.Width;
         Constants.SortSmoozedColors();
         Constants.SetColorRange(colorSpread);
-        colorForm.setSpreadImage(colorSpread);
+        colorForm.SetSpreadImage(colorSpread);
       }
     }
     public void MouseUpColorDef(int x, int y) {
@@ -779,66 +746,19 @@ namespace BiFurcation {
       }
       var results = Task.WhenAll(tasks);
       for (int i = 0; i < examplePlottersGeneral.Count; i++)
-        PlotForm.addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
+        PlotForm.AddExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
       for (int i = 0; i < examplePlottersJulia.Count; i++)
-        PlotForm.addExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
+        PlotForm.AddExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
       for (int i = 0; i < examplePlottersMira.Count; i++)
-        PlotForm.addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
+        PlotForm.AddExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
       foreach (MiraLinePlotter miraLineplot in  miraLineplotExamples) {
-        ((ICombined)PlotForm).addExampleImage(miraLineplot.ExampleNumber, miraLineplot.map.Bitmap,
+        ((ICombined)PlotForm).AddExampleImage(miraLineplot.ExampleNumber, miraLineplot.map.Bitmap,
           miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
           miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
       }
     }
-    public void RescanExamples(bool colorChanged) {
-      foreach (BasePlotter p in examplePlottersGeneral) {
-        p.SmoozeType = smoozeType;
-        if (colorChanged)
-          p.Map.CalculatedTypes.Clear();
-        p.DoCalculation();
-      }
-      foreach (BasePlotter p in examplePlottersJulia) {
-        p.SmoozeType = smoozeType;
-        if (colorChanged)
-          p.Map.CalculatedTypes.Clear();
-        p.DoCalculation();
-      }
-      foreach (BasePlotter p in examplePlottersMira) {
-        p.SmoozeType = smoozeType;
-        if (colorChanged)
-          p.Map.CalculatedTypes.Clear();
-        p.DoCalculation();
-      }
-      for (int i = 0; i < examplePlottersGeneral.Count; i++)
-        PlotForm.addExampleImage(i, examplePlottersGeneral[i].map.Bitmap, examplePlottersGeneral[i].Title, ExampleGroups.General);
-      for (int i = 0; i < examplePlottersJulia.Count; i++)
-        PlotForm.addExampleImage(i, examplePlottersJulia[i].map.Bitmap, examplePlottersJulia[i].Title, ExampleGroups.Julia);
-      for (int i = 0; i < examplePlottersMira.Count; i++)
-        PlotForm.addExampleImage(i, examplePlottersMira[i].map.Bitmap, examplePlottersMira[i].Title, ExampleGroups.Line);
-
-      if (!colorChanged) {
-        MiraLinePlotter miraLineplot = null;
-        foreach (LinePlot p in linePlotters)
-          if (p.SpecificLineType == SpecificLineType.Mira) {
-            miraLineplot = (MiraLinePlotter)p.Clone(new DirectBitmap(100, 100));
-            break;
-          }
-        if (miraLineplot != null) {
-          for (int i = 0; i < miraLineplot.Favorites.Length; i++) {
-            miraLineplot.map = new DirectBitmap(100, 100, true);
-            miraLineplot.setFavorite(i);
-            ((ICombined)PlotForm).addExampleImage(i, miraLineplot.map.Bitmap,
-              miraLineplot.StartPoint.X.ToString("00.0") + " - " + miraLineplot.StartPoint.Y.ToString("00.0") + Environment.NewLine +
-              miraLineplot.Parameters[0].ToString("0.00") + " - " + miraLineplot.Parameters[6].ToString("0.00"), ExampleGroups.MiraLine);
-          }
-        }
-      }
-
-      ((ICombined)PlotForm).rescanExamples();
-    }
     public void ResetLinePlot() {
-      if (fractalPlotter is LinePlot) {
-        LinePlot plotter = (LinePlot)fractalPlotter;
+      if (fractalPlotter is LinePlot plotter) {
         plotter.Reset();
         if (PlotForm != null)
           PlotForm.FormImage = PointsImage.Bitmap;

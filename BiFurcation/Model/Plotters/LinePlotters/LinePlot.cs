@@ -91,7 +91,7 @@ namespace BiFurcation {
           return combinedControl.PointsImage;// combinedControl.MainImage;
       }
     }
-    public void setABval(int A, int B) {
+    public void SetABval(int A, int B) {
       parameters[0] = A / 1000f;
       if (specificLineType != SpecificLineType.Henon)
         parameters[6] = B / 1000f;
@@ -99,7 +99,7 @@ namespace BiFurcation {
         parameters[6] = Math.Sqrt(1 - parameters[0] * parameters[0]);
       DoCalculation();
     }
-    public virtual void setABval(string A, string B) {
+    public virtual void SetABval(string A, string B) {
       float a = 0;
       float.TryParse(A, out a);
       float b = 0;
@@ -271,7 +271,6 @@ namespace BiFurcation {
       InitMap(map);
       CalcTypePoints();
   
-      //  map.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
       if (!map.CalculatedTypes.Contains(smoozeType))
         map.CalculatedTypes.Add(smoozeType);
       map.Calced_CLR_Z = true;

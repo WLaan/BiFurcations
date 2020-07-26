@@ -23,7 +23,7 @@ namespace AwaitParallelExample {
         WebsiteDataModel results = await Task.Run(() => DownloadWebsite(site));
         output.Add(results);
 
-        // if (cancellationToken.IsCancellationRequested)
+        // if (cancellationToken.IsCancellationRequested){break;}
         cancellationToken.ThrowIfCancellationRequested();
 
         report.SitesDownloaded = output;

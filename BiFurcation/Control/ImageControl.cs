@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using System.Globalization;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace BiFurcation {
@@ -25,6 +27,7 @@ namespace BiFurcation {
   }
 
   public delegate void DoWork(object sender, DoWorkEventArgs e);
+  public delegate void DoTask();
 
   public class ImageControl {
 
@@ -38,7 +41,6 @@ namespace BiFurcation {
     protected float m_CurX;
     protected float m_CurY;
     protected List<Boarders> boarderStack = new List<Boarders>();
-    protected BackgroundWorker worker = null;
     protected GifCreater gifCreater = new GifCreater();
     #endregion
 
@@ -114,8 +116,7 @@ namespace BiFurcation {
     }
     public string XminStr {
       set {
-        decimal temp = 0;
-        decimal.TryParse(value, out temp);
+        decimal.TryParse(value, out decimal temp);
         fractalPlotter.Reset();
         xMin = temp;
       }
@@ -132,8 +133,8 @@ namespace BiFurcation {
     }
     public string XmaxStr {
       set {
-        decimal temp = 0;
-        decimal.TryParse(value, out temp); fractalPlotter.Reset(); 
+        decimal.TryParse(value, out decimal temp);
+        fractalPlotter.Reset(); 
         fractalPlotter.UsedColorIndices = new ColorIndex[BSize, BSize];
         Xmax = temp;
       }
@@ -150,8 +151,7 @@ namespace BiFurcation {
     }
     public string YminStr {
       set {
-        decimal temp = 0;
-        decimal.TryParse(value, out temp);
+        decimal.TryParse(value, out decimal temp);
         Ymin = temp;
         fractalPlotter.Reset();
       }
@@ -168,8 +168,7 @@ namespace BiFurcation {
     }
     public string YmaxStr {
       set {
-        decimal temp = 0;
-        decimal.TryParse(value, out temp);
+        decimal.TryParse(value, out decimal temp);
         fractalPlotter.Reset();
         Ymax = temp;
       }
@@ -179,10 +178,17 @@ namespace BiFurcation {
     #region public
     public Control4AllViews control4AllViews;
     public Size ImageSize;
-    private DoWork doFractalWork;
-    public DoWork DoFractalWork {
+
+    protected Progress<ProgressReportModel> progressHandler = null;
+    public IProgress<ProgressReportModel> progress;
+    public CancellationTokenSource cts = new CancellationTokenSource();
+    public CancellationToken token;
+    public ProgressReportModel report;
+
+    private DoTask doTaskWork;
+    public DoTask DoTaskWork {
       set {
-        doFractalWork = value;
+        doTaskWork = value;
       }
     }
     #endregion
@@ -196,39 +202,29 @@ namespace BiFurcation {
       BSize = Constants.UsedBSize;
     }
 
-    protected void FractalProgress(object sender, ProgressChangedEventArgs e) {
-      PlotForm.worker_ProgressChanged(e.ProgressPercentage);
-    }
-    protected void FractalCompleted(object sender, RunWorkerCompletedEventArgs e) {
-      PlotForm.setEnabled(true);
-      PlotForm.endGenerate();
-      worker = null;
-    }
     public BaseFor2DimensionalPlot fractalPlotter;
 
     #region virtual
-    public virtual void Simulate() {
-      PlotForm.setEnabled(false);
-      if (worker == null) {
-        PlotForm.setProgressBar(pictBoxSize.Width);
-        PlotForm.setEnabled(false);
-        worker = new BackgroundWorker();
-        worker.WorkerSupportsCancellation = true;
-        worker.WorkerReportsProgress = true;
-        worker.DoWork += new DoWorkEventHandler(doFractalWork);// CalcCombinedFractal);
-        worker.ProgressChanged += new ProgressChangedEventHandler(FractalProgress);
-        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FractalCompleted);
-        worker.RunWorkerAsync();
-      }
-      else
-        PlotForm.setEnabled(true);
+    public void InitTaskHandles() {
+      progressHandler = new Progress<ProgressReportModel>();
+      progressHandler.ProgressChanged += plotForm.ReportProgress;
+      report = new ProgressReportModel();
+      cts = new CancellationTokenSource();
+      token = cts.Token;
+      progress = progressHandler;// as IProgress<ProgressReportModel>;
     }
+    public virtual async void SimulateTask() {
+      PlotForm.SetProgressBar(pictBoxSize.Width);
+      PlotForm.SetEnabled(false);
+      InitTaskHandles();
+      await Task.Run(() => { doTaskWork(); });
+      PlotForm.SetEnabled(true);
+      PlotForm.EndGenerate();
+    } 
     public virtual void StopThread() {
-      if (worker != null) {
-        worker.CancelAsync();
-        worker = null;
-      }
+      cts.Cancel();
     }
+
     public virtual void MouseMove(int x, int y, int w, int h) {
       if (fractalPlotter != null && fractalPlotter.ThisType == FractalType.LinePlot) return;
 
@@ -289,7 +285,7 @@ namespace BiFurcation {
         Ymin = (decimal)y1;
         if (fractalPlotter != null)
           fractalPlotter.Reset();
-        Simulate();
+        SimulateTask();
       }
     }
     public virtual void Reset() {
@@ -302,9 +298,10 @@ namespace BiFurcation {
         MaxIterations = b.MaxIterations;
         boarderStack.RemoveAt(boarderStack.Count - 1);
       }
-      if (fractalPlotter != null)
+      if (fractalPlotter != null) {
         fractalPlotter.Reset();
-      Simulate();
+      }
+      SimulateTask();
     }
     #endregion
 

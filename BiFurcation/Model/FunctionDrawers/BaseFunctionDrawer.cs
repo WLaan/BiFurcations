@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
+using System.Linq.Expressions;
 
 namespace BiFurcation {
 
-  public class BaseFunctionDrawer:BasePlotter {
+  public class BaseFunctionDrawer : BasePlotter {
 
     #region fields
     protected IView form;
@@ -94,7 +95,7 @@ namespace BiFurcation {
       }
     }
 
-    public virtual string Title {
+    public override string Title {
       get {
         return "";
       }
@@ -143,11 +144,11 @@ namespace BiFurcation {
       center = new PointF(BSize / 2, BSize / 2);
       mainImage = new Bitmap(BSize, BSize);
       if (MainImage != null)
-        using (Graphics g = Graphics.FromImage(MainImage)) 
+        using (Graphics g = Graphics.FromImage(MainImage))
           g.Clear(Color.LightGray);
       PointsImage = new DirectBitmap(BSize, BSize);
       if (PointsImage != null)
-        using (Graphics g = Graphics.FromImage(PointsImage.Bitmap)) 
+        using (Graphics g = Graphics.FromImage(PointsImage.Bitmap))
           g.Clear(Color.White);
     }
 
@@ -156,7 +157,8 @@ namespace BiFurcation {
     protected virtual void DrawLines() {
     }
     protected virtual void DrawBoarders() {
-      using (Graphics g = Graphics.FromImage(MainImage)) {
+      try {
+        using Graphics g = Graphics.FromImage(MainImage);
         //hor top
         g.DrawLine(Pens.Black, BSize / 20, BSize / 20, BSize - BSize / 20, BSize / 20);
         //hor bottom
@@ -168,6 +170,7 @@ namespace BiFurcation {
 
         DrawAxes(g);
       }
+      catch { }
     }
     public void DrawPicture() {
       InitImages(MainImage, PointsImage.Bitmap, BSize);
@@ -179,7 +182,6 @@ namespace BiFurcation {
 
       using (Graphics g = Graphics.FromImage(MainImage)) {
         g.DrawImage(PointsImage.Bitmap, destRect, SourceRect, GraphicsUnit.Pixel);
-     //   PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
         using (Pen pen = new Pen(Color.Black, 4))
           g.DrawRectangle(pen, new Rectangle(destRect.X - 1, destRect.Y - 1, destRect.Width + 2, destRect.Height + 2));
         using (Pen pen = new Pen(Color.White, 4)) {

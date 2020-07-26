@@ -211,7 +211,7 @@
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label2.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label2.Location = new System.Drawing.Point(67, 5);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(171, 17);
@@ -280,7 +280,7 @@
       // 
       // labelChoozenFunction
       // 
-      this.labelChoozenFunction.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.labelChoozenFunction.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.labelChoozenFunction.Location = new System.Drawing.Point(250, 23);
       this.labelChoozenFunction.Margin = new System.Windows.Forms.Padding(0);
       this.labelChoozenFunction.Name = "labelChoozenFunction";
@@ -330,7 +330,7 @@
       // 
       // label11
       // 
-      this.label11.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label11.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label11.Location = new System.Drawing.Point(59, 23);
       this.label11.Margin = new System.Windows.Forms.Padding(0);
       this.label11.Name = "label11";
@@ -345,6 +345,7 @@
       this.panelOneDimensiolFunctions.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.panelOneDimensiolFunctions.Controls.Add(this.checkBoxShowFn);
       this.panelOneDimensiolFunctions.Controls.Add(this.checkBoxOmitFirstIterations);
+      this.panelOneDimensiolFunctions.Controls.Add(this.buttonCancelGif);
       this.panelOneDimensiolFunctions.Controls.Add(this.checkBoxHideFurcationLines);
       this.panelOneDimensiolFunctions.Controls.Add(this.buttonDefineColors);
       this.panelOneDimensiolFunctions.Controls.Add(this.panel7);
@@ -360,7 +361,7 @@
       // 
       // checkBoxShowFn
       // 
-      this.checkBoxShowFn.Font = new System.Drawing.Font("Calibri", 9.980198F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+      this.checkBoxShowFn.Font = new System.Drawing.Font("Calibri", 9.980198F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
       this.checkBoxShowFn.Location = new System.Drawing.Point(359, 438);
       this.checkBoxShowFn.Name = "checkBoxShowFn";
       this.checkBoxShowFn.Size = new System.Drawing.Size(160, 19);
@@ -371,7 +372,7 @@
       // 
       // checkBoxOmitFirstIterations
       // 
-      this.checkBoxOmitFirstIterations.Font = new System.Drawing.Font("Calibri", 9.980198F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+      this.checkBoxOmitFirstIterations.Font = new System.Drawing.Font("Calibri", 9.980198F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
       this.checkBoxOmitFirstIterations.Location = new System.Drawing.Point(359, 411);
       this.checkBoxOmitFirstIterations.Name = "checkBoxOmitFirstIterations";
       this.checkBoxOmitFirstIterations.Size = new System.Drawing.Size(160, 19);
@@ -383,7 +384,7 @@
       // checkBoxHideFurcationLines
       // 
       this.checkBoxHideFurcationLines.AutoSize = true;
-      this.checkBoxHideFurcationLines.Font = new System.Drawing.Font("Calibri", 12.11881F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.checkBoxHideFurcationLines.Font = new System.Drawing.Font("Calibri", 12.11881F, System.Drawing.FontStyle.Bold);
       this.checkBoxHideFurcationLines.ForeColor = System.Drawing.Color.Red;
       this.checkBoxHideFurcationLines.Location = new System.Drawing.Point(359, 380);
       this.checkBoxHideFurcationLines.Name = "checkBoxHideFurcationLines";
@@ -399,7 +400,7 @@
       this.buttonDefineColors.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonDefineColors.BackgroundImage")));
       this.buttonDefineColors.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
       this.buttonDefineColors.Cursor = System.Windows.Forms.Cursors.Default;
-      this.buttonDefineColors.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonDefineColors.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Bold);
       this.buttonDefineColors.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
       this.buttonDefineColors.Location = new System.Drawing.Point(429, 5);
       this.buttonDefineColors.Name = "buttonDefineColors";
@@ -408,7 +409,7 @@
       this.buttonDefineColors.TabIndex = 301;
       this.buttonDefineColors.Text = "Define Colors";
       this.buttonDefineColors.UseVisualStyleBackColor = false;
-      this.buttonDefineColors.Click += new System.EventHandler(this.buttonDefineColors_Click);
+      this.buttonDefineColors.Click += new System.EventHandler(this.ButtonDefineColors_Click);
       // 
       // panel7
       // 
@@ -428,7 +429,7 @@
       this.panel7.Controls.Add(this.textBoxEndY);
       this.panel7.Location = new System.Drawing.Point(8, 376);
       this.panel7.Name = "panel7";
-      this.panel7.Size = new System.Drawing.Size(334, 104);
+      this.panel7.Size = new System.Drawing.Size(270, 104);
       this.panel7.TabIndex = 1;
       // 
       // label9
@@ -451,7 +452,7 @@
       // 
       // textBoxStartX
       // 
-      this.textBoxStartX.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.textBoxStartX.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.textBoxStartX.Location = new System.Drawing.Point(142, 25);
       this.textBoxStartX.Name = "textBoxStartX";
       this.textBoxStartX.Size = new System.Drawing.Size(42, 25);
@@ -464,7 +465,7 @@
       this.buttonReset.BackColor = System.Drawing.SystemColors.ActiveCaption;
       this.buttonReset.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonReset.BackgroundImage")));
       this.buttonReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonReset.Location = new System.Drawing.Point(216, 25);
+      this.buttonReset.Location = new System.Drawing.Point(191, 25);
       this.buttonReset.Name = "buttonReset";
       this.buttonReset.Size = new System.Drawing.Size(62, 51);
       this.buttonReset.TabIndex = 283;
@@ -475,7 +476,7 @@
       // 
       // label7
       // 
-      this.label7.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label7.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label7.Location = new System.Drawing.Point(145, 2);
       this.label7.Name = "label7";
       this.label7.Size = new System.Drawing.Size(29, 21);
@@ -494,7 +495,7 @@
       // 
       // textBoxEndX
       // 
-      this.textBoxEndX.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.textBoxEndX.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.textBoxEndX.Location = new System.Drawing.Point(142, 52);
       this.textBoxEndX.Name = "textBoxEndX";
       this.textBoxEndX.Size = new System.Drawing.Size(42, 25);
@@ -504,7 +505,7 @@
       // 
       // label16
       // 
-      this.label16.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label16.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label16.Location = new System.Drawing.Point(46, 26);
       this.label16.Name = "label16";
       this.label16.Size = new System.Drawing.Size(40, 21);
@@ -514,7 +515,7 @@
       // 
       // label6
       // 
-      this.label6.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label6.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label6.Location = new System.Drawing.Point(89, 2);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(31, 21);
@@ -524,7 +525,7 @@
       // 
       // label15
       // 
-      this.label15.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label15.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label15.Location = new System.Drawing.Point(46, 53);
       this.label15.Name = "label15";
       this.label15.Size = new System.Drawing.Size(40, 21);
@@ -534,7 +535,7 @@
       // 
       // textBoxStartY
       // 
-      this.textBoxStartY.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.textBoxStartY.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.textBoxStartY.Location = new System.Drawing.Point(89, 25);
       this.textBoxStartY.Name = "textBoxStartY";
       this.textBoxStartY.Size = new System.Drawing.Size(42, 25);
@@ -544,7 +545,7 @@
       // 
       // textBoxEndY
       // 
-      this.textBoxEndY.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.textBoxEndY.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.textBoxEndY.Location = new System.Drawing.Point(89, 52);
       this.textBoxEndY.Name = "textBoxEndY";
       this.textBoxEndY.Size = new System.Drawing.Size(42, 25);
@@ -558,7 +559,6 @@
       this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
       this.panel4.Controls.Add(this.checkBoxSeedWithMouseCursor);
       this.panel4.Controls.Add(this.label13);
-      this.panel4.Controls.Add(this.buttonCancelGif);
       this.panel4.Controls.Add(this.comboBoxChoozenFunction);
       this.panel4.Controls.Add(this.panelAttractionIterations);
       this.panel4.Controls.Add(this.textBoxMaxIterations);
@@ -574,7 +574,7 @@
       this.panel4.Controls.Add(this.groupBoxParameter);
       this.panel4.Controls.Add(this.panelLogistic);
       this.panel4.Controls.Add(this.panelHenon);
-      this.panel4.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.panel4.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.panel4.Location = new System.Drawing.Point(8, 49);
       this.panel4.Name = "panel4";
       this.panel4.Size = new System.Drawing.Size(520, 320);
@@ -582,7 +582,7 @@
       // 
       // checkBoxSeedWithMouseCursor
       // 
-      this.checkBoxSeedWithMouseCursor.Font = new System.Drawing.Font("Calibri", 7.841584F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+      this.checkBoxSeedWithMouseCursor.Font = new System.Drawing.Font("Calibri", 7.841584F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
       this.checkBoxSeedWithMouseCursor.Location = new System.Drawing.Point(192, 151);
       this.checkBoxSeedWithMouseCursor.Name = "checkBoxSeedWithMouseCursor";
       this.checkBoxSeedWithMouseCursor.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -595,7 +595,7 @@
       // 
       // label13
       // 
-      this.label13.Font = new System.Drawing.Font("Calibri", 12.11881F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+      this.label13.Font = new System.Drawing.Font("Calibri", 12.11881F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
       this.label13.Location = new System.Drawing.Point(20, 3);
       this.label13.Name = "label13";
       this.label13.Size = new System.Drawing.Size(167, 24);
@@ -608,9 +608,9 @@
       this.buttonCancelGif.BackColor = System.Drawing.Color.Red;
       this.buttonCancelGif.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonCancelGif.BackgroundImage")));
       this.buttonCancelGif.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonCancelGif.Location = new System.Drawing.Point(425, 211);
+      this.buttonCancelGif.Location = new System.Drawing.Point(284, 378);
       this.buttonCancelGif.Name = "buttonCancelGif";
-      this.buttonCancelGif.Size = new System.Drawing.Size(82, 103);
+      this.buttonCancelGif.Size = new System.Drawing.Size(66, 100);
       this.buttonCancelGif.TabIndex = 285;
       this.buttonCancelGif.Text = "STOP!";
       this.buttonCancelGif.UseVisualStyleBackColor = false;
@@ -638,17 +638,17 @@
       this.panelAttractionIterations.Controls.Add(this.buttonSimulatePar);
       this.panelAttractionIterations.Controls.Add(this.buttonSimulate);
       this.panelAttractionIterations.Controls.Add(this.buttonEmulate);
-      this.panelAttractionIterations.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.panelAttractionIterations.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.panelAttractionIterations.Location = new System.Drawing.Point(3, 212);
       this.panelAttractionIterations.Name = "panelAttractionIterations";
-      this.panelAttractionIterations.Size = new System.Drawing.Size(413, 100);
+      this.panelAttractionIterations.Size = new System.Drawing.Size(503, 100);
       this.panelAttractionIterations.TabIndex = 1;
       // 
       // textBoxGIFFilename
       // 
       this.textBoxGIFFilename.Location = new System.Drawing.Point(160, 65);
       this.textBoxGIFFilename.Name = "textBoxGIFFilename";
-      this.textBoxGIFFilename.Size = new System.Drawing.Size(242, 25);
+      this.textBoxGIFFilename.Size = new System.Drawing.Size(325, 25);
       this.textBoxGIFFilename.TabIndex = 34;
       this.textBoxGIFFilename.Text = "GIF_filename";
       this.textBoxGIFFilename.TextChanged += new System.EventHandler(this.textBoxGIFFilename_TextChanged);
@@ -657,11 +657,11 @@
       // 
       this.buttonSimulatePar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonSimulatePar.BackgroundImage")));
       this.buttonSimulatePar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonSimulatePar.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonSimulatePar.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonSimulatePar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonSimulatePar.Location = new System.Drawing.Point(160, 33);
       this.buttonSimulatePar.Name = "buttonSimulatePar";
-      this.buttonSimulatePar.Size = new System.Drawing.Size(245, 30);
+      this.buttonSimulatePar.Size = new System.Drawing.Size(328, 30);
       this.buttonSimulatePar.TabIndex = 32;
       this.buttonSimulatePar.Text = "Vary Parameter";
       this.buttonSimulatePar.UseVisualStyleBackColor = true;
@@ -671,11 +671,11 @@
       // 
       this.buttonSimulate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonSimulate.BackgroundImage")));
       this.buttonSimulate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonSimulate.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonSimulate.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonSimulate.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonSimulate.Location = new System.Drawing.Point(160, 3);
       this.buttonSimulate.Name = "buttonSimulate";
-      this.buttonSimulate.Size = new System.Drawing.Size(245, 30);
+      this.buttonSimulate.Size = new System.Drawing.Size(328, 30);
       this.buttonSimulate.TabIndex = 31;
       this.buttonSimulate.Text = "Vary max. Iter.";
       this.buttonSimulate.UseVisualStyleBackColor = true;
@@ -685,7 +685,7 @@
       // 
       this.buttonEmulate.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonEmulate.BackgroundImage")));
       this.buttonEmulate.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonEmulate.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonEmulate.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonEmulate.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonEmulate.Location = new System.Drawing.Point(4, 3);
       this.buttonEmulate.Name = "buttonEmulate";
@@ -732,7 +732,7 @@
       // label3
       // 
       this.label3.AutoSize = true;
-      this.label3.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.label3.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Bold);
       this.label3.Location = new System.Drawing.Point(6, 15);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(59, 17);
@@ -776,7 +776,7 @@
       // 
       // checkBoxSetSeed
       // 
-      this.checkBoxSetSeed.Font = new System.Drawing.Font("Calibri", 7.841584F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
+      this.checkBoxSetSeed.Font = new System.Drawing.Font("Calibri", 7.841584F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))));
       this.checkBoxSetSeed.Location = new System.Drawing.Point(33, 161);
       this.checkBoxSetSeed.Name = "checkBoxSetSeed";
       this.checkBoxSetSeed.Size = new System.Drawing.Size(151, 19);
@@ -786,7 +786,7 @@
       // 
       // listBoxFeigenbaum
       // 
-      this.listBoxFeigenbaum.Font = new System.Drawing.Font("Calibri", 7.841584F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.listBoxFeigenbaum.Font = new System.Drawing.Font("Calibri", 7.841584F);
       this.listBoxFeigenbaum.FormattingEnabled = true;
       this.listBoxFeigenbaum.Items.AddRange(new object[] {
             "3.000000",
@@ -833,7 +833,7 @@
       // 
       // label10
       // 
-      this.label10.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label10.Font = new System.Drawing.Font("Calibri", 10.69307F);
       this.label10.Location = new System.Drawing.Point(32, 75);
       this.label10.Name = "label10";
       this.label10.Size = new System.Drawing.Size(109, 20);
@@ -843,7 +843,7 @@
       // 
       // numericUpDownInitialPoints
       // 
-      this.numericUpDownInitialPoints.Font = new System.Drawing.Font("Calibri", 12.11881F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.numericUpDownInitialPoints.Font = new System.Drawing.Font("Calibri", 12.11881F);
       this.numericUpDownInitialPoints.Location = new System.Drawing.Point(143, 72);
       this.numericUpDownInitialPoints.Name = "numericUpDownInitialPoints";
       this.numericUpDownInitialPoints.Size = new System.Drawing.Size(39, 28);
@@ -852,7 +852,7 @@
       // 
       // labelNoPoints
       // 
-      this.labelNoPoints.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.labelNoPoints.Font = new System.Drawing.Font("Calibri", 10.69307F);
       this.labelNoPoints.Location = new System.Drawing.Point(101, 169);
       this.labelNoPoints.Name = "labelNoPoints";
       this.labelNoPoints.Size = new System.Drawing.Size(83, 20);
@@ -862,7 +862,7 @@
       // 
       // label8
       // 
-      this.label8.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label8.Font = new System.Drawing.Font("Calibri", 10.69307F);
       this.label8.Location = new System.Drawing.Point(16, 169);
       this.label8.Name = "label8";
       this.label8.Size = new System.Drawing.Size(83, 20);
@@ -873,7 +873,7 @@
       // 
       // numericUpDownMultPointsPerStep
       // 
-      this.numericUpDownMultPointsPerStep.Font = new System.Drawing.Font("Calibri", 12.11881F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.numericUpDownMultPointsPerStep.Font = new System.Drawing.Font("Calibri", 12.11881F);
       this.numericUpDownMultPointsPerStep.Location = new System.Drawing.Point(143, 102);
       this.numericUpDownMultPointsPerStep.Name = "numericUpDownMultPointsPerStep";
       this.numericUpDownMultPointsPerStep.Size = new System.Drawing.Size(39, 28);
@@ -882,7 +882,7 @@
       // 
       // label5
       // 
-      this.label5.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label5.Font = new System.Drawing.Font("Calibri", 10.69307F);
       this.label5.Location = new System.Drawing.Point(32, 105);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(109, 20);
@@ -892,7 +892,7 @@
       // 
       // numericUpDownDotSize
       // 
-      this.numericUpDownDotSize.Font = new System.Drawing.Font("Calibri", 12.11881F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.numericUpDownDotSize.Font = new System.Drawing.Font("Calibri", 12.11881F);
       this.numericUpDownDotSize.Location = new System.Drawing.Point(111, 5);
       this.numericUpDownDotSize.Name = "numericUpDownDotSize";
       this.numericUpDownDotSize.Size = new System.Drawing.Size(39, 28);
@@ -904,7 +904,7 @@
       this.buttonNextTrajectory.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonNextTrajectory.BackgroundImage")));
       this.buttonNextTrajectory.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
       this.buttonNextTrajectory.Enabled = false;
-      this.buttonNextTrajectory.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonNextTrajectory.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonNextTrajectory.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonNextTrajectory.Location = new System.Drawing.Point(8, 132);
       this.buttonNextTrajectory.Name = "buttonNextTrajectory";
@@ -918,7 +918,7 @@
       // 
       this.buttonStopTrajectory.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonStopTrajectory.BackgroundImage")));
       this.buttonStopTrajectory.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonStopTrajectory.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonStopTrajectory.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonStopTrajectory.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonStopTrajectory.Location = new System.Drawing.Point(98, 132);
       this.buttonStopTrajectory.Name = "buttonStopTrajectory";
@@ -930,7 +930,7 @@
       // 
       // label4
       // 
-      this.label4.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label4.Font = new System.Drawing.Font("Calibri", 10.69307F);
       this.label4.Location = new System.Drawing.Point(43, 7);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(65, 20);
@@ -942,7 +942,7 @@
       // 
       this.buttonCalcHenon.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonCalcHenon.BackgroundImage")));
       this.buttonCalcHenon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonCalcHenon.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonCalcHenon.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonCalcHenon.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonCalcHenon.Location = new System.Drawing.Point(8, 34);
       this.buttonCalcHenon.Name = "buttonCalcHenon";
@@ -955,7 +955,7 @@
       // labelGeneralFunction
       // 
       this.labelGeneralFunction.AutoSize = true;
-      this.labelGeneralFunction.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.labelGeneralFunction.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.labelGeneralFunction.Location = new System.Drawing.Point(250, 5);
       this.labelGeneralFunction.Name = "labelGeneralFunction";
       this.labelGeneralFunction.Size = new System.Drawing.Size(114, 17);
@@ -976,7 +976,7 @@
       // listBoxXValues
       // 
       this.listBoxXValues.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-      this.listBoxXValues.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.listBoxXValues.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.listBoxXValues.FormattingEnabled = true;
       this.listBoxXValues.ItemHeight = 17;
       this.listBoxXValues.Location = new System.Drawing.Point(12, 31);
@@ -986,7 +986,7 @@
       // 
       // label1
       // 
-      this.label1.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label1.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label1.Location = new System.Drawing.Point(11, 3);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(67, 23);
@@ -1091,7 +1091,7 @@
       // 
       this.buttonCombinations.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonCombinations.BackgroundImage")));
       this.buttonCombinations.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonCombinations.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonCombinations.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonCombinations.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonCombinations.Location = new System.Drawing.Point(284, 116);
       this.buttonCombinations.Name = "buttonCombinations";
@@ -1112,7 +1112,7 @@
       // 
       // label12
       // 
-      this.label12.Font = new System.Drawing.Font("Calibri", 9.980198F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.label12.Font = new System.Drawing.Font("Calibri", 9.980198F);
       this.label12.Location = new System.Drawing.Point(223, 4);
       this.label12.Name = "label12";
       this.label12.Size = new System.Drawing.Size(237, 23);
@@ -1124,7 +1124,7 @@
       // 
       this.buttonBifurcationDiagram.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonBifurcationDiagram.BackgroundImage")));
       this.buttonBifurcationDiagram.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-      this.buttonBifurcationDiagram.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+      this.buttonBifurcationDiagram.Font = new System.Drawing.Font("Calibri", 10.69307F, System.Drawing.FontStyle.Bold);
       this.buttonBifurcationDiagram.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
       this.buttonBifurcationDiagram.Location = new System.Drawing.Point(284, 30);
       this.buttonBifurcationDiagram.Name = "buttonBifurcationDiagram";
@@ -1150,7 +1150,7 @@
       this.ClientSize = new System.Drawing.Size(1250, 700);
       this.Controls.Add(this.panelMainPanel);
       this.Controls.Add(this.panel4Image);
-      this.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+      this.Font = new System.Drawing.Font("Calibri", 9F);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
       this.Name = "FunctionsForm";

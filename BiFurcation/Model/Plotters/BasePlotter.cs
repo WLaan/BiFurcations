@@ -1,12 +1,13 @@
-﻿using System.Drawing;
-using System.ComponentModel;
+﻿using System;
+using System.Drawing;
+using System.Threading;
 
 namespace BiFurcation {
 
   public class BasePlotter {
 
     protected bool usedColorIndicesCalced = false;
-    protected ColorIndex[,] usedColorIndices;// = new ColorIndex[Constants.UsedBSize, Constants.UsedBSize];
+    protected ColorIndex[,] usedColorIndices;
     public ColorIndex[,] UsedColorIndices {
       set {
         usedColorIndices = value;
@@ -125,16 +126,28 @@ namespace BiFurcation {
         return smoozeType;
       }
     }
-    protected BackgroundWorker worker = null;
-    public BackgroundWorker Worker {
+    public FractalType ThisType = FractalType.None;
+
+    public IProgress<ProgressReportModel> Progress {
       get {
-        return worker;
-      }
-      set {
-        worker = value;
+        return combinedControl.progress;
       }
     }
-    public FractalType ThisType = FractalType.None;
+    public CancellationTokenSource Cts {
+      get {
+        return combinedControl.cts;
+      }
+    }
+    public CancellationToken Token {
+      get {
+        return combinedControl.token;
+      }
+    }
+    public ProgressReportModel Report {
+      get {
+        return combinedControl.report;
+      }
+    }
 
     public BasePlotter() {
     }
@@ -147,6 +160,16 @@ namespace BiFurcation {
       ResetMaxSquared();     
     }
 
+    protected bool ReportProgressBreak(int X) {
+      if (Report != null) {
+        Report.PercentageComplete = X;
+        if (Progress != null)
+          Progress.Report(Report);
+        return Token.IsCancellationRequested;
+      }
+      else
+        return false;
+    }
     public virtual void DoCalculation() {}
     public void InitImages(Bitmap MainImage, Bitmap PointsImage, int BSize) {
       try {
@@ -182,8 +205,6 @@ namespace BiFurcation {
     }
     public virtual void Reset() {
       Map.Reset();
-      if (Map.usedColorIndices != null)
-        usedColorIndices = new ColorIndex[Map.Width, Map.Height];
       usedColorIndicesCalced = false;
     }
 

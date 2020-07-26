@@ -55,6 +55,8 @@ namespace BiFurcation {
       MaxIterations = combinedControl.MaxIterations;
       MAX_MAG_SQUARED = combinedControl.MAX_MAG_SQUARED;
       Init();
+      //progressHandler = new Progress<ProgressReportModel>();
+      //progressHandler.ProgressChanged += c.PlotForm.ReportProgress;
     }
     public BaseFor2DimensionalPlot(Control4NonLineairSystems c, DirectBitmap m) : this(c) {
       UseOwnBitmap = true;
@@ -244,39 +246,13 @@ namespace BiFurcation {
         return;
       }
       Init();
-      //var calculatedPoints = Enumerable.Range(0, map.Width * map.Height).AsParallel().Select(xy => {
-      //  int X, Y;
-      //  Y = xy / map.Width;
-      //  X = xy % map.Width;
-      //  ReaC = XMin + X * dx;
-      //  ImaC = YMax - Y * dy;
-      //  Complex C = Initial_C;
-      //  Complex Z = Initial_Z;
-      //  int clr = 1;
-      //  while ((clr < maxIterations) && (Z.MagnitudeSquared < max_MAG_SQUARED)) {
-      //    // Calculate Z(clr).
-      //    Z = Zn(Z, C);
-      //    clr++;
-      //  }
-      //  try {
-      //    map.usedColorIndices[X, Y] = new ColorIndex(X, Y, clr, Z);
-      //    if (map.usedColorIndices[X, Y] == null) {
-      //      X = 0;//Start over again. did happen sometimes, not anymore (??)
-      //    }
-      //  }
-      //  catch {
-      //  }
-      //  return new CalculatedPoint { x = X, y = Y, i = 0 };
-      //});
       ReaC = XMin;
       try {
-        for (int X = 0; X < map.Width && (worker == null || !worker.CancellationPending); X++) {
-          try {
-            if (worker != null)
-              worker.ReportProgress(X);
-          }
-          catch {
-          }
+        for (int X = 0; X < map.Width; X++){
+
+          // Let the user know we're not dead.
+          if (ReportProgressBreak(X)) break;
+
           ImaC = YMax;
           for (int Y = 0; Y < map.Height; Y++) {
             Complex C = Initial_C;
@@ -333,20 +309,17 @@ namespace BiFurcation {
       if (Map.CalculatedTypes.Contains(smoozeType))
         return;
       DirectBitmap map = Map;
-      for (int X = 0; X < Map.Width && (worker == null || !worker.CancellationPending); X++) {
-        try {
-          if (worker != null)
-            worker.ReportProgress(X);
-        }
-        catch {
-        }
+
+      for (int X = 0; X < Map.Width; X++){
+        // Let the user know we're not dead.
+        if (ReportProgressBreak(X)) break;
+
         for (int Y = 0; Y < Map.Height; Y++) {
           try {
             if (map.usedColorIndices[X, Y] != null)
               Color2UsedColorIndices(map.usedColorIndices[X, Y]);
           }
-          catch {
-          }
+          catch {}
         }
       }
       if (!map.CalculatedTypes.Contains(smoozeType))

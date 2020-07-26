@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
-using System.Windows.Forms;
 using System.Collections.Generic;
+
+using System.Windows.Forms;
 
 namespace BiFurcation {
 
@@ -32,11 +33,6 @@ namespace BiFurcation {
         return DiagramsForm.instance;
       }
     }
-
-    public static void setNull() {
-      instance = null;
-    }
-
     public static DiagramsForm GetInvisible {
       get {
         if (DiagramsForm.instance == null) {
@@ -45,10 +41,6 @@ namespace BiFurcation {
         }
         return DiagramsForm.instance;
       }
-    }
-    public static void setInvisible() {
-      if (DiagramsForm.instance != null)
-        DiagramsForm.instance.Visible = false;
     }
     #endregion
 
@@ -64,7 +56,7 @@ namespace BiFurcation {
       set {
         control4FunctionsView = value;
         control4DiagramView.CurrentFunction = control4FunctionsView.CurrentFunction.Clone();// control4FunctionsView.CurrentFunction;
-        params2Form();
+        Params2Form();
       }
     }
 
@@ -170,7 +162,7 @@ namespace BiFurcation {
     }
     private void buttonStop_Click(System.Object sender, System.EventArgs e) {
       control4DiagramView.StopThread();
-      endGenerate();
+      EndGenerate();
     }
     private void textBoxSkipHenion150_TextChanged(System.Object sender, System.EventArgs e) {
       control4DiagramView.SetHenonSkipIterations(textBoxSkipHenion150.Text);
@@ -178,7 +170,7 @@ namespace BiFurcation {
     private void checkBoxPlotFeigenbaum_CheckedChanged(System.Object sender, System.EventArgs e) {
       control4DiagramView.PlotFeigenbaum = checkBoxPlotFeigenbaum.Checked;
       control4DiagramView.PlotDiagram();
-      endGenerate();
+      EndGenerate();
     }
     private void comboBoxChoozenFunction_SelectedIndexChanged(System.Object sender, System.EventArgs e) {
       control4FunctionsView.CurrFunctionType = (FunctionType)comboBoxChoozenFunction.SelectedIndex;
@@ -210,7 +202,7 @@ namespace BiFurcation {
       }
     }
 
-    public Bitmap setFunctionImage {
+    public Bitmap SetFunctionImage {
       set {
         pictureBoxFunction.Image = value;
       }
@@ -229,18 +221,18 @@ namespace BiFurcation {
         labelFunction.Text = value;
       }
     }
-    public void showNumber(int index, decimal Par, List<DiagramSet> diagram) {
+    public void ShowNumber(int index, decimal Par, List<DiagramSet> diagram) {
       listBoxFurcationGroup.Items.Clear();
       for (int i = 0; i < diagram[index].setPoints.Count; i++)
         listBoxFurcationGroup.Items.Add(diagram[index].setPoints[i].X.ToString());
       int c = diagram[index].setPoints.Count;
       labelNumFurcations.Text = "Number of converging points: " + c.ToString() + " at " + labelParameter.Text + " = " + Par.ToString("0.000000000"); 
     }
-    public void setCurrentIteration(int t) {
+    public void SetCurrentIteration(int t) {
       try {
         if (this.InvokeRequired) {
           this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-            this.setCurrentIteration(t);
+            this.SetCurrentIteration(t);
           })));
         }
         else {
@@ -250,12 +242,12 @@ namespace BiFurcation {
       }
       catch { }
     }
-    public void setEnabled(bool e) {
+    public void SetEnabled(bool e) {
       panel2.Enabled = e;
       panel3.Enabled = e;
       labelShoozClicker.Enabled = e;
     }
-    public void params2Form() {
+    public void Params2Form() {
       textBoxStartParameter.Text = control4DiagramView.Xmin.ToString("0.00");
       textBoxStopParamater.Text = control4DiagramView.Xmax.ToString("0.00");
       textBoxXStart.Text = control4DiagramView.Ymin.ToString("0.00");
@@ -271,10 +263,10 @@ namespace BiFurcation {
     }
 
     #region IProgressbar
-    public void setProgressBar(int max) {
+    public void SetProgressBar(int max) {
       if (this.InvokeRequired) {
         this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.setProgressBar(max);
+          this.SetProgressBar(max);
         })));
       }
       else {
@@ -284,26 +276,13 @@ namespace BiFurcation {
         progressBar.BringToFront();
       }
     }
-    public void worker_ProgressChanged(int val) {
-      if (this.InvokeRequired) {
-        this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.worker_ProgressChanged(val);
-        })));
-      }
-      else {
-        progressBar.Value = val;
-        progressBar.Invalidate();
-      }
-    }
-    public void endGenerate() {
+    public void EndGenerate() {
       progressBar.Visible = false;
-      setEnabled(true);
+      SetEnabled(true);
       Refresh();
     }
-    public int GIFProgress {
-      set {
-       // labelGIFProgress.Text = value.ToString();
-      }
+    public void ReportProgress(object sender, ProgressReportModel e) {
+      progressBar.Value = e.PercentageComplete;
     }
     #endregion
     #endregion

@@ -4,10 +4,10 @@ namespace BiFurcation {
 
   public interface IDefineColors {
 
-    Size getSpreadImageSize {
+    Size GetSpreadImageSize {
       get;
     }
-    void setSpreadImage(Bitmap im);
+    void SetSpreadImage(Bitmap im);
 
   }
 

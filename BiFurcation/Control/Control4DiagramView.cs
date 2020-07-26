@@ -11,7 +11,6 @@ namespace BiFurcation {
 
     #region private
     private List<DiagramSet> diagramPoints = new List<DiagramSet>();
-
     private FunctionDrawer diagramFunctionPlotter;
     #endregion
 
@@ -174,8 +173,8 @@ namespace BiFurcation {
       set {
         diagramDrawer.LineWidth = value;
         PlotDiagram();
-        PlotForm.endGenerate();
-        PlotForm.setEnabled(true);
+        PlotForm.EndGenerate();
+        PlotForm.SetEnabled(true);
       }
     }
 
@@ -209,6 +208,7 @@ namespace BiFurcation {
       diagramDrawer = new DiagramDrawer(PlotForm, control4AllViews.control4FunctionsView, false);
       diagramFunctionPlotter = new FunctionDrawerInset(PlotForm, Control4FunctionsView, false);
     }
+
     public int SkipFirst {
       get {
         if (CurrentFunction is HenonFunction) {
@@ -229,24 +229,24 @@ namespace BiFurcation {
 
       diagramFunctionPlotter.Form2Plot = null;//just to be sure
       diagramFunctionPlotter.DrawPicture();
-      PlotForm.setFunctionImage = diagramFunctionPlotter.MainImage;
+      PlotForm.SetFunctionImage = diagramFunctionPlotter.MainImage;
       CurrentFunction.Parameter = currentPar;
     }
-    private void CalcDiagram(object sender, DoWorkEventArgs e) {
-      Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-EN");
+    private void CalcDiagram() {
       gifCreater.images.Clear();
 
-      int deltaIterMax = MaxFunctionIterations / maxGIFIterations;
       int startIter = maxGIFIterations - 1;
       if (diagramDrawer.CreateGif) {
         startIter = 1;
       }
-      int[] iters = new int[] { 2, 10, 50, 100, 200, 400, 600, 800, 1000, 1200 };
+
       int s = 2;
       int d = MaxFunctionIterations / maxGIFIterations;
       if (maxGIFIterations > 2)
         d = MaxFunctionIterations / (maxGIFIterations - 2);
+
       for (int m = startIter; m < maxGIFIterations; m++) {
+
         decimal start = DiagramStartParameter;
         decimal stop = DiagramStopParameter;
         if (DiagramStartParameter > DiagramStopParameter) {
@@ -257,63 +257,62 @@ namespace BiFurcation {
         decimal tempP = CurrentFunction.Parameter;
         decimal delta = 1.0M * (stop - start) / BSize;
         diagramPoints.Clear();
-        for (int i = 0; i < BSize && (worker!=null &&!worker.CancellationPending); i++) {
-          worker.ReportProgress(i);
-          decimal p = start + i * delta;
-          BaseFunction diagramFunction = CurrentFunction;
-          diagramFunction.Parameter = p;
-        
-          if (diagramDrawer.CreateGif)
-            diagramFunction.MaxIterations = s;
-          else
-            diagramFunction.MaxIterations = MaxFunctionIterations;
-          diagramFunction.SetFurcationPoints();
-          if (diagramFunction.furcationPoints.Count > 0) {
-            if (CurrentFunction is HenonFunction) {
-              for (int dp = diagramFunction.furcationPoints.Count - 1; dp > diagramFunction.furcationPoints.Count - 250 && dp >= 0; dp--) {
-                DiagramSet ds = diagramFunction.furcationPoints[dp];
-                diagramPoints.Add(new DiagramSet(i, ds));
+        try {
+          for (int i = 0; i < BSize; i++) {
+            report.PercentageComplete = i;
+            if (progressHandler is IProgress<ProgressReportModel> progress)
+              progress.Report(report);
+            if (token.IsCancellationRequested) break;
+
+            decimal p = start + i * delta;
+            BaseFunction diagramFunction = CurrentFunction;
+            diagramFunction.Parameter = p;
+            if (p == 3.01m) {
+            }
+            if (diagramDrawer.CreateGif)
+              diagramFunction.MaxIterations = s;
+            else
+              diagramFunction.MaxIterations = MaxFunctionIterations;
+            diagramFunction.SetFurcationPoints();
+            if (diagramFunction.furcationPoints.Count > 0) {
+              if (CurrentFunction is HenonFunction) {
+                for (int dp = diagramFunction.furcationPoints.Count - 1; dp > diagramFunction.furcationPoints.Count - 250 && dp >= 0; dp--) {
+                  DiagramSet ds = diagramFunction.furcationPoints[dp];
+                  diagramPoints.Add(new DiagramSet(i, ds));
+                }
+              }
+              else {
+                int last = diagramFunction.furcationPoints.Count - 1;
+                diagramPoints.Add(new DiagramSet(i, diagramFunction.furcationPoints[last]));
               }
             }
             else {
-              int last = diagramFunction.furcationPoints.Count - 1;
-              diagramPoints.Add(new DiagramSet(i, diagramFunction.furcationPoints[last]));
+              diagramPoints.Add(new DiagramSet(i, 2));
             }
           }
-          else {
-            diagramPoints.Add(new DiagramSet(i, 2));
+          CurrentFunction.MaxIterations = tempMax;
+          CurrentFunction.Parameter = tempP;
+          PlotDiagram();
+          if (diagramDrawer.CreateGif) {
+            gifCreater.images.Add(diagramDrawer.Copy4GIF);
+            Thread.Sleep(1);
           }
+          PlotForm.SetCurrentIteration(m);
+          if (s < 100)
+            s += 10;
+          else
+            if (s < 1000)
+            s += 100;
+          else
+            s += d;
         }
-        CurrentFunction.MaxIterations = tempMax;
-        CurrentFunction.Parameter = tempP;
-        PlotDiagram();
-        if (diagramDrawer.CreateGif) {
-          gifCreater.images.Add(diagramDrawer.Copy4GIF);
-         // diagramDrawer.Copy4GIF.Save("temp.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-          Thread.Sleep(1);
-        }
-        PlotForm.setCurrentIteration(m);
-        if (s < 100)
-          s += 10;
-        else
-          if (s < 1000)
-          s += 100;
-        else
-          s += d;
+        catch {}
       }
       int mSec = 20 / maxGIFIterations;
       if (mSec == 0) mSec = 1;
       if (diagramDrawer.CreateGif)
         gifCreater.Create(mSec, DiagramGifFileName);
       ParamChoice2Form(DiagramStopParameter);
-    }
-    private void DiagramProgress(object sender, ProgressChangedEventArgs e) {
-      plotForm.worker_ProgressChanged(e.ProgressPercentage);
-    }
-    private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-      plotForm.endGenerate();
-      plotForm.setEnabled(true);
-      worker = null;
       diagramDrawer.CreateGif = false;
     }
     #endregion
@@ -324,8 +323,8 @@ namespace BiFurcation {
         Int32.TryParse(num, out f.SkipIterations);
       }
     }
-    public override void Simulate() {
-      PlotForm.params2Form();
+    public override void SimulateTask() {
+      PlotForm.Params2Form();
       CreateDiagram(false);
     }
     public void SetDiagram(IDiagramView diagram) {
@@ -336,9 +335,9 @@ namespace BiFurcation {
           g.Clear(Color.White);
         }
         catch { }
-      if (PlotForm.setFunctionImage != null)
+      if (PlotForm.SetFunctionImage != null)
         try {
-          using Graphics g = Graphics.FromImage(PlotForm.setFunctionImage);
+          using Graphics g = Graphics.FromImage(PlotForm.SetFunctionImage);
           g.Clear(Color.White);
         }
         catch { }
@@ -351,20 +350,9 @@ namespace BiFurcation {
       diagramDrawer.DrawPicture();
     }
     public void CreateDiagram(bool cGIF) {
-      plotForm.setEnabled(false);
-      if (DiagramStartParameter != DiagramStopParameter && worker == null) {
-        plotForm.setProgressBar(BSize);
-        diagramDrawer.CreateGif = cGIF;
-        worker = new BackgroundWorker();
-        worker.WorkerSupportsCancellation = true;
-        worker.WorkerReportsProgress = true;
-        worker.DoWork += new DoWorkEventHandler(CalcDiagram);
-        worker.ProgressChanged += new ProgressChangedEventHandler(DiagramProgress);
-        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_RunWorkerCompleted);
-        worker.RunWorkerAsync();
-      }
-      else
-        plotForm.setEnabled(true);
+      diagramDrawer.CreateGif = cGIF;
+      DoTaskWork = CalcDiagram;
+      base.SimulateTask();
     }
     public void DiagramParamShoice(int x, Size size) {
       if (diagramPoints.Count > 0) {
@@ -378,7 +366,7 @@ namespace BiFurcation {
         }
         decimal Par = start + (decimal)((stop - start) * dx) ;
         if (index >= 0 && index < BSize && index < diagramPoints.Count)
-          PlotForm.showNumber(index, Par, diagramPoints);
+          PlotForm.ShowNumber(index, Par, diagramPoints);
         ParamChoice2Form(Par);
       }
     }

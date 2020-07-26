@@ -15,7 +15,7 @@ namespace BiFurcation {
         return "Henon, With x' = -Ax - B(y - x^2) and y' = Bx - A(y - x^2) where B = Sqrt(1 - A*A)";
       }
     }
-    public override void setABval(string A, string B) {
+    public override void SetABval(string A, string B) {
       float a = 0;
       float.TryParse(A, out a);
       float b = 0;

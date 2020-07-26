@@ -216,6 +216,10 @@ namespace BiFurcation {
       }
     }
 
+    public static void SaveMap(Bitmap map) {
+      map.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+    }
+
     #region methods for settings
     public static void SettingsFromXML() {
 

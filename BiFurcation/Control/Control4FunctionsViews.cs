@@ -90,9 +90,8 @@ namespace BiFurcation {
 
     #region properties
     public void SetHenonDotsize(string num) {
-      if (CurrentFunction is HenonFunction) {
-        HenonFunction f = (HenonFunction)CurrentFunction;
-        Int32.TryParse(num, out f.HenonDotsize);
+      if (CurrentFunction is HenonFunction curr) {
+        Int32.TryParse(num, out curr.HenonDotsize);
         PlotFunction();
       }
     }
@@ -154,17 +153,15 @@ namespace BiFurcation {
     public bool SeedWithMouse { set; get; } = false;
     public override int MaxIterations {
       get {
-        if (CurrentFunction is HenonFunction) {
-          HenonFunction f = (HenonFunction)CurrentFunction;
-          return f.MaxIterations;
+        if (CurrentFunction is HenonFunction curr) {
+          return curr.MaxIterations;
         }
         else
           return MaxFunctionIterations;
       }
       set {
-        if (CurrentFunction is HenonFunction) {
-          HenonFunction f = (HenonFunction)CurrentFunction;
-          f.MaxIterations = value;
+        if (CurrentFunction is HenonFunction curr) {
+          curr.MaxIterations = value;
         }
         else
           MaxFunctionIterations = value;
@@ -172,13 +169,10 @@ namespace BiFurcation {
     }
     public int MaxFunctionIterations {
       set {
-      //  if (currentFunction is HenonFunction || true) {
-          //  HenonFunction f = (HenonFunction)currentFunction;
-          CurrentFunction.MaxIterations = value;
-       // }
+        CurrentFunction.MaxIterations = value;
       }
       get {
-        return CurrentFunction.MaxIterations;// maxFunctionIterations;
+        return CurrentFunction.MaxIterations;
       }
     }
     private FunctionType currentFunctionType = FunctionType.FixedPolynomial;
@@ -206,7 +200,7 @@ namespace BiFurcation {
             break;
         }
         if (!doFillXvalues)
-          PlotForm.fillXValues(new List<decimal>());
+          PlotForm.FillXValues(new List<decimal>());
         CurrentFunction.XMax = CurrentFunction.XMax;
         CurrentFunction.YMax = CurrentFunction.YMax;
         functionDrawer = new FunctionDrawer(PlotForm, this, createGIF);
@@ -259,32 +253,28 @@ namespace BiFurcation {
     #endregion
     public int MultStepPoints {
       set {
-        if (CurrentFunction is HenonFunction) {
-          HenonFunction f = (HenonFunction)CurrentFunction;
-          f.MultStepPoints = value;
+        if (CurrentFunction is HenonFunction curr) {
+          curr.MultStepPoints = value;
         }
       }
       get {
-        if (CurrentFunction is HenonFunction) {
-          HenonFunction f = (HenonFunction)CurrentFunction;
-          return f.MultStepPoints;
+        if (CurrentFunction is HenonFunction curr) {
+          return curr.MultStepPoints;
         }
         else return 0;
       }
     }
     public int InitionalDots {
       set {
-        if (CurrentFunction is HenonFunction) {
-          HenonFunction f = (HenonFunction)CurrentFunction;
-          f.InitionalDots = value;
+        if (CurrentFunction is HenonFunction curr) {
+          curr.InitionalDots = value;
         }
       }
     }
     public int NoPoints {
       get {
-        if (CurrentFunction is HenonFunction) {
-          HenonFunction f = (HenonFunction)CurrentFunction;
-          return f.Traject.Count;
+        if (CurrentFunction is HenonFunction curr) {
+          return curr.Traject.Count;
         }
         else return 0;
       }
@@ -311,11 +301,11 @@ namespace BiFurcation {
 
       Constants.Initalising = false;
       PlotForm.Control4FunctionsView = this;
-      PlotForm.params2Form();
+      PlotForm.Params2Form();
     }
 
     #region private
-    private void CalcSim(object sender, DoWorkEventArgs e) {
+    private void CalcSim() {
       doFillXvalues = false;
       int m = MaxFunctionIterations;
       CurrentFunction.MaxIterations = 1;
@@ -330,11 +320,11 @@ namespace BiFurcation {
         Thread.Sleep(5);
       }
       gifCreater.Create(1, FunctionGifFileName);
-      bool b = CurrentFunction.ReachedConvergence;
       MaxFunctionIterations = m;
       doFillXvalues = true;
+      CreateGIF = false;
     }
-    private void CalcSimPar(object sender, DoWorkEventArgs e) {
+    private void CalcSimPar() {
       doFillXvalues = false;
       decimal t = CurrentFunction.Parameter;
       decimal start = t;
@@ -342,43 +332,44 @@ namespace BiFurcation {
         start = CurrentFunction.DiagramStop;
       }
       int m = MaxFunctionIterations;
-      decimal delta = Math.Abs((CurrentFunction.DiagramStop - t)) * 300 / 100;
+     
       gifCreater.images.Clear();
-      PlotForm.setProgressBar((int)(Math.Abs((CurrentFunction.DiagramStop - t)) * 300 / delta)+ 10);
-      for (decimal i = 0; i <= Math.Abs((CurrentFunction.DiagramStop - t)) * 300 && !worker.CancellationPending; i += delta) {
-        CurrentFunction.Parameter = start + i / 300;
-        worker.ReportProgress((int)i);
-        PlotFunction();
-        if (CreateGIF)
-          gifCreater.images.Add(functionDrawer.Copy4GIF);
-        Thread.Sleep(5);
+
+      decimal range2Fill = Math.Abs(CurrentFunction.DiagramStop - t);
+      int numSteps = 50;
+      decimal delta = range2Fill / numSteps;
+      int max = (int)(Math.Abs(CurrentFunction.DiagramStop - t) * 100);
+      PlotForm.SetProgressBar(numSteps + 1);
+      try {
+        for (decimal i = 0; i <numSteps; i++) {
+          report.PercentageComplete = (int)i;
+          if (progressHandler is IProgress<ProgressReportModel> progress)
+            progress.Report(report);
+          if (token.IsCancellationRequested) break;
+          CurrentFunction.Parameter = start + i*delta;
+          PlotFunction();
+          if (CreateGIF)
+            gifCreater.images.Add(functionDrawer.Copy4GIF);
+          Thread.Sleep(5);
+        }
       }
+      catch { }
       gifCreater.Create(1, FunctionGifFileName);
       CurrentFunction.Parameter = t;
       PlotFunction();
       MaxFunctionIterations = m;
       doFillXvalues = true;
     }
-    private void DiagramProgress(object sender, ProgressChangedEventArgs e) {
-      plotForm.worker_ProgressChanged(e.ProgressPercentage);
-    }
-    private void Worker_RunWorkerCompletedSim(object sender, RunWorkerCompletedEventArgs e) {
-      worker = null;
-      PlotForm.setEnabled(true);
-      plotForm.endGenerate();
-      CreateGIF = false;
-    }
     #endregion
 
     public void SetHenonSkipIterations(string num) {
-      if (CurrentFunction is HenonFunction) {
-        HenonFunction f = (HenonFunction)CurrentFunction;
-        Int32.TryParse(num, out f.SkipIterations);
+      if (CurrentFunction is HenonFunction curr) {
+        Int32.TryParse(num, out curr.SkipIterations);
       }
     }
-    public override void Simulate() {
+    public override void SimulateTask() {
       SetPoints();
-      PlotForm.params2Form();
+      PlotForm.Params2Form();
     }
 
     public void SetFInclude(int f, bool v) {
@@ -398,14 +389,13 @@ namespace BiFurcation {
     public void PlotFunction() {
       CurrentFunction.CalcFunctionPoints();
       if (functionDrawer != null) {
-        if (CurrentFunction is HenonFunction) {
-          HenonFunction f = (HenonFunction)CurrentFunction;
+        if (CurrentFunction is HenonFunction curr) {
           try {
-            if (f.MaxIterations > 1000000 && functionDrawer.MainImage.Height == Constants.UsedBSize) {
+            if (curr.MaxIterations > 1000000 && functionDrawer.MainImage.Height == Constants.UsedBSize) {
               BSize = 2* Constants.UsedBSize;
             }
             else {
-              if (f.MaxIterations <= 1000000 && functionDrawer.MainImage.Height == 2* Constants.UsedBSize) {
+              if (curr.MaxIterations <= 1000000 && functionDrawer.MainImage.Height == 2* Constants.UsedBSize) {
                 BSize = Constants.UsedBSize;
               }
             }
@@ -430,19 +420,11 @@ namespace BiFurcation {
           x = (int)(x * pictBoxSize.Width / w);
           y = (int)(y * pictBoxSize.Height / h);
           Bitmap bm = new Bitmap(map.Width, map.Height);
-          //try {
-          //  //NIET doen!!!!
-          //  if (PlotForm.FormImage != MainImage && PlotForm.FormImage != null)
-          //    PlotForm.FormImage.Dispose();
-          //}
-          //catch { }
-
           if (bm != null) {
             Rectangle destRect = DestRect;
             PlotFunction();
             using Graphics gr = Graphics.FromImage(bm);
             gr.DrawImage(functionDrawer.PointsImage.Bitmap, destRect, sourceRect, GraphicsUnit.Pixel);
-            //     PointsImage.Bitmap.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
             using Pen p = new Pen(Color.Red, 1);
             Rectangle rect = new Rectangle((int)(Math.Min(screenX, x)), (int)(Math.Min(screenY, y)),
                                            (int)(Math.Abs(screenX - x)), (int)(Math.Abs(screenY - y)));
@@ -455,7 +437,7 @@ namespace BiFurcation {
     }
     public void SetPoints() {
       if (Constants.Initalising) return;
-      PlotForm.setEnabled(false);
+      PlotForm.SetEnabled(false);
       PlotFunction();
 
       if (doFillXvalues) {
@@ -468,35 +450,19 @@ namespace BiFurcation {
             PointD p = setpoints[i];
             furcationPoints.Add(p.X);
           }
-        PlotForm.fillXValues(furcationPoints);
+        PlotForm.FillXValues(furcationPoints);
       }
-      PlotForm.setEnabled(true);
+      PlotForm.SetEnabled(true);
     }
     public void Simulate(bool cGIF) {
-      if (worker == null) {
-        CreateGIF = cGIF;
-        PlotForm.setEnabled(false);
-        worker = new BackgroundWorker();
-        worker.WorkerSupportsCancellation = true;
-        worker.WorkerReportsProgress = true;
-        worker.DoWork += new DoWorkEventHandler(CalcSim);
-        worker.ProgressChanged += new ProgressChangedEventHandler(DiagramProgress);
-        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_RunWorkerCompletedSim);
-        worker.RunWorkerAsync();
-      }
+      CreateGIF = cGIF;
+      DoTaskWork = CalcSim;
+      base.SimulateTask();
     }
     public void SimulatePar(bool cGIF) {
-      if (worker == null) {
-        CreateGIF = cGIF;
-        PlotForm.setEnabled(false);
-        worker = new BackgroundWorker();
-        worker.WorkerSupportsCancellation = true;
-        worker.WorkerReportsProgress = true;
-        worker.DoWork += new DoWorkEventHandler(CalcSimPar);
-        worker.ProgressChanged += new ProgressChangedEventHandler(DiagramProgress);
-        worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(Worker_RunWorkerCompletedSim);
-        worker.RunWorkerAsync();
-      }
+      CreateGIF = cGIF;
+      DoTaskWork = CalcSimPar;
+      base.SimulateTask();
     }
     public override void MouseUp(int x, int y, int w, int h) {
       if (!drawingHenonMousePoints)

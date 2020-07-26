@@ -11,10 +11,12 @@ namespace AwaitParallelExample {
     public IView form;
     protected readonly Model model;
     public static CancellationTokenSource cts = new CancellationTokenSource();
+    public CancellationToken token;
 
     public BaseControl(IView f) {
       form = f;
       model = new Model();
+      token = cts.Token;
     }
 
     protected void ReportWebsiteInfo(WebsiteDataModel data) {

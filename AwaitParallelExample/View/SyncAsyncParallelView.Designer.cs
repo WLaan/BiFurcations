@@ -69,7 +69,7 @@
       this.buttonAsinc.Name = "buttonAsinc";
       this.buttonAsinc.Size = new System.Drawing.Size(1170, 59);
       this.buttonAsinc.TabIndex = 1;
-      this.buttonAsinc.Text = "Async execution";
+      this.buttonAsinc.Text = "Async execution with progress bar";
       this.buttonAsinc.UseVisualStyleBackColor = true;
       this.buttonAsinc.Click += new System.EventHandler(this.buttonAsinc_Click);
       // 
@@ -110,7 +110,7 @@
       // 
       this.progressBar.Location = new System.Drawing.Point(29, 362);
       this.progressBar.Name = "progressBar";
-      this.progressBar.Size = new System.Drawing.Size(1166, 23);
+      this.progressBar.Size = new System.Drawing.Size(1170, 23);
       this.progressBar.TabIndex = 3;
       // 
       // textBoxResults
@@ -118,7 +118,7 @@
       this.textBoxResults.Location = new System.Drawing.Point(29, 399);
       this.textBoxResults.Multiline = true;
       this.textBoxResults.Name = "textBoxResults";
-      this.textBoxResults.Size = new System.Drawing.Size(1166, 353);
+      this.textBoxResults.Size = new System.Drawing.Size(1170, 353);
       this.textBoxResults.TabIndex = 4;
       // 
       // buttonParallelSync

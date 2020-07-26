@@ -55,6 +55,10 @@
       Init();
       ReaC = XMin;
       for (int X = 0; X < Map.Width; X++) {
+
+        // Let the user know we're not dead.
+        if (ReportProgressBreak(X)) break;
+
         ImaC = YMin;
         for (int Y = 0; Y < Map.Height; Y++) {
           double a = ReaC + 0.1;
@@ -80,9 +84,6 @@
           ImaC += dy;
         }
         ReaC += dx;
-        // Let the user know we're not dead.
-        if (worker != null)
-          worker.ReportProgress(X);
       }
       Map.Calced_CLR_Z = true;
       usedColorIndices = new ColorIndex[Map.Width, Map.Height];
@@ -90,7 +91,6 @@
         Map.CalculatedTypes.Add(smoozeType);
       usedColorIndicesCalced = true;
       SetColorsFromNewSmoozedColors(combinedControl.SmoozeType);
-      //   map.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
     }
     public override BasePlotter Clone(DirectBitmap m) {
       return new HenonPlot(combinedControl, m);

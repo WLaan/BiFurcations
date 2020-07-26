@@ -65,45 +65,48 @@
       Reset();
       // Calculate the values.
       ReaC = XMin;
-      for (int X = 0; X < Map.Width; X++) {//143
-        ImaC = YMin;
-        for (int Y = 0; Y < Map.Height; Y++) {
-          double a = ReaC + 0.1;
-          double b = ImaC;
-          int clr = 1;
-          while ((clr < maxIterations)) {
-            // Calculate Z(clr).
-            double aa = a * a;
-            double bb = b * b;
-            double ab = a * b;
-            double newX = parameters[0] + parameters[1] * a + parameters[2] * aa + parameters[3] * ab + parameters[4] * b + parameters[5] * bb;
-            double newY = parameters[6] + parameters[7] * a + parameters[8] * aa + parameters[9] * ab + parameters[10] * b + parameters[11] * bb;
-            if (newX * newX + newY * newY > max_MAG_SQUARED) {
-              break; // Bail
-            }
-            double ta = a;
-            a = newX;
-            b = newY;
+      try {
+        for (int X = 0; X < Map.Width; X++) {//143
 
-            clr++;
+          // Let the user know we're not dead.
+          if (ReportProgressBreak(X)) break;
+
+          ImaC = YMin;
+          for (int Y = 0; Y < Map.Height; Y++) {
+            double a = ReaC + 0.1;
+            double b = ImaC;
+            int clr = 1;
+            while ((clr < maxIterations)) {
+              // Calculate Z(clr).
+              double aa = a * a;
+              double bb = b * b;
+              double ab = a * b;
+              double newX = parameters[0] + parameters[1] * a + parameters[2] * aa + parameters[3] * ab + parameters[4] * b + parameters[5] * bb;
+              double newY = parameters[6] + parameters[7] * a + parameters[8] * aa + parameters[9] * ab + parameters[10] * b + parameters[11] * bb;
+              if (newX * newX + newY * newY > max_MAG_SQUARED) {
+                break; // Bail
+              }
+              double ta = a;
+              a = newX;
+              b = newY;
+
+              clr++;
+            }
+            // Set the pixel's value.
+            Complex Z = new Complex(a, b);
+            Map.usedColorIndices[X, Y] = new ColorIndex(X, Y, clr, Z);
+            Color2UsedColorIndices(Map.usedColorIndices[X, Y]);
+            ImaC += dy;
           }
-          // Set the pixel's value.
-          Complex Z = new Complex(a, b);
-          Map.usedColorIndices[X, Y] = new ColorIndex(X, Y, clr, Z);
-          Color2UsedColorIndices(Map.usedColorIndices[X, Y]);
-          ImaC += dy;
+          ReaC += dx;
         }
-        ReaC += dx;
-        // Let the user know we're not dead.
-        if (worker != null)
-          worker.ReportProgress(X);
       }
+      catch { }
       Map.Calced_CLR_Z = true;
       if (!Map.CalculatedTypes.Contains(smoozeType))
         Map.CalculatedTypes.Add(smoozeType);
       SetColorsFromNewSmoozedColors(smoozeType);
       usedColorIndicesCalced = true;
-      //  map.Save("testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
     }
     public override BasePlotter Clone(DirectBitmap m) {
       return new UserdefinedPlot(combinedControl, m);

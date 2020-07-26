@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -347,7 +346,7 @@ namespace BiFurcation {
       if (!m_DrawingBox) return;
       m_DrawingBox = false;
       combinedControl.MouseUp(e.X, e.Y, pictureBox.Width, pictureBox.Height);
-      params2Form();
+      Params2Form();
       this.Cursor = Cursors.WaitCursor;
       Application.DoEvents();
       this.Cursor = Cursors.Default;
@@ -355,7 +354,7 @@ namespace BiFurcation {
     }
     private void buttonReset_Click(Object sender, EventArgs e) {
       combinedControl.Reset();
-      params2Form();
+      Params2Form();
     }
     private void textBoxXmin_TextChanged(Object sender, EventArgs e) {
       combinedControl.XminStr = textBoxXMin.Text;
@@ -387,7 +386,7 @@ namespace BiFurcation {
     }
     private void createGIFMenuItem_Click(Object sender, EventArgs e) {
       combinedControl.CreateGif(movingPosition, textBoxNumGifImages.Text, textBoxGIFFilename.Text);
-      setEnabled(false);
+      SetEnabled(false);
     }
     private void radioButtonCheckedChanged(Object sender, EventArgs e) {
       if (radioButtonSingle.Checked && sender == radioButtonSingle)
@@ -455,7 +454,7 @@ namespace BiFurcation {
       int tag = Int32.Parse(box.Tag.ToString());
       combinedControl.Index2GeneralType(tag);
       newType = FractalType.Mandelbrot;
-      presetType();
+      PresetType();
       panelExamples.Visible = false;
     }
     private void selectCurrentJuliaType(Object sender, EventArgs e) {
@@ -463,7 +462,7 @@ namespace BiFurcation {
       int tag = Int32.Parse(box.Tag.ToString());
       combinedControl.Index2JuliaType(tag);
       newType = FractalType.Julia;
-      presetType();
+      PresetType();
       panelExamples.Visible = false;
 
       textBoxJuliaX.Enabled = tag == juliaTypePictureBoxes.Count - 1;
@@ -474,7 +473,7 @@ namespace BiFurcation {
       int tag = Int32.Parse(box.Tag.ToString());
       combinedControl.Index2LineType(tag);
       newType = FractalType.LinePlot;
-      presetType();
+      PresetType();
       panelExamples.Visible = false;
     }
     private void buttonSelectType_Click(Object sender, EventArgs e) {
@@ -507,23 +506,23 @@ namespace BiFurcation {
     }
     private void buttonResetLineplot_Click(Object sender, EventArgs e) {
       combinedControl.ResetLinePlot();
-      params2Form();
+      Params2Form();
     }
     private void pictureBoxMiraType(Object sender, EventArgs e) {
       PictureBox box = (PictureBox)sender;
       string tag = box.Tag.ToString();
       combinedControl.SetMiratypePlot(tag);//setFavoriteLinePlot
       newType = FractalType.LinePlot;
-      presetType();
+      PresetType();
       panelExamples.Visible = false;
     }
     #endregion
 
     #region Interface
-    public void rescanExamples() {
+    public void RescanExamples() {
       if (this.InvokeRequired) {
         this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.rescanExamples();
+          this.RescanExamples();
         })));
       }
       else {
@@ -566,10 +565,10 @@ namespace BiFurcation {
       }
     }
 
-    public void setEnabled(bool en) {
+    public void SetEnabled(bool en) {
       if (this.InvokeRequired) {
         this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.setEnabled(en);
+          this.SetEnabled(en);
         })));
       }
       else {
@@ -635,7 +634,7 @@ namespace BiFurcation {
       createGIFMenuItem.Visible = !linePlotType;
 
     }
-    public void params2Form() {
+    public void Params2Form() {
       textBoxXMin.Text = combinedControl.Xmin.ToString("0.000");
       textBoxXMax.Text = combinedControl.Xmax.ToString("0.000");
       textBoxYMin.Text = combinedControl.Ymin.ToString("0.000");
@@ -681,7 +680,7 @@ namespace BiFurcation {
           paramBoxes[p].Text = combinedControl.Parameters[p].ToString();
       setVisibility();
     }
-    public void presetType() {
+    public void PresetType() {
       labelFunctionY.Text = "";
       switch (newType) {
         case FractalType.Userdefined:
@@ -703,9 +702,9 @@ namespace BiFurcation {
             labelFunctionY.Text = "Mandelbrot fractal. ";
           break;
       }
-      params2Form();
+      Params2Form();
     }
-    public void addExampleImage(int num, Bitmap map, string name, ExampleGroups group) {
+    public void AddExampleImage(int num, Bitmap map, string name, ExampleGroups group) {
       switch (group) {
         case ExampleGroups.General:
           if (num < generalTypePictureBoxes.Count) {
@@ -722,7 +721,6 @@ namespace BiFurcation {
         case ExampleGroups.Line:
           if (num < lineTypePictureBoxes.Count) {
             lineTypePictureBoxes[num].Image = map;
-        //    map.Save(Application.StartupPath + "testt.jpg", System.Drawing.Imaging.ImageFormat.Jpeg); 
             lineTypeLabels[num].Text = name;
           }
           break;
@@ -742,10 +740,10 @@ namespace BiFurcation {
     }
 
     #region IProgressbar
-    public void setProgressBar(int max) {
+    public void SetProgressBar(int max) {
       if (this.InvokeRequired) {
         this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.setProgressBar(max);
+          this.SetProgressBar(max);
         })));
       }
       else {
@@ -759,21 +757,10 @@ namespace BiFurcation {
         catch { }
       }
     }
-    public void worker_ProgressChanged(int val) {
+    public void EndGenerate() {
       if (this.InvokeRequired) {
         this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.worker_ProgressChanged(val);
-        })));
-      }
-      else {
-        progressBar.Value = val;
-        progressBar.Invalidate();
-      }
-    }
-    public void endGenerate() {
-      if (this.InvokeRequired) {
-        this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.endGenerate();
+          this.EndGenerate();
         })));
       }
       else {
@@ -784,6 +771,12 @@ namespace BiFurcation {
       set {
         labelGIFProgress.Text = "Progress: " + value.ToString();
       }
+    }
+    public void ReportProgressGif(object sender, ProgressReportModel e) {
+      labelGIFProgress.Text = "Progress: " + e.PercentageComplete;
+    }
+    public void ReportProgress(object sender, ProgressReportModel e) {
+      progressBar.Value = e.PercentageComplete;
     }
     #endregion
 

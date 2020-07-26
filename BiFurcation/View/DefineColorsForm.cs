@@ -372,12 +372,12 @@ namespace BiFurcation {
     }
     #endregion
 
-    public Size getSpreadImageSize {
+    public Size GetSpreadImageSize {
       get {
         return pictureBoxColors.Size;
       }
     }
-    public void setSpreadImage(Bitmap im) {
+    public void SetSpreadImage(Bitmap im) {
       pictureBoxColors.Image = im;
     }
 

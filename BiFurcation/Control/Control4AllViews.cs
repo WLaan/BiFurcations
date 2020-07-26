@@ -47,8 +47,8 @@ namespace BiFurcation {
       control4NonLineairSystems = new Control4NonLineairSystems(m, this);
       m.Control4NonLineairSystems = control4NonLineairSystems;
       control4NonLineairSystems.PlotForm = m;//needed to define colors when this form is not yet opened
-      ((ICombined)Control4NonLineairSystems.PlotForm).presetType();
-      Control4NonLineairSystems.PlotForm.params2Form();
+      ((ICombined)Control4NonLineairSystems.PlotForm).PresetType();
+      Control4NonLineairSystems.PlotForm.Params2Form();
 
       defColorForm.Control4DiagramView = Control4DiagramView;
       defColorForm.Control4FunctionsView = control4FunctionsView;
@@ -72,14 +72,9 @@ namespace BiFurcation {
         //Save the image in the pictureBox in the new path and file name
         image.Save(NEW_PATH, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-        //Lunch the process with defaoul image editor in the comouter
+        //Launch the process with default image editor in the comouter
         ProcessStartInfo startInfo = new ProcessStartInfo(NEW_PATH);
         Process.Start(startInfo);
-
-        //image.Save("temp.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-        //ProcessStartInfo startInfo = new ProcessStartInfo("temp.jpg");
-        //startInfo.Verb = "edit";
-        //Process.Start(startInfo);
       }
       catch { }
     }
@@ -106,7 +101,7 @@ namespace BiFurcation {
     public void OpenSystem2Form() {
       NonLineairSystemsForm m = NonLineairSystemsForm.Instance;
       m.Control4NonLineairSystems = Control4NonLineairSystems;
-      ((ICombined)Control4NonLineairSystems.PlotForm).presetType();
+      ((ICombined)Control4NonLineairSystems.PlotForm).PresetType();
       m.Show();
       m.BringToFront();
     }

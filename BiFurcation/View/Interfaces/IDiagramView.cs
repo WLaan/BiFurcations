@@ -11,13 +11,13 @@ namespace BiFurcation {
     string FunctionText {
       set;
     }
-    Bitmap setFunctionImage {
+    Bitmap SetFunctionImage {
       set;
       get;
     }
 
-    void showNumber(int num, decimal x, List<DiagramSet> diagram);
-    void setCurrentIteration(int t);
+    void ShowNumber(int num, decimal x, List<DiagramSet> diagram);
+    void SetCurrentIteration(int t);
 
   }
 

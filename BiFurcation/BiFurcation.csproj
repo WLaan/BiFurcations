@@ -96,6 +96,7 @@
     <Compile Include="Model\Functions\SinFunction.cs" />
     <Compile Include="Model\Plotters\Helpers\PointD.cs" />
     <Compile Include="Model\Plotters\LinePlotters\StarLinePlotter.cs" />
+    <Compile Include="ProgressReportModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

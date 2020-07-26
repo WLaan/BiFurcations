@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Threading;
 using System.Globalization;
 using System.Collections.Generic;
+
 using System.Windows.Forms;
 
 namespace BiFurcation {
@@ -11,6 +12,7 @@ namespace BiFurcation {
 
     #region fields
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+    private Control4AllViews control4AllViews;
 
     private int mouseX = 0;
     private int mouseY = 0;
@@ -36,7 +38,7 @@ namespace BiFurcation {
       DefineColorsForm defColorForm = DefineColorsForm.GetInvisible;
       defColorForm.CombinedControl = m.Control4NonLineairSystems;
 
-      params2Form();
+      Params2Form();
 
       this.Cursor = Cursors.Default;
       pictureBox.Cursor = Cursors.Cross;
@@ -44,7 +46,7 @@ namespace BiFurcation {
 
     }
 
-    private void doResize() {
+    private void DoResize() {
       panel4Image.Left = 0;
       panel4Image.Top = 0; 
       panel4Image.Height = ClientSize.Height - 1;
@@ -111,11 +113,11 @@ namespace BiFurcation {
       // ROLLBACK database changes 
       // and so on...
     }
-    private void buttonDefineColors_Click(Object sender, EventArgs e) {
+    private void ButtonDefineColors_Click(Object sender, EventArgs e) {
       control4AllViews.OpenColorDefView();
     }
     private void BiFurcationForm_ResizeEnd(Object sender, EventArgs e) {
-      doResize();
+      DoResize();
     }
     private void pictureBox_MouseDown(Object sender, MouseEventArgs e) {
       mouseX = e.X;
@@ -162,7 +164,7 @@ namespace BiFurcation {
     private void comboBoxChoozenFunction_SelectedIndexChanged(Object sender, EventArgs e) {
       control4FunctionsView.CurrFunctionType = (FunctionType)comboBoxChoozenFunction.SelectedIndex; // FunctionType.FixedPolynomial;
       setVisibility();
-      params2Form();
+      Params2Form();
     }
     private void buttonEmulate_Click(Object sender, EventArgs e) {
       control4FunctionsView.SetPoints();
@@ -286,7 +288,7 @@ namespace BiFurcation {
       diagram.Show();
       diagram.BringToFront();
       control4FunctionsView.SetDiagram(diagram);//, radioButtonParamaterA.Checked, radioButtonParamaterB.Checked, radioButtonParamaterC.Checked);
-      diagram.params2Form();
+      diagram.Params2Form();
     }
     private void buttonCombinations_Click(Object sender, EventArgs e) {
       control4AllViews.OpenSystem2Form();
@@ -328,11 +330,11 @@ namespace BiFurcation {
     #endregion
 
     #region interface
-    private void setimage(Image im) {
+    private void Setimage(Image im) {
       try {
         if (this.InvokeRequired) {
           this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-            this.setimage(im);
+            this.Setimage(im);
           })));
         }
         else {
@@ -345,14 +347,13 @@ namespace BiFurcation {
     public Bitmap FormImage {
       set {
         formImage = value;
-        setimage(value);
+        Setimage(value);
       }
       get {
         return formImage;
       }
     }
 
-    private Control4AllViews control4AllViews;
     private Control4FunctionsView control4FunctionsView;
     public Control4FunctionsView Control4FunctionsView {
       set {
@@ -360,12 +361,12 @@ namespace BiFurcation {
       }
     }
 
-    public void fillXValues(List<decimal> points) {
+    public void FillXValues(List<decimal> points) {
       if (points.Count == 0) return;
       try {
         if (this.InvokeRequired) {
           this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-            this.fillXValues(points);
+            this.FillXValues(points);
           })));
         }
         else {
@@ -400,11 +401,11 @@ namespace BiFurcation {
       }
       catch { } 
     }
-    public void setEnabled(bool e) {
+    public void SetEnabled(bool e) {
       try {
         if (this.InvokeRequired) {
           this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-            this.setEnabled(e);
+            this.SetEnabled(e);
           })));
         }
         else {
@@ -417,7 +418,7 @@ namespace BiFurcation {
       }
       catch { }
     }
-    public void params2Form() {
+    public void Params2Form() {
       switch (control4FunctionsView.CurrFunctionType) {
         case FunctionType.FixedPolynomial:
         case FunctionType.Henon:
@@ -459,10 +460,10 @@ namespace BiFurcation {
     }
 
     #region IProgressbar
-    public void setProgressBar(int max) {
+    public void SetProgressBar(int max) {
       if (this.InvokeRequired) {
         this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.setProgressBar(max);
+          this.SetProgressBar(max);
         })));
       }
       else {
@@ -472,22 +473,10 @@ namespace BiFurcation {
         progressBar.BringToFront();
       }
     }
-    public void worker_ProgressChanged(int val) {
+    public void EndGenerate() {
       if (this.InvokeRequired) {
         this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.worker_ProgressChanged(val);
-        })));
-      }
-      else {
-        if (val<progressBar.Maximum)
-          progressBar.Value = val;
-        progressBar.Invalidate();
-      }
-    }
-    public void endGenerate() {
-      if (this.InvokeRequired) {
-        this.EndInvoke(this.BeginInvoke(new MethodInvoker(delegate {
-          this.endGenerate();
+          this.EndGenerate();
         })));
       }
       else {
@@ -498,6 +487,10 @@ namespace BiFurcation {
       set {
        // labelGIFProgress.Text = value.ToString();
       }
+    }
+    public void ReportProgress(object sender, ProgressReportModel e) {
+      if (e.PercentageComplete < progressBar.Maximum)
+      progressBar.Value = e.PercentageComplete;
     }
     #endregion
 
